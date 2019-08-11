@@ -9,9 +9,37 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CSharp", "CSharp", "{656CE9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TypeScript", "TypeScript", "{DCFA4EAE-D23E-4834-9156-9F4BB5E08BBC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.Core", "Game08.Sdk.CodeMixer.Core\Game08.Sdk.CodeMixer.Core.csproj", "{FB7230C3-1DDC-41AE-BA78-53718C6C236B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game08.Sdk.CodeMixer.CSharp", "Game08.Sdk.CodeMixer.CSharp\Game08.Sdk.CodeMixer.CSharp.csproj", "{0F570CFB-82FD-43FF-96F3-0E733CF8F1F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game08.Sdk.CodeMixer.Glsl", "Game08.Sdk.CodeMixer.Glsl\Game08.Sdk.CodeMixer.Glsl.csproj", "{5B08CFBF-103F-4388-B48B-382F056C3E17}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB7230C3-1DDC-41AE-BA78-53718C6C236B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB7230C3-1DDC-41AE-BA78-53718C6C236B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB7230C3-1DDC-41AE-BA78-53718C6C236B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB7230C3-1DDC-41AE-BA78-53718C6C236B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F570CFB-82FD-43FF-96F3-0E733CF8F1F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F570CFB-82FD-43FF-96F3-0E733CF8F1F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F570CFB-82FD-43FF-96F3-0E733CF8F1F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F570CFB-82FD-43FF-96F3-0E733CF8F1F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B08CFBF-103F-4388-B48B-382F056C3E17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B08CFBF-103F-4388-B48B-382F056C3E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B08CFBF-103F-4388-B48B-382F056C3E17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B08CFBF-103F-4388-B48B-382F056C3E17}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0F570CFB-82FD-43FF-96F3-0E733CF8F1F2} = {656CE996-AC8A-4125-AB2E-9CBB8405A591}
+		{5B08CFBF-103F-4388-B48B-382F056C3E17} = {51A4EC07-6E01-4151-88B9-8C9AAD385B6B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {843F4242-074C-4FEE-BECB-2735D8E71695}
