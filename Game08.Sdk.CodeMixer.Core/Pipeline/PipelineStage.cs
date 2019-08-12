@@ -11,15 +11,13 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
         public string StageName;
 
-        public ICodeGenerationPlugin Plugin;
-
-        public ICodeFileFilter CodeFileFilter;
+        public ICodeGenerationPlugin Plugin;        
 
         public List<ICodeStream> Execute(IEnumerable<CodeFile> inputs)
         {            
             var result = this.Plugin.InitializeOutputs();
 
-            this.Plugin.Execute(this.CodeFileFilter.Filter(inputs));
+            this.Plugin.Execute(inputs);
 
             return result;
         }

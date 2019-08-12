@@ -7,10 +7,12 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 {
     public class StageContainer
     {
-        public ICodeStreamFilter CodeStreamFilter;
+        public ICodeFileSelector InputSelector;
 
         public PipelineStage Stage;
 
         public List<StageContainer> NextStages;
+
+        public ICodeFileSelector FinalOutputSelector;
     }
 }

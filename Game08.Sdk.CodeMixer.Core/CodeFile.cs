@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core
 {
-    public class CodeFile
+    public abstract class CodeFile
     {
         public string Name;
 
-        public string Language;
+        public abstract string Language { get; }
 
-        public MetadataStore Metadata;
+        public MetadataStore Metadata;        
     }
 }

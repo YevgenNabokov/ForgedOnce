@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Interfaces
 {
-    public interface ICodeFileFilter
+    public interface ICodeFileSelector
     {
-        IEnumerable<CodeFile> Filter(IEnumerable<CodeFile> files);
+        IEnumerable<CodeFile> Select(IEnumerable<ICodeStream> streams);
     }
 }

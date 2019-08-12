@@ -11,30 +11,47 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
         public ICodeStreamProvider InputCodeStreamProvider;
 
+        public IPipelineEnvironment WorkspaceEnvironment;
+
         public void Execute()
         {
-            var input = this.InputCodeStreamProvider.RetrieveCodeStreams();            
+            var inputs = this.InputCodeStreamProvider.RetrieveCodeStreams();
 
-            foreach (var stage in this.EntryStages)
+            this.ExecuteAllWaves(new[] { new Wave(this.EntryStages, inputs) });
+        }
+
+        private void ExecuteAllWaves(IEnumerable<Wave> waves)
+        {
+            List<Wave> currentWaves = new List<Wave>(waves);
+
+            while (currentWaves.Count > 0)
             {
-                this.ExecuteStage(stage, input);
+                var next = this.ExecuteWave(currentWaves[0]);
+                currentWaves.RemoveAt(0);
+                currentWaves.AddRange(next);
             }
         }
 
-        private void ExecuteStage(StageContainer stage, IEnumerable<ICodeStream> input)
+        private IEnumerable<Wave> ExecuteWave(Wave wave)
         {
-            List<CodeFile> files = new List<CodeFile>();
-            foreach (var stream in stage.CodeStreamFilter.Filter(input))
+            List<Wave> result = new List<Wave>();
+            List<ICodeStream> waveOutputs = new List<ICodeStream>();
+            List<CodeFile> storableOutputs = new List<CodeFile>();
+
+            foreach (var stage in wave.Stages)
             {
-                files.AddRange(stream.Files);
+                var outputs = stage.Stage.Execute(stage.InputSelector.Select(wave.Inputs));
+                waveOutputs.AddRange(outputs);
+                storableOutputs.AddRange(stage.FinalOutputSelector.Select(outputs));
+                var next = new Wave(stage.NextStages, outputs);
+                result.Add(next);
             }
 
-            var output = stage.Stage.Execute(files);
+            this.WorkspaceEnvironment.CodeStreamsDiscarded(wave.Inputs);
+            this.WorkspaceEnvironment.CodeStreamsEmitted(waveOutputs);
+            this.WorkspaceEnvironment.StoreForOutput(storableOutputs);
 
-            foreach (var next in stage.NextStages)
-            {
-                this.ExecuteStage(next, output);
-            }
+            return result;
         }
     }
 }
