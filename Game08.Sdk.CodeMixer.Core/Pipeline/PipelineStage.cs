@@ -13,11 +13,11 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
         public ICodeGenerationPlugin Plugin;        
 
-        public List<ICodeStream> Execute(IEnumerable<CodeFile> inputs)
+        public List<ICodeStream> Execute(IEnumerable<CodeFile> inputs, IMetadataWriter metadataWriter)
         {            
             var result = this.Plugin.InitializeOutputs();
 
-            this.Plugin.Execute(inputs);
+            this.Plugin.Execute(inputs, metadataWriter);
 
             return result;
         }

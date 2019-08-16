@@ -6,10 +6,10 @@ namespace Game08.Sdk.CodeMixer.Core
 {
     public abstract class CodeFile
     {
+        public string Id;
+
         public string Name;
 
         public abstract string Language { get; }
-
-        public MetadataStore Metadata;        
     }
 }

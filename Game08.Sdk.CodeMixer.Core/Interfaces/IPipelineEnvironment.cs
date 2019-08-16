@@ -11,5 +11,7 @@ namespace Game08.Sdk.CodeMixer.Core.Interfaces
         void StoreForOutput(IEnumerable<CodeFile> files);
 
         void CodeStreamsDiscarded(IEnumerable<ICodeStream> streams);
+
+        void RefreshAndRecompile();
     }
 }

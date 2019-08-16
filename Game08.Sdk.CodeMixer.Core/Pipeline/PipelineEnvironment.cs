@@ -65,6 +65,14 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
             }
         }
 
+        public void RefreshAndRecompile()
+        {
+            foreach (var handler in this.Handlers)
+            {
+                handler.RefreshAndRecompile();
+            }
+        }
+
         private IEnumerable<ICodeFileEnvironmentHandler> HandlersFor(string language)
         {
             foreach (var handler in this.Handlers)

@@ -8,6 +8,6 @@ namespace Game08.Sdk.CodeMixer.Core.Interfaces
     {
         List<ICodeStream> InitializeOutputs();
 
-        void Execute(IEnumerable<CodeFile> input);
+        void Execute(IEnumerable<CodeFile> input, IMetadataWriter metadataWriter);
     }
 }

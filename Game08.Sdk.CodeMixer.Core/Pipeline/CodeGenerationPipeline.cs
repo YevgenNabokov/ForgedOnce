@@ -13,6 +13,8 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
         public IPipelineEnvironment WorkspaceEnvironment;
 
+        public MetadataStore MetadataStore;
+
         public void Execute()
         {
             var inputs = this.InputCodeStreamProvider.RetrieveCodeStreams();
@@ -40,7 +42,10 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
             foreach (var stage in wave.Stages)
             {
-                var outputs = stage.Stage.Execute(stage.InputSelector.Select(wave.Inputs));
+                this.MetadataStore.CurrentStageName = stage.Stage.StageName;
+                this.MetadataStore.CurrentPluginId = stage.Stage.PluginId;
+
+                var outputs = stage.Stage.Execute(stage.InputSelector.Select(wave.Inputs), this.MetadataStore);
                 waveOutputs.AddRange(outputs);
                 storableOutputs.AddRange(stage.FinalOutputSelector.Select(outputs));
                 var next = new Wave(stage.NextStages, outputs);
@@ -50,6 +55,8 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
             this.WorkspaceEnvironment.CodeStreamsDiscarded(wave.Inputs);
             this.WorkspaceEnvironment.CodeStreamsEmitted(waveOutputs);
             this.WorkspaceEnvironment.StoreForOutput(storableOutputs);
+            this.WorkspaceEnvironment.RefreshAndRecompile();
+            this.MetadataStore.ResolveNames();
 
             return result;
         }

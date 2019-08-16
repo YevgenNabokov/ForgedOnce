@@ -26,17 +26,17 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
             return outputs;
         }
 
-        public void Execute(IEnumerable<CodeFile> input)
+        public void Execute(IEnumerable<CodeFile> input, IMetadataWriter metadataWriter)
         {
             foreach (var file in input)
             {
                 var metadata = this.Preprocessor.GenerateMetadata(file);
-                this.Implementation(file, metadata);
+                this.Implementation(file, metadata, metadataWriter);
             }
         }
 
         protected abstract List<ICodeStream> CreateOutputs();
 
-        protected abstract void Implementation(CodeFile input, TMetadata metadata);
+        protected abstract void Implementation(CodeFile input, TMetadata metadata, IMetadataWriter outputMetadataWriter);
     }
 }

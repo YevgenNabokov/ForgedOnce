@@ -11,5 +11,7 @@ namespace Game08.Sdk.CodeMixer.Core.Interfaces
         void Add(CodeFile codeFile);
 
         void Remove(CodeFile codeFile);
+
+        void RefreshAndRecompile();
     }
 }
