@@ -15,5 +15,7 @@ namespace Game08.Sdk.CodeMixer.Core.Interfaces
         void RefreshAndRecompile();
 
         CodeFile ResolveExistingCodeFile(CodeFileLocation location);
+
+        ICodeStream CreateCodeStream(string language, string name);
     }
 }

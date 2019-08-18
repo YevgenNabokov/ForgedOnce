@@ -43,9 +43,15 @@ namespace Game08.Sdk.CodeMixer.Environment
         public CodeFile ResolveExistingCodeFile(CodeFileLocation location)
         {
             var codeFile = this.CreateCodeFile(Guid.NewGuid().ToString(), location.GetFileName());
+            codeFile.Location = location;
             this.storageHandler.ResolveSourceCodeText(codeFile);
             this.compilationHandler.Register(codeFile);
             return codeFile;
+        }
+
+        public ICodeStream CreateCodeStream(string language, string name)
+        {
+            return new CodeStream(language, name);
         }
 
         protected abstract CodeFile CreateCodeFile(string id, string name);

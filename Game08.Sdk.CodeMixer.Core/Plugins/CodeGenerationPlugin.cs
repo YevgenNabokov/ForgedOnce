@@ -13,7 +13,7 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
 
         public TSettings Settings;
 
-        private Dictionary<string, ICodeStream> Outputs = new Dictionary<string, ICodeStream>();
+        protected Dictionary<string, ICodeStream> Outputs = new Dictionary<string, ICodeStream>();
 
         public List<ICodeStream> InitializeOutputs()
         {            

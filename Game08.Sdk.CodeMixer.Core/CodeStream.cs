@@ -7,10 +7,29 @@ namespace Game08.Sdk.CodeMixer.Core
 {
     public class CodeStream : ICodeStream
     {
-        public List<CodeFile> Files { get; protected set; }
+        protected List<CodeFile> codeFiles = new List<CodeFile>();
+
+        public CodeStream(string language, string name)
+        {
+            this.Language = language;
+            this.Name = name;
+        }
+
+        public IEnumerable<CodeFile> Files
+        {
+            get
+            {
+                return this.codeFiles;
+            }
+        }
 
         public string Language { get; protected set; }
 
         public string Name { get; protected set; }
+
+        public virtual void AddCodeFile(CodeFile file)
+        {
+            this.codeFiles.Add(file);
+        }
     }
 }

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Game08.Sdk.CodeMixer.Environment
+namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
 {
     public class WorkspaceManager : IWorkspaceManager
     {
