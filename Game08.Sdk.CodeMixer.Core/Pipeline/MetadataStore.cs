@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Pipeline
 {
-    public class MetadataStore : IMetadataWriter
+    public class MetadataStore : IMetadataWriter, IMetadataReader
     {
         public string CurrentStageName;
 

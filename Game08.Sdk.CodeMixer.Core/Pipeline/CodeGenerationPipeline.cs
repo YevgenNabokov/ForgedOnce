@@ -1,13 +1,11 @@
 ﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Pipeline
 {
-    public class CodeGenerationPipeline
+    public class CodeGenerationPipeline : ICodeGenerationPipeline
     {
-        public List<StageContainer> EntryStages = new List<StageContainer>();
+        public List<Batch> Batches = new List<Batch>();
 
         public ICodeStreamProvider InputCodeStreamProvider;
 
@@ -19,41 +17,36 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
         {
             var inputs = this.InputCodeStreamProvider.RetrieveCodeStreams();
 
-            this.ExecuteAllWaves(new[] { new Wave(this.EntryStages, inputs) });
+            this.ExecuteAllBatches(this.Batches, inputs);
         }
 
-        private void ExecuteAllWaves(IEnumerable<Wave> waves)
+        private void ExecuteAllBatches(IEnumerable<Batch> batches, IEnumerable<ICodeStream> inputs)
         {
-            List<Wave> currentWaves = new List<Wave>(waves);
+            var batchInput = inputs;
 
-            while (currentWaves.Count > 0)
+            foreach (var batch in batches)
             {
-                var next = this.ExecuteWave(currentWaves[0]);
-                currentWaves.RemoveAt(0);
-                currentWaves.AddRange(next);
+                batchInput = this.ExecuteBatch(batch, batchInput);
             }
         }
 
-        private IEnumerable<Wave> ExecuteWave(Wave wave)
+        private IEnumerable<ICodeStream> ExecuteBatch(Batch batch, IEnumerable<ICodeStream> inputs)
         {
-            List<Wave> result = new List<Wave>();
-            List<ICodeStream> waveOutputs = new List<ICodeStream>();
+            List<ICodeStream> result = new List<ICodeStream>();            
             List<CodeFile> storableOutputs = new List<CodeFile>();
 
-            foreach (var stage in wave.Stages)
+            foreach (var stage in batch.Stages)
             {
                 this.MetadataStore.CurrentStageName = stage.Stage.StageName;
                 this.MetadataStore.CurrentPluginId = stage.Stage.PluginId;
 
-                var outputs = stage.Stage.Execute(stage.InputSelector.Select(wave.Inputs), this.MetadataStore);
-                waveOutputs.AddRange(outputs);
-                storableOutputs.AddRange(stage.FinalOutputSelector.Select(outputs));
-                var next = new Wave(stage.NextStages, outputs);
-                result.Add(next);
+                var outputs = stage.Stage.Execute(stage.InputSelector.Select(inputs), this.MetadataStore, this.MetadataStore);
+                result.AddRange(outputs);
+                storableOutputs.AddRange(stage.FinalOutputSelector.Select(outputs));                
             }
 
-            this.WorkspaceEnvironment.CodeStreamsDiscarded(wave.Inputs);
-            this.WorkspaceEnvironment.CodeStreamsEmitted(waveOutputs);
+            this.WorkspaceEnvironment.CodeStreamsDiscarded(inputs);
+            this.WorkspaceEnvironment.CodeStreamsEmitted(result);
             this.WorkspaceEnvironment.StoreForOutput(storableOutputs);
             this.WorkspaceEnvironment.RefreshAndRecompile();
             this.MetadataStore.ResolveNames();

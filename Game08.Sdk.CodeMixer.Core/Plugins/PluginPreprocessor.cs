@@ -7,6 +7,6 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
 {
     public abstract class PluginPreprocessor<TMetadata>
     {
-        public abstract TMetadata GenerateMetadata(CodeFile input);
+        public abstract TMetadata GenerateMetadata(CodeFile input, IMetadataReader metadataReader);
     }
 }

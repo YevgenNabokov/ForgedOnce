@@ -6,10 +6,44 @@ namespace Game08.Sdk.CodeMixer.Core
 {
     public abstract class CodeFile
     {
-        public string Id;
+        private string sourceCodeText;
 
-        public string Name;
+        public CodeFile(string id, string name)
+        {
+            this.Id = id;
+            this.Name = name;
+        }
+
+        public string Id { get; private set; }
+
+        public string Name { get; private set; }
 
         public abstract string Language { get; }
+
+        public CodeFileLocation Location { get; set; }
+
+        public string SourceCodeText
+        {
+            get
+            {
+                var text = this.GetSourceCodeText();
+                if (text != null)
+                {
+                    this.sourceCodeText = text;
+                }
+
+                return sourceCodeText;
+            }
+
+            set
+            {
+                this.sourceCodeText = value;
+                this.SourceCodeTextUpdated(value);
+            }
+        }
+
+        protected abstract string GetSourceCodeText();
+
+        protected abstract void SourceCodeTextUpdated(string newSourceCode);
     }
 }
