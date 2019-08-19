@@ -6,12 +6,14 @@ namespace Game08.Sdk.CodeMixer.Core.Interfaces
 {
     public interface IPipelineEnvironment
     {
-        void CodeStreamsEmitted(IEnumerable<ICodeStream> streams);
+        void CodeStreamsCompleted(IEnumerable<ICodeStream> streams);
 
         void StoreForOutput(IEnumerable<CodeFile> files);
 
         void CodeStreamsDiscarded(IEnumerable<ICodeStream> streams);
 
         void RefreshAndRecompile();
+
+        ICodeStream CreateCodeStream(string language, string name, ICodeFileLocationProvider codeFileLocationProvider = null);
     }
 }

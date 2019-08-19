@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Interfaces
 {
-    public interface ICodeFileEnvironmentHandler
+    public interface ICodeFileEnvironmentHandler : ICodeFileFactory
     {
         bool SupportsCodeLanguage(string language);
 
@@ -16,6 +16,6 @@ namespace Game08.Sdk.CodeMixer.Core.Interfaces
 
         CodeFile ResolveExistingCodeFile(CodeFileLocation location);
 
-        ICodeStream CreateCodeStream(string language, string name);
+        ICodeStream CreateCodeStream(string language, string name, ICodeFileLocationProvider codeFileLocationProvider = null);
     }
 }

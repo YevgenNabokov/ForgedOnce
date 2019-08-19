@@ -15,9 +15,9 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
 
         protected Dictionary<string, ICodeStream> Outputs = new Dictionary<string, ICodeStream>();
 
-        public List<ICodeStream> InitializeOutputs()
+        public List<ICodeStream> InitializeOutputs(ICodeStreamFactory codeStreamFactory)
         {            
-            var outputs = this.CreateOutputs();
+            var outputs = this.CreateOutputs(codeStreamFactory);
             foreach (var output in outputs)
             {
                 this.Outputs.Add(output.Name, output);
@@ -35,7 +35,7 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
             }
         }
 
-        protected abstract List<ICodeStream> CreateOutputs();
+        protected abstract List<ICodeStream> CreateOutputs(ICodeStreamFactory codeStreamFactory);
 
         protected abstract void Implementation(CodeFile input, TMetadata metadata, IMetadataWriter outputMetadataWriter);
     }

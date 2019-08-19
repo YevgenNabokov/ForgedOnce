@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Pipeline
 {
-    public class PipelineStage
+    public class Stage
     {
         public string PluginId;
 
@@ -13,9 +13,9 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
         public ICodeGenerationPlugin Plugin;        
 
-        public List<ICodeStream> Execute(IEnumerable<CodeFile> inputs, IMetadataWriter metadataWriter, IMetadataReader metadataReader)
+        public List<ICodeStream> Execute(IEnumerable<CodeFile> inputs, IMetadataWriter metadataWriter, IMetadataReader metadataReader, ICodeStreamFactory codeStreamFactory)
         {            
-            var result = this.Plugin.InitializeOutputs();
+            var result = this.Plugin.InitializeOutputs(codeStreamFactory);
 
             this.Plugin.Execute(inputs, metadataWriter, metadataReader);
 

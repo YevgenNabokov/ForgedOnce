@@ -23,10 +23,7 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
                     {
                         if (!this.Output.Contains(file))
                         {
-                            foreach (var handler in this.HandlersFor(file.Language))
-                            {
-                                handler.Remove(file);
-                            }
+                            this.HandlerFor(file.Language).Remove(file);
                         }
                     }
 
@@ -35,7 +32,7 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
             }
         }
 
-        public void CodeStreamsEmitted(IEnumerable<ICodeStream> streams)
+        public void CodeStreamsCompleted(IEnumerable<ICodeStream> streams)
         {
             foreach (var stream in streams)
             {
@@ -43,10 +40,7 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
                 {
                     foreach (var file in stream.Files)
                     {
-                        foreach (var handler in this.HandlersFor(file.Language))
-                        {
-                            handler.Add(file);
-                        }
+                        this.HandlerFor(file.Language).Add(file);
                     }
 
                     this.activeCodeStreams.Add(stream);
@@ -73,15 +67,22 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
             }
         }
 
-        private IEnumerable<ICodeFileEnvironmentHandler> HandlersFor(string language)
+        public ICodeStream CreateCodeStream(string language, string name, ICodeFileLocationProvider codeFileLocationProvider = null)
+        {
+            return this.HandlerFor(language).CreateCodeStream(language, name, codeFileLocationProvider);
+        }
+
+        private ICodeFileEnvironmentHandler HandlerFor(string language)
         {
             foreach (var handler in this.Handlers)
             {
                 if (handler.SupportsCodeLanguage(language))
                 {
-                    yield return handler;
+                    return handler;
                 }
             }
+
+            throw new InvalidOperationException($"Handler for {language} was not found in {nameof(PipelineEnvironment)}.");
         }
     }
 }

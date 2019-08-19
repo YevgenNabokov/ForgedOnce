@@ -9,8 +9,10 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
     {
         public ICodeFileSelector InputSelector;
 
-        public PipelineStage Stage;
+        public Stage Stage;
 
         public ICodeFileSelector FinalOutputSelector;
+
+        public Dictionary<string, ICodeFileLocationProvider> CodeFileLocationProviders;
     }
 }

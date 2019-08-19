@@ -9,10 +9,16 @@ namespace Game08.Sdk.CodeMixer.Core
     {
         protected List<CodeFile> codeFiles = new List<CodeFile>();
 
-        public CodeStream(string language, string name)
+        private ICodeFileFactory codeFileFactory;
+
+        private readonly ICodeFileLocationProvider codeFileLocationProvider;
+
+        public CodeStream(string language, string name, ICodeFileFactory codeFileFactory, ICodeFileLocationProvider codeFileLocationProvider = null)
         {
             this.Language = language;
             this.Name = name;
+            this.codeFileFactory = codeFileFactory;
+            this.codeFileLocationProvider = codeFileLocationProvider;
         }
 
         public IEnumerable<CodeFile> Files
@@ -27,9 +33,16 @@ namespace Game08.Sdk.CodeMixer.Core
 
         public string Name { get; protected set; }
 
-        public virtual void AddCodeFile(CodeFile file)
+        public virtual CodeFile CreateCodeFile(string name)
         {
-            this.codeFiles.Add(file);
+            var result = this.codeFileFactory.CreateCodeFile(name);
+            if (this.codeFileLocationProvider != null)
+            {
+                result.Location = this.codeFileLocationProvider.GetLocation();
+            }
+
+            this.codeFiles.Add(result);
+            return result;
         }
     }
 }
