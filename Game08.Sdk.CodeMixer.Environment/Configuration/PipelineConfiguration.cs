@@ -7,6 +7,8 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
 {
     public class PipelineConfiguration
     {
+        public const string CodeFileHandlerTypeRegistrationsKey = "CodeFileHandlers";
+
         private JObject configuration;
 
         public PipelineConfiguration(JObject configuration)
@@ -14,6 +16,18 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
             this.configuration = configuration;
         }
 
-
+        public IEnumerable<CodeFileHandlerTypeRegistration> CodeFileHandlerTypeRegistrations
+        {
+            get
+            {
+                if (configuration.ContainsKey(CodeFileHandlerTypeRegistrationsKey))
+                {
+                    foreach (var handler in configuration[CodeFileHandlerTypeRegistrationsKey].AsJEnumerable())
+                    {
+                        yield return new CodeFileHandlerTypeRegistration(handler.Value<JObject>());
+                    }
+                }
+            }
+        }
     }
 }

@@ -60,7 +60,12 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
 
         public void RemoveCodeFile(CodeFile codeFile)
         {
+            throw new NotImplementedException();
+        }
 
+        public IWorkspaceManager CreateAdHocClone()
+        {
+            throw new NotImplementedException();
         }
     }
 }
