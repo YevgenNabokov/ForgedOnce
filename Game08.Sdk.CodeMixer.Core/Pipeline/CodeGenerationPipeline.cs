@@ -9,7 +9,7 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
         public ICodeStreamProvider InputCodeStreamProvider;
 
-        public IPipelineEnvironment WorkspaceEnvironment;
+        public IPipelineEnvironment PipelineEnvironment;
 
         public MetadataStore MetadataStore;
 
@@ -40,16 +40,16 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
                 this.MetadataStore.CurrentStageName = stage.Stage.StageName;
                 this.MetadataStore.CurrentPluginId = stage.Stage.PluginId;
 
-                var codeStreamFactory = new CodeStreamFactory(this.WorkspaceEnvironment, stage.CodeFileLocationProviders);
+                var codeStreamFactory = new CodeStreamFactory(this.PipelineEnvironment, stage.CodeFileLocationProviders);
                 var outputs = stage.Stage.Execute(stage.InputSelector.Select(inputs), this.MetadataStore, this.MetadataStore, codeStreamFactory);
                 result.AddRange(outputs);
                 storableOutputs.AddRange(stage.FinalOutputSelector.Select(outputs));                
             }
 
-            this.WorkspaceEnvironment.CodeStreamsDiscarded(inputs);
-            this.WorkspaceEnvironment.CodeStreamsCompleted(result);
-            this.WorkspaceEnvironment.StoreForOutput(storableOutputs);
-            this.WorkspaceEnvironment.RefreshAndRecompile();
+            this.PipelineEnvironment.CodeStreamsDiscarded(inputs);
+            this.PipelineEnvironment.CodeStreamsCompleted(result);
+            this.PipelineEnvironment.StoreForOutput(storableOutputs);
+            this.PipelineEnvironment.RefreshAndRecompile();
             this.MetadataStore.ResolveNames();
 
             return result;

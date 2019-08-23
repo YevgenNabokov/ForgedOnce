@@ -15,19 +15,22 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
 
         private readonly IWorkspaceManager workspaceManager;
 
+        private readonly string basePath;
+
         public string Name => "GenericPipelineBuilder";
 
-        public PipelineBuilder(IBuilderProvider builderProvider, IWorkspaceManager workspaceManager)
+        public PipelineBuilder(IBuilderProvider builderProvider, IWorkspaceManager workspaceManager, string basePath)
         {
             this.builderProvider = builderProvider;
             this.workspaceManager = workspaceManager;
+            this.basePath = basePath;
         }
 
         public ICodeGenerationPipeline Build(JObject configuration)
         {
             var reader = new PipelineConfiguration(configuration);
             var result = new CodeGenerationPipeline();
-            result.WorkspaceEnvironment = this.CreatePipelineEnvironment(reader);
+            result.PipelineEnvironment = this.CreatePipelineEnvironment(reader);
 
 
 

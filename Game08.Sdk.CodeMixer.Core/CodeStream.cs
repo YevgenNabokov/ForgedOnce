@@ -21,6 +21,13 @@ namespace Game08.Sdk.CodeMixer.Core
             this.codeFileLocationProvider = codeFileLocationProvider;
         }
 
+        public CodeStream(string language, string name, IEnumerable<CodeFile> codeFiles)
+        {
+            this.Language = language;
+            this.Name = name;
+            this.codeFiles = new List<CodeFile>(codeFiles);
+        }
+
         public IEnumerable<CodeFile> Files
         {
             get
@@ -33,8 +40,21 @@ namespace Game08.Sdk.CodeMixer.Core
 
         public string Name { get; protected set; }
 
+        public bool IsReadonly
+        {
+            get
+            {
+                return this.codeFileFactory == null;
+            }
+        }
+
         public virtual CodeFile CreateCodeFile(string name)
         {
+            if (this.IsReadonly)
+            {
+                throw new InvalidOperationException("Cannot create code file, this is readonly code stream.");
+            }
+
             var result = this.codeFileFactory.CreateCodeFile(name);
             if (this.codeFileLocationProvider != null)
             {

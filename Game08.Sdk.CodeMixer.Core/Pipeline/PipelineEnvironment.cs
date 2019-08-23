@@ -84,5 +84,10 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
             throw new InvalidOperationException($"Handler for {language} was not found in {nameof(PipelineEnvironment)}.");
         }
+
+        public CodeFile ResolveCodeFile(string language, CodeFileLocation location)
+        {
+            return this.HandlerFor(language).ResolveExistingCodeFile(location);
+        }
     }
 }

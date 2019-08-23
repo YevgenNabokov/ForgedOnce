@@ -11,5 +11,9 @@ namespace Game08.Sdk.CodeMixer.Core.Interfaces
         string Language { get; }
 
         string Name { get; }
+
+        bool IsReadonly { get; }
+
+        CodeFile CreateCodeFile(string name);
     }
 }

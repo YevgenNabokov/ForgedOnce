@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Interfaces
 {
-    public interface IPipelineEnvironment
+    public interface IPipelineEnvironment : ICodeFileResolver
     {
         void CodeStreamsCompleted(IEnumerable<ICodeStream> streams);
 
