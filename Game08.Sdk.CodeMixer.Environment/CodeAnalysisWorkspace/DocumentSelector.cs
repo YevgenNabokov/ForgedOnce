@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
@@ -17,7 +18,17 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
 
         public IEnumerable<Document> GetDocuments(IWorkspaceManager workspaceManager)
         {
-            throw new NotImplementedException();
+            List<Document> result = new List<Document>();
+            foreach (var docPath in workspaceManager.DocumentPaths)
+            {
+                if (this.documentPaths.Any(m => PathMaskHelper.PathMatchMask(docPath, m)))
+                {
+                    result.Add(workspaceManager.FindDocumentByDocumentPath(docPath));
+                }
+                
+            }
+
+            return result;
         }
     }
 }

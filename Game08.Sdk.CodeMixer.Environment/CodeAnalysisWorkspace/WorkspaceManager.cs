@@ -31,6 +31,47 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             return null;
         }
 
+        public Document FindDocumentByDocumentPath(string documentPath)
+        {
+            var parts = documentPath.Split('/');
+            var folders = new string[parts.Length - 2];
+            Array.Copy(parts, 1, folders, 0, parts.Length - 2);
+            var project = this.FindProject(parts[0]);
+            if (project != null)
+            {
+                foreach (var document in project.Documents)
+                {
+                    if (folders.Length == document.Folders.Count && folders.SequenceEqual(document.Folders))
+                    {
+                        if (document.Name == parts.Last())
+                        {
+                            return document;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public IEnumerable<string> DocumentPaths
+        {
+            get
+            {
+                List<string> result = new List<string>();
+                foreach (var project in this.workspace.CurrentSolution.Projects)
+                {
+                    foreach (var document in project.Documents)
+                    {
+                        var folders = string.Join("/", document.Folders);
+                        result.Add($"{project.Name}/{folders}/{document.Name}");
+                    }
+                }
+
+                return result;
+            }
+        }
+
         public Project FindProject(string projectName)
         {
             return this.workspace.CurrentSolution.Projects.FirstOrDefault(p => p.Name == projectName);

@@ -42,9 +42,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
                 result.InputCodeStreamProvider = inputBuilder.Build(inputConfig);
             }
 
-            result.Batches = this.BuildBatches(reader.BatchConfigurations);
-
-            throw new NotImplementedException();
+            result.Batches = this.BuildBatches(reader.BatchConfigurations);            
 
             return result;
         }

@@ -12,7 +12,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
     {
         private readonly IWorkspaceManager workspaceManager;
 
-        public string Name => "ProjectMap";
+        public string Name => null;
 
         public WorkspaceCodeFileLocationProviderBuilder(IWorkspaceManager workspaceManager)
         {

@@ -11,8 +11,15 @@ namespace Game08.Sdk.CodeMixer.Environment.Interfaces
 
         Document FindDocumentByFilePath(string filePath);
 
+        Document FindDocumentByDocumentPath(string documentPath);
+
         Document AddCodeFile(Guid projectId, IEnumerable<string> projectFolders, string name, string sourceCodeText, string filePath = null);
 
         void RemoveCodeFile(Guid documentId);
+
+        IEnumerable<string> DocumentPaths
+        {
+            get;
+        }
     }
 }

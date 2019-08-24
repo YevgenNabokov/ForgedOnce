@@ -27,7 +27,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
                     return this.configuration[NameKey].Value<string>();
                 }
 
-                throw new InvalidOperationException($"Builder reference should contain {NameKey} and {SettingsKey}.");
+                return null;
             }
         }
 
