@@ -1,4 +1,7 @@
-﻿using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace;
+﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
+using Game08.Sdk.CodeMixer.Environment.Builders;
+using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace;
+using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -29,6 +32,15 @@ namespace Game08.Sdk.CodeMixer.Environment
 
             var processWorkspaceManager = workspaceManager.CreateAdHocClone();
             throw new NotImplementedException();
+        }
+
+        private IBuilderProvider GetBuilderProvider(IWorkspaceManager workspaceManager)
+        {
+            BuilderRegistry result = new BuilderRegistry();
+
+            result.Register<ICodeFileLocationProvider>(new WorkspaceCodeFileLocationProviderBuilder(workspaceManager));
+
+            return result;
         }
     }
 }

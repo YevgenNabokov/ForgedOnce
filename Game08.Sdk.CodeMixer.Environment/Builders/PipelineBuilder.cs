@@ -5,6 +5,7 @@ using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Environment.Builders
@@ -16,14 +17,16 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
         private readonly IWorkspaceManager workspaceManager;
 
         private readonly string basePath;
+        private readonly IFileSystem fileSystem;
 
         public string Name => "GenericPipelineBuilder";
 
-        public PipelineBuilder(IBuilderProvider builderProvider, IWorkspaceManager workspaceManager, string basePath)
+        public PipelineBuilder(IBuilderProvider builderProvider, IWorkspaceManager workspaceManager, string basePath, IFileSystem fileSystem)
         {
             this.builderProvider = builderProvider;
             this.workspaceManager = workspaceManager;
             this.basePath = basePath;
+            this.fileSystem = fileSystem;
         }
 
         public ICodeGenerationPipeline Build(JObject configuration)
@@ -32,9 +35,43 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
             var result = new CodeGenerationPipeline();
             result.PipelineEnvironment = this.CreatePipelineEnvironment(reader);
 
+            var inputConfig = reader.InputCodeStreamProviderConfiguration;
+            if (inputConfig != null)
+            {
+                var inputBuilder = new CodeStreamProviderBuilder(result.PipelineEnvironment, this.workspaceManager, this.fileSystem, this.basePath);
+                result.InputCodeStreamProvider = inputBuilder.Build(inputConfig);
+            }
 
+            result.Batches = this.BuildBatches(reader.BatchConfigurations);
 
             throw new NotImplementedException();
+
+            return result;
+        }
+
+        private List<Batch> BuildBatches(IEnumerable<BatchConfiguration> batchConfigurations)
+        {
+            List<Batch> result = new List<Batch>();
+            var stageBuilder = new StageBuilder(this.builderProvider);
+
+            int index = 0;
+            foreach (var config in batchConfigurations)
+            {
+                List<StageContainer> stages = new List<StageContainer>();
+
+                foreach (var stage in config.Stages)
+                {
+                    stages.Add(stageBuilder.Build(stage));
+                }
+
+                result.Add(new Batch()
+                {
+                    Index = index,
+                    Name = config.Name,
+                    Stages = stages
+                });
+                index++;
+            }
 
             return result;
         }

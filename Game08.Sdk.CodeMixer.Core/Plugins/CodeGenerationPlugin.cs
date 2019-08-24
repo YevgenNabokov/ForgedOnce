@@ -7,13 +7,13 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
 {
     public abstract class CodeGenerationPlugin<TSettings, TMetadata> : ICodeGenerationPlugin
     {
-        public PluginSignature Signature;
-
-        public PluginPreprocessor<TMetadata> Preprocessor;
+        public IPluginPreprocessor<TMetadata> Preprocessor;
 
         public TSettings Settings;
 
         protected Dictionary<string, ICodeStream> Outputs = new Dictionary<string, ICodeStream>();
+
+        public PluginSignature Signature { get; protected set; }
 
         public List<ICodeStream> InitializeOutputs(ICodeStreamFactory codeStreamFactory)
         {            

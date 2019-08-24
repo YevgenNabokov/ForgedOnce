@@ -7,7 +7,11 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
 {
     public class PipelineConfiguration
     {
-        public const string CodeFileHandlerTypeRegistrationsKey = "CodeFileHandlers";
+        public const string CodeFileHandlerTypeRegistrationsKey = "codeFileHandlers";
+
+        public const string InputCodeStreamsKey = "inputs";
+
+        public const string BatchesKey = "batches";
 
         private JObject configuration;
 
@@ -16,7 +20,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
             this.configuration = configuration;
         }
 
-        public IEnumerable<CodeFileHandlerTypeRegistration> CodeFileHandlerTypeRegistrations
+        public IEnumerable<ConstructableTypeRegistration> CodeFileHandlerTypeRegistrations
         {
             get
             {
@@ -24,9 +28,36 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
                 {
                     foreach (var handler in configuration[CodeFileHandlerTypeRegistrationsKey].AsJEnumerable())
                     {
-                        yield return new CodeFileHandlerTypeRegistration(handler.Value<JObject>());
+                        yield return new ConstructableTypeRegistration(handler.Value<JObject>());
                     }
                 }
+            }
+        }
+
+        public IEnumerable<BatchConfiguration> BatchConfigurations
+        {
+            get
+            {
+                if (configuration.ContainsKey(BatchesKey))
+                {
+                    foreach (var batch in configuration[BatchesKey].AsJEnumerable())
+                    {
+                        yield return new BatchConfiguration(batch.Value<JObject>());
+                    }
+                }
+            }
+        }
+
+        public JObject InputCodeStreamProviderConfiguration
+        {
+            get
+            {
+                if (configuration.ContainsKey(InputCodeStreamsKey))
+                {
+                    return configuration[InputCodeStreamsKey].Value<JObject>();
+                }
+
+                return null;
             }
         }
     }

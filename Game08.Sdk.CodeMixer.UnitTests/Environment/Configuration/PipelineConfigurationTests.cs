@@ -13,10 +13,10 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Environment.Configuration
     {
         private readonly string TestConfigPayload = @"
 {
-    CodeFileHandlers: 
+    codeFileHandlers: 
     [
-        { Type: 'HandlerType1', Config: {} },
-        { Type: 'HandlerType2' },
+        { type: 'HandlerType1', config: {} },
+        { type: 'HandlerType2' },
     ]
 }
 ";

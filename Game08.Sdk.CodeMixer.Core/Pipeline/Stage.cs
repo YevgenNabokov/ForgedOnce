@@ -7,11 +7,17 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 {
     public class Stage
     {
-        public string PluginId;
-
         public string StageName;
 
-        public ICodeGenerationPlugin Plugin;        
+        public ICodeGenerationPlugin Plugin;
+
+        public string PluginId
+        {
+            get
+            {
+                return this.Plugin.Signature.Id;
+            }
+        }
 
         public List<ICodeStream> Execute(IEnumerable<CodeFile> inputs, IMetadataWriter metadataWriter, IMetadataReader metadataReader, ICodeStreamFactory codeStreamFactory)
         {            

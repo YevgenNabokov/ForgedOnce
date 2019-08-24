@@ -13,6 +13,11 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
         public MetadataStore MetadataStore;
 
+        public CodeGenerationPipeline()
+        {
+            this.MetadataStore = new MetadataStore();
+        }
+
         public void Execute()
         {
             var inputs = this.InputCodeStreamProvider.RetrieveCodeStreams();

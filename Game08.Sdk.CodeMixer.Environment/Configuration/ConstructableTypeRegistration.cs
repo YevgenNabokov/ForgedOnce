@@ -5,15 +5,15 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Environment.Configuration
 {
-    public class CodeFileHandlerTypeRegistration
+    public class ConstructableTypeRegistration
     {
-        public const string TypeKey = "Type";
+        public const string TypeKey = "type";
 
-        public const string ConfigurationKey = "Config";
+        public const string ConfigurationKey = "config";
 
         private readonly JObject config;
 
-        public CodeFileHandlerTypeRegistration(JObject config)
+        public ConstructableTypeRegistration(JObject config)
         {
             this.config = config;
         }
@@ -24,7 +24,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
             {
                 if (!this.config.ContainsKey(TypeKey))
                 {
-                    throw new InvalidOperationException($"Handler configuration {config.Path} does not contain {TypeKey}.");
+                    throw new InvalidOperationException($"Type registration {config.Path} does not contain {TypeKey}.");
                 }
 
                 return this.config[TypeKey].Value<string>();

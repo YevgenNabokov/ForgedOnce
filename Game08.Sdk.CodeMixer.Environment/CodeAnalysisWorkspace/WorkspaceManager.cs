@@ -31,6 +31,11 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             return null;
         }
 
+        public Project FindProject(string projectName)
+        {
+            return this.workspace.CurrentSolution.Projects.FirstOrDefault(p => p.Name == projectName);
+        }
+
         public Document AddCodeFile(Guid projectId, IEnumerable<string> projectFolders, string name, string sourceCodeText, string filePath = null)
         {
             var project = this.workspace.CurrentSolution.Projects.FirstOrDefault(p => p.Id.Id == projectId);
