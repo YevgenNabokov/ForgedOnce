@@ -1,8 +1,10 @@
-﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
+﻿using Game08.Sdk.CodeMixer.Core;
+using Game08.Sdk.CodeMixer.Core.Interfaces;
 using Game08.Sdk.CodeMixer.Environment.Builders;
 using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using Microsoft.CodeAnalysis;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
@@ -31,7 +33,31 @@ namespace Game08.Sdk.CodeMixer.Environment
             var workspaceManager = new WorkspaceManager(this.workspace);
 
             var processWorkspaceManager = workspaceManager.CreateAdHocClone();
-            throw new NotImplementedException();
+            var basePath = this.fileSystem.Path.GetDirectoryName(pipelineConfigurationFilePath);
+            var builderProvider = this.GetBuilderProvider(processWorkspaceManager);
+
+            var pipelineBuilder = new PipelineBuilder(builderProvider, processWorkspaceManager, basePath, this.fileSystem);
+
+            var pipeline = pipelineBuilder.Build(JObject.Parse(this.fileSystem.File.ReadAllText(pipelineConfigurationFilePath)));
+
+            this.ExecutePipeline(pipeline);
+
+            this.SaveOutputs(workspaceManager, pipeline.GetOutputs());
+        }
+
+        private void ExecutePipeline(ICodeGenerationPipeline pipeline)
+        {
+            pipeline.Execute();
+        }
+
+        private void SaveOutputs(WorkspaceManager workspaceManager, IEnumerable<CodeFile> outputs)
+        {
+            WorkspaceFileStorageHandler handler = new WorkspaceFileStorageHandler(workspaceManager);
+
+            foreach (var file in outputs)
+            {
+                handler.Add(file);
+            }
         }
 
         private IBuilderProvider GetBuilderProvider(IWorkspaceManager workspaceManager)

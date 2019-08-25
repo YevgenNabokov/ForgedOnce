@@ -7,7 +7,13 @@ namespace Game08.Sdk.CodeMixer.Environment.Interfaces
 {
     public interface IWorkspaceManager
     {
+        IEnumerable<List<Guid>> GetProjectsDependencyChains(IEnumerable<Guid> projectIds);
+
         Project FindProject(string projectName);
+
+        Project FindProject(Guid id);
+
+        Document FindDocument(Guid documentId);
 
         Document FindDocumentByFilePath(string filePath);
 

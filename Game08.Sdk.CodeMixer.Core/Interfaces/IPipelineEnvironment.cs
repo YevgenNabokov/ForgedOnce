@@ -6,6 +6,8 @@ namespace Game08.Sdk.CodeMixer.Core.Interfaces
 {
     public interface IPipelineEnvironment : ICodeFileResolver
     {
+        IEnumerable<CodeFile> GetOutputs();
+
         void CodeStreamsCompleted(IEnumerable<ICodeStream> streams);
 
         void StoreForOutput(IEnumerable<CodeFile> files);

@@ -16,8 +16,28 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
 
         public WorkspaceManager(Workspace workspace)
         {
-            this.workspace = workspace; 
+            this.workspace = workspace;
         }        
+
+        public IEnumerable<List<Guid>> GetProjectsDependencyChains(IEnumerable<Guid> projectIds)
+        {
+            List<List<Guid>> result = new List<List<Guid>>();
+
+            var graph = this.workspace.CurrentSolution.GetProjectDependencyGraph();
+
+            foreach (var id in projectIds)
+            {
+                var projId = this.workspace.CurrentSolution.ProjectIds.FirstOrDefault(p => p.Id == id);
+                result.Add(graph.GetProjectsThatThisProjectTransitivelyDependsOn(projId).Select(p => p.Id).ToList());
+            }
+
+            return result;
+        }
+
+        public Document FindDocument(Guid documentId)
+        {
+            return this.workspace.CurrentSolution.Projects.SelectMany(p => p.Documents).FirstOrDefault(d => d.Id.Id == documentId);
+        }
 
         public Document FindDocumentByFilePath(string filePath)
         {
@@ -77,6 +97,11 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             return this.workspace.CurrentSolution.Projects.FirstOrDefault(p => p.Name == projectName);
         }
 
+        public Project FindProject(Guid id)
+        {
+            return this.workspace.CurrentSolution.Projects.FirstOrDefault(p => p.Id.Id == id);
+        }
+
         public Document AddCodeFile(Guid projectId, IEnumerable<string> projectFolders, string name, string sourceCodeText, string filePath = null)
         {
             var project = this.workspace.CurrentSolution.Projects.FirstOrDefault(p => p.Id.Id == projectId);
@@ -84,9 +109,11 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             {
                 throw new InvalidOperationException($"Project with Id={projectId} is not found.");
             }
+            
+            var document = project.AddDocument(name, SourceText.From(sourceCodeText), projectFolders, filePath);
 
-            var proj = this.workspace.CurrentSolution.GetProject(project.Id);
-            var document = proj.AddDocument(name, SourceText.From(sourceCodeText), projectFolders, filePath);
+            this.ApplyChanges(document.Project.Solution);
+
             return document;
         }
 
@@ -98,20 +125,68 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
                 throw new InvalidOperationException($"No document found to remove. DocumentId={documentId}");
             }
 
-            if (!this.workspace.TryApplyChanges(this.workspace.CurrentSolution.RemoveDocument(document.Id)))
-            {
-                throw new InvalidOperationException($"Failed to apply changes to solution after document removal.");
-            }
+            this.ApplyChanges(this.workspace.CurrentSolution.RemoveDocument(document.Id));
         }
 
         public void RemoveCodeFile(CodeFile codeFile)
         {
-            throw new NotImplementedException();
+            if (codeFile.Location is WorkspaceCodeFileLocation)
+            {
+                var workspaceLocation = codeFile.Location as WorkspaceCodeFileLocation;
+                if (workspaceLocation.DocumentId != Guid.Empty)
+                {
+                    this.RemoveCodeFile(workspaceLocation.DocumentId);
+                }
+            }
+            else
+            {
+                var document = this.FindDocumentByFilePath(codeFile.Location.FilePath);
+                if (document != null)
+                {
+                    this.ApplyChanges(this.workspace.CurrentSolution.RemoveDocument(document.Id));
+                }
+            }
         }
 
         public IWorkspaceManager CreateAdHocClone()
         {
-            throw new NotImplementedException();
+            var clone = new AdhocWorkspace();
+
+            var solution = clone.AddSolution(SolutionInfo.Create(this.workspace.CurrentSolution.Id, this.workspace.CurrentSolution.Version));
+            
+            foreach (var proj in this.workspace.CurrentSolution.Projects)
+            {                
+                solution = solution.AddProject(ProjectInfo.Create(
+                    proj.Id,
+                    proj.Version,
+                    proj.Name,
+                    proj.AssemblyName,
+                    proj.Language,
+                    projectReferences: proj.ProjectReferences,
+                    metadataReferences: proj.MetadataReferences));
+
+                foreach (var doc in proj.Documents)
+                {
+                    var cloneProj = solution.GetProject(proj.Id);
+                    var document = cloneProj.AddDocument(doc.Name, doc.GetTextAsync().Result, doc.Folders);
+                    solution = document.Project.Solution;
+                }
+            }
+
+            if (!clone.TryApplyChanges(solution))
+            {
+                throw new InvalidOperationException("Cannot apply changes to workspace during cloning.");
+            }
+
+            return new WorkspaceManager(clone);
+        }
+
+        private void ApplyChanges(Solution solution)
+        {
+            if (!this.workspace.TryApplyChanges(solution))
+            {
+                throw new InvalidOperationException($"Failed to apply changes to solution.");
+            }
         }
     }
 }

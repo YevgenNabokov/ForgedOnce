@@ -13,6 +13,11 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
         public List<ICodeFileEnvironmentHandler> Handlers = new List<ICodeFileEnvironmentHandler>();
 
+        public IEnumerable<CodeFile> GetOutputs()
+        {
+            return this.Output;
+        }
+
         public void CodeStreamsDiscarded(IEnumerable<ICodeStream> streams)
         {
             foreach (var stream in streams)
