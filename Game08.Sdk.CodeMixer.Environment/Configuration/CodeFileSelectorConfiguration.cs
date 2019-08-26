@@ -22,7 +22,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
 
                 foreach (var prop in this.configuration.Properties())
                 {
-                    result.Add(prop.Name, prop.Value<string>());
+                    result.Add(prop.Name, prop.Value.Value<string>());
                 }
 
                 return result;

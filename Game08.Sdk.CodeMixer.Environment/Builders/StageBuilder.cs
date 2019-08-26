@@ -1,4 +1,5 @@
-﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
+﻿using Game08.Sdk.CodeMixer.Core;
+using Game08.Sdk.CodeMixer.Core.Interfaces;
 using Game08.Sdk.CodeMixer.Core.Pipeline;
 using Game08.Sdk.CodeMixer.Environment.Configuration;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
@@ -63,14 +64,16 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
                 throw new InvalidOperationException($"Cannot resolve plugin type {pluginConfig.PluginFactory.Type}.");
             }
 
-            if (!pluginFactoryType.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICodeGenerationPluginFactory<,>)))
+            var factoryInterface = pluginFactoryType.GetInterfaces().FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICodeGenerationPluginFactory<,,>));
+
+            if (factoryInterface == null)
             {
-                throw new InvalidOperationException($"Plugin factory type should implement {typeof(ICodeGenerationPluginFactory<,>)}.");
+                throw new InvalidOperationException($"Plugin factory type should implement {typeof(ICodeGenerationPluginFactory<,,>)}.");
             }
 
             var pluginFactory = Activator.CreateInstance(pluginFactoryType);
 
-            var method = typeof(ICodeGenerationPluginFactory<,>).GetMethod(nameof(ICodeGenerationPluginFactory<object, object>.CreatePlugin));
+            var method = factoryInterface.GetMethod(nameof(ICodeGenerationPluginFactory<object, object, CodeFile>.CreatePlugin));
 
             var parameters = new object[] { pluginConfig.PluginFactory.Configuration, preprocessor };
 

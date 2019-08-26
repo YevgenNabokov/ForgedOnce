@@ -18,6 +18,7 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
 
         public void Add(CodeFile codeFile)
         {
+            //// TODO: Handle existing documents replacement.
             if (codeFile.Language == null || !(codeFile.Location is WorkspaceCodeFileLocation))
             {
                 throw new InvalidOperationException($"Cannot add code file to {nameof(WorkspaceFileStorageHandler)} it should have {nameof(codeFile.Location)} as {nameof(WorkspaceCodeFileLocation)}.");

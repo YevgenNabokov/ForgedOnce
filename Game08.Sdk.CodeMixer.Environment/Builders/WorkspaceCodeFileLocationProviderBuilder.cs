@@ -10,6 +10,8 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
 {
     public class WorkspaceCodeFileLocationProviderBuilder : IBuilder<ICodeFileLocationProvider>
     {
+        public const string PathKey = "path";
+
         private readonly IWorkspaceManager workspaceManager;
 
         public string Name => null;
@@ -21,7 +23,12 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
 
         public ICodeFileLocationProvider Build(JObject configuration)
         {
-            var path = configuration.Value<string>();
+            if (!configuration.ContainsKey(PathKey))
+            {
+                throw new InvalidOperationException($"Settings for {nameof(WorkspaceCodeFileLocationProviderBuilder)} should contain {PathKey}.");
+            }
+
+            var path = configuration[PathKey].Value<string>();
 
             return new WorkspaceCodeFileLocationProvider(this.workspaceManager, path);
         }

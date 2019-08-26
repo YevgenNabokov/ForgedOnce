@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Plugins
 {
-    public abstract class CodeGenerationPlugin<TSettings, TMetadata> : ICodeGenerationPlugin
+    public abstract class CodeGenerationPlugin<TSettings, TMetadata, TCodeFile> : ICodeGenerationPlugin where TCodeFile : CodeFile
     {
         public IPluginPreprocessor<TMetadata> Preprocessor;
 
@@ -31,12 +31,18 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
             foreach (var file in input)
             {
                 var metadata = this.Preprocessor.GenerateMetadata(file, metadataReader);
-                this.Implementation(file, metadata, metadataWriter);
+
+                if (!(file is TCodeFile))
+                {
+                    throw new InvalidOperationException($"Plugin supports only {typeof(TCodeFile)} as input.");
+                }
+
+                this.Implementation((TCodeFile)file, metadata, metadataWriter);
             }
         }
 
         protected abstract List<ICodeStream> CreateOutputs(ICodeStreamFactory codeStreamFactory);
 
-        protected abstract void Implementation(CodeFile input, TMetadata metadata, IMetadataWriter outputMetadataWriter);
+        protected abstract void Implementation(TCodeFile input, TMetadata metadata, IMetadataWriter outputMetadataWriter);
     }
 }
