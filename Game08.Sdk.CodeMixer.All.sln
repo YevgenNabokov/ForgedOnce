@@ -11,13 +11,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TypeScript", "TypeScript", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.Core", "Game08.Sdk.CodeMixer.Core\Game08.Sdk.CodeMixer.Core.csproj", "{FB7230C3-1DDC-41AE-BA78-53718C6C236B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game08.Sdk.CodeMixer.CSharp", "Game08.Sdk.CodeMixer.CSharp\Game08.Sdk.CodeMixer.CSharp.csproj", "{0F570CFB-82FD-43FF-96F3-0E733CF8F1F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.CSharp", "Game08.Sdk.CodeMixer.CSharp\Game08.Sdk.CodeMixer.CSharp.csproj", "{0F570CFB-82FD-43FF-96F3-0E733CF8F1F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game08.Sdk.CodeMixer.Glsl", "Game08.Sdk.CodeMixer.Glsl\Game08.Sdk.CodeMixer.Glsl.csproj", "{5B08CFBF-103F-4388-B48B-382F056C3E17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.Glsl", "Game08.Sdk.CodeMixer.Glsl\Game08.Sdk.CodeMixer.Glsl.csproj", "{5B08CFBF-103F-4388-B48B-382F056C3E17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game08.Sdk.CodeMixer.Environment", "Game08.Sdk.CodeMixer.Environment\Game08.Sdk.CodeMixer.Environment.csproj", "{5CE1E632-B15F-42B7-9EF7-4EA9356CDEA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.Environment", "Game08.Sdk.CodeMixer.Environment\Game08.Sdk.CodeMixer.Environment.csproj", "{5CE1E632-B15F-42B7-9EF7-4EA9356CDEA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game08.Sdk.CodeMixer.UnitTests", "Game08.Sdk.CodeMixer.UnitTests\Game08.Sdk.CodeMixer.UnitTests.csproj", "{B640C4CF-6A4B-4E98-8C3C-56213BA53308}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.UnitTests", "Game08.Sdk.CodeMixer.UnitTests\Game08.Sdk.CodeMixer.UnitTests.csproj", "{B640C4CF-6A4B-4E98-8C3C-56213BA53308}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game08.Sdk.CodeMixer.Launcher.MSBuild", "Game08.Sdk.CodeMixer.Launcher.MSBuild\Game08.Sdk.CodeMixer.Launcher.MSBuild.csproj", "{8F4704C2-7AA5-418B-95C2-805EAB436721}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{B640C4CF-6A4B-4E98-8C3C-56213BA53308}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B640C4CF-6A4B-4E98-8C3C-56213BA53308}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B640C4CF-6A4B-4E98-8C3C-56213BA53308}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F4704C2-7AA5-418B-95C2-805EAB436721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F4704C2-7AA5-418B-95C2-805EAB436721}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F4704C2-7AA5-418B-95C2-805EAB436721}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F4704C2-7AA5-418B-95C2-805EAB436721}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
