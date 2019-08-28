@@ -12,11 +12,14 @@ namespace Game08.Sdk.CodeMixer.CSharp
     {
         private IWorkspaceManager workspaceManager;
 
+        private WorkspaceCompilationHandler compilationHandler;
+
         private List<CodeFileCSharp> codeFiles = new List<CodeFileCSharp>();
 
         public CodeFileCompilationHandlerCSharp(IWorkspaceManager workspaceManager)
         {
             this.workspaceManager = workspaceManager;
+            this.compilationHandler = new WorkspaceCompilationHandler(workspaceManager);
         }
 
         public void RefreshAndRecompile()
@@ -33,22 +36,7 @@ namespace Game08.Sdk.CodeMixer.CSharp
                 }
             }
 
-            var chains = this.workspaceManager.GetProjectsDependencyChains(projectsToRebuild);
-
-            Dictionary<Guid, Compilation> compilations = new Dictionary<Guid, Compilation>();
-
-            foreach (var chain in chains)
-            {
-                foreach (var id in chain)
-                {
-                    if (!compilations.ContainsKey(id))
-                    {
-                        var project = this.workspaceManager.FindProject(id);
-                        var compilation = project.GetCompilationAsync().Result;
-                        compilations.Add(id, compilation);
-                    }
-                }
-            }
+            Dictionary<Guid, Compilation> compilations = this.compilationHandler.CompileProjects(projectsToRebuild);
 
             foreach (var file in this.codeFiles)
             {

@@ -2,6 +2,7 @@
 using Game08.Sdk.CodeMixer.Core.Interfaces;
 using Game08.Sdk.CodeMixer.Environment.Builders;
 using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace;
+using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace.TypeLoaders;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using Microsoft.CodeAnalysis;
 using Newtonsoft.Json.Linq;
@@ -16,11 +17,13 @@ namespace Game08.Sdk.CodeMixer.Environment
     {
         private readonly Workspace workspace;
         private readonly IFileSystem fileSystem;
+        private readonly ITypeLoader additionalTypeLoader;
 
-        public CodeGenerationPipelineLauncher(Workspace workspace, IFileSystem fileSystem)
+        public CodeGenerationPipelineLauncher(Workspace workspace, IFileSystem fileSystem, ITypeLoader additionalTypeLoader = null)
         {
             this.workspace = workspace;
             this.fileSystem = fileSystem;
+            this.additionalTypeLoader = additionalTypeLoader;
         }
 
         public void Launch(string pipelineConfigurationFilePath)
@@ -32,11 +35,19 @@ namespace Game08.Sdk.CodeMixer.Environment
 
             var workspaceManager = new WorkspaceManager(this.workspace);
 
+            var typeLoader = new AggregateTypeLoader(
+                new DefaultTypeLoader(),
+                new ProjectReferenceTypeLoader(workspaceManager, this.fileSystem));
+            if (this.additionalTypeLoader != null)
+            {
+                typeLoader.AddResolver(this.additionalTypeLoader);
+            }
+
             var processWorkspaceManager = workspaceManager.CreateAdHocClone();
             var basePath = this.fileSystem.Path.GetDirectoryName(pipelineConfigurationFilePath);
             var builderProvider = this.GetBuilderProvider(processWorkspaceManager);
 
-            var pipelineBuilder = new PipelineBuilder(builderProvider, processWorkspaceManager, basePath, this.fileSystem);
+            var pipelineBuilder = new PipelineBuilder(builderProvider, processWorkspaceManager, basePath, this.fileSystem, typeLoader);
 
             var pipeline = pipelineBuilder.Build(JObject.Parse(this.fileSystem.File.ReadAllText(pipelineConfigurationFilePath)));
 

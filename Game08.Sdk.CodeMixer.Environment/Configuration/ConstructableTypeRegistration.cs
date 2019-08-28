@@ -11,6 +11,10 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
 
         public const string ConfigurationKey = "config";
 
+        public const string NugetPackageIdKey = "nugetPackageId";
+
+        public const string NugetPackageVersionKey = "nugetPackageVersion";
+
         private readonly JObject config;
 
         public ConstructableTypeRegistration(JObject config)
@@ -38,6 +42,32 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
                 if (this.config.ContainsKey(ConfigurationKey))
                 {
                     return this.config[ConfigurationKey].Value<JObject>();
+                }
+
+                return null;
+            }
+        }
+
+        public string NugetPackageId
+        {
+            get
+            {
+                if (this.config.ContainsKey(NugetPackageIdKey))
+                {
+                    return this.config[NugetPackageIdKey].Value<string>();
+                }
+
+                return null;
+            }
+        }
+
+        public string NugetPackageVersion
+        {
+            get
+            {
+                if (this.config.ContainsKey(NugetPackageVersionKey))
+                {
+                    return this.config[NugetPackageVersionKey].Value<string>();
                 }
 
                 return null;

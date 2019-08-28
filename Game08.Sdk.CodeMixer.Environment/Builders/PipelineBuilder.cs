@@ -18,15 +18,22 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
 
         private readonly string basePath;
         private readonly IFileSystem fileSystem;
+        private readonly ITypeLoader typeLoader;
 
         public string Name => "GenericPipelineBuilder";
 
-        public PipelineBuilder(IBuilderProvider builderProvider, IWorkspaceManager workspaceManager, string basePath, IFileSystem fileSystem)
+        public PipelineBuilder(
+            IBuilderProvider builderProvider,
+            IWorkspaceManager workspaceManager,
+            string basePath,
+            IFileSystem fileSystem,
+            ITypeLoader typeLoader)
         {
             this.builderProvider = builderProvider;
             this.workspaceManager = workspaceManager;
             this.basePath = basePath;
             this.fileSystem = fileSystem;
+            this.typeLoader = typeLoader;
         }
 
         public ICodeGenerationPipeline Build(JObject configuration)
@@ -50,7 +57,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
         private List<Batch> BuildBatches(IEnumerable<BatchConfiguration> batchConfigurations)
         {
             List<Batch> result = new List<Batch>();
-            var stageBuilder = new StageBuilder(this.builderProvider);
+            var stageBuilder = new StageBuilder(this.builderProvider, this.typeLoader);
 
             int index = 0;
             foreach (var config in batchConfigurations)

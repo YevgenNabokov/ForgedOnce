@@ -14,12 +14,14 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
     public class StageBuilder : IBuilder<StageContainer>
     {
         private readonly IBuilderProvider builderProvider;
+        private readonly ITypeLoader typeLoader;
 
         public string Name => "DefaultStageBuilder";
 
-        public StageBuilder(IBuilderProvider builderProvider)
+        public StageBuilder(IBuilderProvider builderProvider, ITypeLoader typeLoader)
         {
             this.builderProvider = builderProvider;
+            this.typeLoader = typeLoader;
         }
 
         public StageContainer Build(JObject configuration)
@@ -49,7 +51,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
 
             if (pluginConfig.Preprocessor != null)
             {
-                Type type = Type.GetType(pluginConfig.Preprocessor.Type);
+                Type type = this.typeLoader.LoadType(pluginConfig.Preprocessor.Type);
                 if (type is null)
                 {
                     throw new InvalidOperationException($"Cannot resolve plugin preprocessor type {pluginConfig.Preprocessor.Type}.");
@@ -58,7 +60,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
                 preprocessor = Activator.CreateInstance(type);
             }
 
-            Type pluginFactoryType = Type.GetType(pluginConfig.PluginFactory.Type);
+            Type pluginFactoryType = this.typeLoader.LoadType(pluginConfig.PluginFactory.Type);
             if (pluginFactoryType is null)
             {
                 throw new InvalidOperationException($"Cannot resolve plugin type {pluginConfig.PluginFactory.Type}.");

@@ -7,7 +7,11 @@ namespace Game08.Sdk.CodeMixer.Environment.Interfaces
 {
     public interface IWorkspaceManager
     {
+        IEnumerable<TReference> GetMetadataReferences<TReference>(Guid? projectId = null) where TReference : MetadataReference;
+
         IEnumerable<List<Guid>> GetProjectsDependencyChains(IEnumerable<Guid> projectIds);
+
+        Project FindProjectByAssemblyName(string assemblyName);
 
         Project FindProject(string projectName);
 

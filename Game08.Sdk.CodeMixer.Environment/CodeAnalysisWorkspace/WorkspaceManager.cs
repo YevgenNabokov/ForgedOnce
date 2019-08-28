@@ -19,6 +19,24 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             this.workspace = workspace;
         }        
 
+        public IEnumerable<TReference> GetMetadataReferences<TReference>(Guid? projectId = null) where TReference : MetadataReference
+        {
+            List<TReference> result = new List<TReference>();
+
+            foreach (var proj in this.workspace.CurrentSolution.Projects)
+            {
+                if (projectId == null || proj.Id.Id == projectId.Value)
+                {
+                    foreach (var reference in proj.MetadataReferences.OfType<TReference>())
+                    {
+                        result.Add(reference);
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public IEnumerable<List<Guid>> GetProjectsDependencyChains(IEnumerable<Guid> projectIds)
         {
             List<List<Guid>> result = new List<List<Guid>>();
@@ -90,6 +108,11 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
 
                 return result;
             }
+        }
+
+        public Project FindProjectByAssemblyName(string assemblyName)
+        {
+            return this.workspace.CurrentSolution.Projects.FirstOrDefault(p => p.AssemblyName == assemblyName);
         }
 
         public Project FindProject(string projectName)
