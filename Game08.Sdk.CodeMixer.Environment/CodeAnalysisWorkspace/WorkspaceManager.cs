@@ -46,7 +46,9 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             foreach (var id in projectIds)
             {
                 var projId = this.workspace.CurrentSolution.ProjectIds.FirstOrDefault(p => p.Id == id);
-                result.Add(graph.GetProjectsThatThisProjectTransitivelyDependsOn(projId).Select(p => p.Id).ToList());
+                var chain = graph.GetProjectsThatThisProjectTransitivelyDependsOn(projId).Select(p => p.Id).ToList();
+                chain.Add(id);
+                result.Add(chain);
             }
 
             return result;

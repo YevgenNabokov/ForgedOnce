@@ -36,10 +36,11 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace.TypeLoaders
                         compilations[project.Id.Id].Emit(stream);
                         Assembly assembly = Assembly.Load(stream.GetBuffer());
 
-                        var result = assembly.GetType(typeName, false, false);
+                        var strippedTypeName = typeName.Substring(0, typeName.IndexOf(","));
+                        var result = assembly.GetType(strippedTypeName, false, false);
                         if (result == null)
                         {
-                            throw new InvalidOperationException($"Cannot resolve type {typeName} from compiled solution project {project.Name}.");
+                            throw new InvalidOperationException($"Cannot resolve type {strippedTypeName} from compiled solution project {project.Name}.");
                         }
 
                         return result;

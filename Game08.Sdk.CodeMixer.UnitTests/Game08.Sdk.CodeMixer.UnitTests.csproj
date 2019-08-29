@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.8.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Test.Resources.Proprietary" Version="1.1.0-beta1-20150824-02" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="Moq" Version="4.12.0" />
     <PackageReference Include="NUnit" Version="3.12.0" />

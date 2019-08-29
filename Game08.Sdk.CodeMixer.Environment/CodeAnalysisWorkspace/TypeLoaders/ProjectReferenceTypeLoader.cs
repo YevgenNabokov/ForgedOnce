@@ -32,13 +32,15 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace.TypeLoaders
                     {
                         var referenceFileName = this.fileSystem.Path.GetFileName(reference.FilePath);
 
-                        if (referenceFileName == $"{assemblyName.Name}.dll" || referenceFileName == $"{assemblyName.Name}.exe")
+                        if (string.Compare(referenceFileName, $"{assemblyName.Name}.dll", true) == 0 ||
+                            string.Compare(referenceFileName, $"{assemblyName.Name}.exe", true) == 0)
                         {
-                            var referenceAssembly = Assembly.LoadFrom(reference.FilePath);
-                            var result = referenceAssembly.GetType(typeName, false, false);
+                            var strippedTypeName = typeName.Substring(0, typeName.IndexOf(","));
+                            var referenceAssembly = Assembly.Load(this.fileSystem.File.ReadAllBytes(reference.FilePath));
+                            var result = referenceAssembly.GetType(strippedTypeName, false, false);
                             if (result == null)
                             {
-                                throw new InvalidOperationException($"Cannot resolve type {typeName} from {reference.FilePath}.");
+                                throw new InvalidOperationException($"Cannot resolve type {strippedTypeName} from {reference.FilePath}.");
                             }
 
                             return result;
