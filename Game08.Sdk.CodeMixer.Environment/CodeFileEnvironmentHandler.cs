@@ -42,9 +42,9 @@ namespace Game08.Sdk.CodeMixer.Environment
 
         public CodeFile ResolveExistingCodeFile(CodeFileLocation location)
         {
-            var codeFile = this.CreateCodeFile(location.GetFileName());
+            var codeFile = this.CreateCodeFile(this.storageHandler.ResolveCodeFileName(location));
             codeFile.Location = location;
-            this.storageHandler.ResolveSourceCodeText(codeFile);
+            this.storageHandler.ResolveCodeFile(codeFile);
             this.compilationHandler.Register(codeFile);
             return codeFile;
         }

@@ -11,6 +11,8 @@ namespace Game08.Sdk.CodeMixer.Environment.Interfaces
 
         void Remove(CodeFile codeFile);
 
-        void ResolveSourceCodeText(CodeFile codeFile);
+        string ResolveCodeFileName(CodeFileLocation location);
+
+        void ResolveCodeFile(CodeFile codeFile, bool resolveSourceCodeText = true, bool resolveLocation = true);
     }
 }

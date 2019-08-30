@@ -1,0 +1,36 @@
+{
+  "codeFileHandlers": [
+    { "type": "Game08.Sdk.CodeMixer.CSharp.CSharpCodeFileHandlerFactory, Game08.Sdk.CodeMixer.CSharp" }
+  ],
+  "inputs": {
+    "InputOne": "CSharp:Project:TestProjects.SubjectProj/SourceModels/*.cs"
+  },
+  "batches": [
+    {
+      "name": "Batch01",
+      "stages": [
+        {
+          "name": "Stage01",
+          "plugin": {
+            "pluginFactory": { "type": "TestProjects.SimplePlugin.AddSerializableAttributeToClassPluginFactory, TestProjects.SimplePlugin" }
+          },
+          "input": {
+            "settings": {
+              "InputOne": "*.cs"
+            }
+          },
+          "output": {
+            "settings": {
+              "PassThrough": "*.cs"
+            }
+          },
+          "mappings": {
+            "PassThrough": {
+              "settings": { "path": "TestProjects.ProductProj/TransformedModels" }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -37,7 +37,8 @@ namespace Game08.Sdk.CodeMixer.Environment
 
             var typeLoader = new AggregateTypeLoader(
                 new DefaultTypeLoader(),
-                new ProjectReferenceTypeLoader(workspaceManager, this.fileSystem));
+                new ProjectReferenceTypeLoader(workspaceManager, this.fileSystem),
+                new WorkspaceTypeLoader(workspaceManager));
             if (this.additionalTypeLoader != null)
             {
                 typeLoader.AddResolver(this.additionalTypeLoader);

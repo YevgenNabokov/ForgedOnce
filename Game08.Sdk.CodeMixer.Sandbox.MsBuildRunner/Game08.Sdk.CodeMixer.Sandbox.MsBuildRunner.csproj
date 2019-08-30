@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis" Version="3.2.1" />
+    <PackageReference Include="System.IO.Abstractions" Version="6.0.23" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Game08.Sdk.CodeMixer.Core\Game08.Sdk.CodeMixer.Core.csproj" />
+    <ProjectReference Include="..\Game08.Sdk.CodeMixer.CSharp\Game08.Sdk.CodeMixer.CSharp.csproj" />
+    <ProjectReference Include="..\Game08.Sdk.CodeMixer.Environment\Game08.Sdk.CodeMixer.Environment.csproj" />
+    <ProjectReference Include="..\Game08.Sdk.CodeMixer.Glsl\Game08.Sdk.CodeMixer.Glsl.csproj" />
+    <ProjectReference Include="..\Game08.Sdk.CodeMixer.Launcher.MSBuild\Game08.Sdk.CodeMixer.Launcher.MSBuild.csproj" />
+  </ItemGroup>
+
+</Project>

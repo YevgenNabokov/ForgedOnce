@@ -1,5 +1,6 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
@@ -40,18 +41,57 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             this.workspaceManager.RemoveCodeFile(location.DocumentId);
         }
 
-        public void ResolveSourceCodeText(CodeFile codeFile)
+        public string ResolveCodeFileName(CodeFileLocation location)
         {
-            var document = this.workspaceManager.FindDocumentByFilePath(codeFile.Location.FilePath);
+            var document = this.FindDocument(location);
+            if (document != null)
+            {
+                return document.Name;
+            }
+
+            return null;
+        }
+
+        public void ResolveCodeFile(CodeFile codeFile, bool resolveSourceCodeText = true, bool resolveLocation = true)
+        {
+            var document = this.FindDocument(codeFile.Location);
+
             if (document != null)
             {
                 SourceText text = null;
                 if (document.TryGetText(out text))
                 {
-                    codeFile.SourceCodeText = text.ToString();
-                    codeFile.Location = new WorkspaceCodeFileLocation(codeFile.Location) { DocumentId = document.Id.Id };
+                    if (resolveSourceCodeText)
+                    {
+                        codeFile.SourceCodeText = text.ToString();
+                    }
+
+                    if (resolveLocation && !(codeFile.Location is WorkspaceCodeFileLocation))
+                    {
+                        codeFile.Location = new WorkspaceCodeFileLocation(codeFile.Location) { DocumentId = document.Id.Id };
+                    }
                 }
             }
+        }
+
+        private Document FindDocument(CodeFileLocation location)
+        {
+            Document document = null;
+
+            if (location is WorkspaceCodeFileLocation)
+            {
+                var workspaceLocation = location as WorkspaceCodeFileLocation;
+                if (workspaceLocation.DocumentId != Guid.Empty)
+                {
+                    document = this.workspaceManager.FindDocument(workspaceLocation.DocumentId);
+                }
+            }
+            else
+            {
+                document = this.workspaceManager.FindDocumentByFilePath(location.FilePath);
+            }
+
+            return document;
         }
     }
 }
