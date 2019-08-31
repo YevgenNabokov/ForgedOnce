@@ -4,8 +4,13 @@ using System.Text;
 
 namespace TestProjects.SubjectProj.SourceModels
 {
+    [Serializable]
     public class TestClass
     {
-        public int B { get; set; }
+        public int B
+        {
+            get;
+            set;
+        }
     }
 }

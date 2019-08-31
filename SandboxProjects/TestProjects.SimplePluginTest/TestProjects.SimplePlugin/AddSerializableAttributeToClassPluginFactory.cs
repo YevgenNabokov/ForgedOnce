@@ -13,7 +13,10 @@ namespace TestProjects.SimplePlugin
     {
         public CodeGenerationPlugin<AddSerializableAttributeToClassSettings, AddSerializableAttributeToClassMetadata, CodeFileCSharp> CreatePlugin(JObject configuration, IPluginPreprocessor<AddSerializableAttributeToClassMetadata> pluginPreprocessor = null)
         {
-            return new AddSerializableAttributeToClassPlugin();
+            return new AddSerializableAttributeToClassPlugin()
+            {
+                Preprocessor = new AddSerializableAttributeToClassPreprocessor()
+            };
         }
     }
 }

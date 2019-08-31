@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Folder Include="TransformedModels\" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Compile Include="TransformedModels\TestClass.cs" />
+  </ItemGroup>
 </Project>

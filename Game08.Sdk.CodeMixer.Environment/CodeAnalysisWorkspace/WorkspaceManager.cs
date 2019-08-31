@@ -103,8 +103,7 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
                 {
                     foreach (var document in project.Documents)
                     {
-                        var folders = string.Join("/", document.Folders);
-                        result.Add($"{project.Name}/{folders}/{document.Name}");
+                        result.Add(DocumentPathHelper.GetPath(project.Name, document.Folders, document.Name));
                     }
                 }
 
@@ -140,6 +139,18 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             this.ApplyChanges(document.Project.Solution);
 
             return document;
+        }
+
+        public void ReplaceDocumentText(Guid documentId, string newText)
+        {
+            var document = this.FindDocument(documentId);
+            if (document == null)
+            {
+                throw new InvalidOperationException($"Document {documentId} is not found in workspace.");
+            }
+
+            var changed = document.WithText(SourceText.From(newText));
+            this.ApplyChanges(changed.Project.Solution);
         }
 
         public void RemoveCodeFile(Guid documentId)

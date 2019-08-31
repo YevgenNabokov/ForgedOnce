@@ -22,7 +22,7 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild
             var vsi = MSBuildLocator.RegisterDefaults();
             var workspace = MSBuildWorkspace.Create();
             var solution = workspace.OpenSolutionAsync(solutionPath).Result;
-
+            
             var launcher = new CodeGenerationPipelineLauncher(workspace, this.fileSystem);
             launcher.Launch(pipelineConfigurationPath);
         }

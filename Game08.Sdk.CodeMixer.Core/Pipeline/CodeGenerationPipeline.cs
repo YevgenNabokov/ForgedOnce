@@ -26,6 +26,8 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
         public void Execute()
         {
             var inputs = this.InputCodeStreamProvider.RetrieveCodeStreams();
+            this.PipelineEnvironment.RefreshAndRecompile();
+            this.MetadataStore.ResolveNames();
 
             this.ExecuteAllBatches(this.Batches, inputs);
         }

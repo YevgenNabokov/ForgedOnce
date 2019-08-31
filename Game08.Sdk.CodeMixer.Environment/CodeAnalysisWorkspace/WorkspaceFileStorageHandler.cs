@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
@@ -18,14 +19,46 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
         }
 
         public void Add(CodeFile codeFile)
-        {
-            //// TODO: Handle existing documents replacement.
+        {            
             if (codeFile.Language == null || !(codeFile.Location is WorkspaceCodeFileLocation))
             {
                 throw new InvalidOperationException($"Cannot add code file to {nameof(WorkspaceFileStorageHandler)} it should have {nameof(codeFile.Location)} as {nameof(WorkspaceCodeFileLocation)}.");
             }
 
             var location = codeFile.Location as WorkspaceCodeFileLocation;
+            if (location.DocumentId != Guid.Empty && this.workspaceManager.FindDocument(location.DocumentId) != null)
+            {
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(location.FilePath))
+            {
+                var existingDocument = this.workspaceManager.FindDocumentByFilePath(location.FilePath);
+                if (existingDocument != null)
+                {
+                    this.workspaceManager.ReplaceDocumentText(existingDocument.Id.Id, codeFile.SourceCodeText);
+                    location.DocumentId = existingDocument.Id.Id;
+                    return;
+                    ////this.workspaceManager.RemoveCodeFile(existingDocument.Id.Id);
+                }
+            }
+
+            if (location.ProjectId != Guid.Empty)
+            {
+                var proj = this.workspaceManager.FindProject(location.ProjectId);
+                if (proj != null)
+                {
+                    var existingDocument = this.workspaceManager.FindDocumentByDocumentPath(DocumentPathHelper.GetPath(proj.Name, location.ProjectFolders, codeFile.Name));
+                    if (existingDocument != null)
+                    {
+                        this.workspaceManager.ReplaceDocumentText(existingDocument.Id.Id, codeFile.SourceCodeText);
+                        location.DocumentId = existingDocument.Id.Id;
+                        return;
+                        ////this.workspaceManager.RemoveCodeFile(existingDocument.Id.Id);
+                    }
+                }
+            }
+
             var document = this.workspaceManager.AddCodeFile(location.ProjectId, location.ProjectFolders, codeFile.Name, codeFile.SourceCodeText, location.FilePath);
             location.DocumentId = document.Id.Id;
         }
@@ -58,17 +91,22 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
 
             if (document != null)
             {
-                SourceText text = null;
-                if (document.TryGetText(out text))
+                SourceText text = document.GetTextAsync().Result;
+                if (text != null)
                 {
                     if (resolveSourceCodeText)
                     {
                         codeFile.SourceCodeText = text.ToString();
                     }
 
-                    if (resolveLocation && !(codeFile.Location is WorkspaceCodeFileLocation))
+                    if (resolveLocation)
                     {
-                        codeFile.Location = new WorkspaceCodeFileLocation(codeFile.Location) { DocumentId = document.Id.Id };
+                        var location = codeFile.Location is WorkspaceCodeFileLocation ? (WorkspaceCodeFileLocation)codeFile.Location : new WorkspaceCodeFileLocation(codeFile.Location);
+                        location.DocumentId = document.Id.Id;
+                        location.ProjectId = document.Project.Id.Id;
+                        location.ProjectFolders = document.Folders.ToArray();
+
+                        codeFile.Location = location;
                     }
                 }
             }
