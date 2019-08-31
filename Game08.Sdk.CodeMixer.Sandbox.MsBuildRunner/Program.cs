@@ -8,10 +8,7 @@ namespace Game08.Sdk.CodeMixer.Sandbox.MsBuildRunner
     {
         static void Main(string[] args)
         {
-            CodeGenerationPipelineLauncherMsBuild launcher = new CodeGenerationPipelineLauncherMsBuild(new FileSystem());
-            var testSolutionPath = "..\\..\\..\\..\\SandboxProjects\\TestProjects.SimplePluginTest\\TestProjects.SimplePluginTest.sln";
-            var testConfig = "..\\..\\..\\..\\SandboxProjects\\TestProjects.SimplePluginTest\\TestProjects.SubjectProj\\CGPipeline.json";
-            launcher.Execute(testSolutionPath, testConfig);
+            TestProject1.Run();
         }
     }
 }

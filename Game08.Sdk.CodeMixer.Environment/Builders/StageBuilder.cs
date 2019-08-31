@@ -30,7 +30,10 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
             StageContainer result = new StageContainer();
 
             result.InputSelector = this.builderProvider.Resolve<ICodeFileSelector>(stageConfiguration.Input.BuilderName).Build(stageConfiguration.Input.Configuration);
-            result.FinalOutputSelector = this.builderProvider.Resolve<ICodeFileSelector>(stageConfiguration.Output.BuilderName).Build(stageConfiguration.Output.Configuration);
+            if (stageConfiguration.Output != null)
+            {
+                result.FinalOutputSelector = this.builderProvider.Resolve<ICodeFileSelector>(stageConfiguration.Output.BuilderName).Build(stageConfiguration.Output.Configuration);
+            }
 
             Dictionary<string, ICodeFileLocationProvider> mappers = new Dictionary<string, ICodeFileLocationProvider>();
             foreach (var mapper in stageConfiguration.CodeStreamMappers)

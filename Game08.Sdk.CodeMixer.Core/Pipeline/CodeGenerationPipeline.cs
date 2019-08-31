@@ -55,7 +55,10 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
                 var codeStreamFactory = new CodeStreamFactory(this.PipelineEnvironment, stage.CodeFileLocationProviders);
                 var outputs = stage.Stage.Execute(stage.InputSelector.Select(inputs), this.MetadataStore, this.MetadataStore, codeStreamFactory);
                 result.AddRange(outputs);
-                storableOutputs.AddRange(stage.FinalOutputSelector.Select(outputs));                
+                if (stage.FinalOutputSelector != null)
+                {
+                    storableOutputs.AddRange(stage.FinalOutputSelector.Select(outputs));
+                }
             }
 
             this.PipelineEnvironment.CodeStreamsDiscarded(inputs);

@@ -18,6 +18,27 @@
             "settings": {
               "InputOne": "*.cs"
             }
+          },          
+          "mappings": {
+            "PassThrough": {
+              "settings": { "path": "TestProjects.ProductProj/TransformedModels" }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Batch02",
+      "stages": [
+        {
+          "name": "Stage02",
+          "plugin": {
+            "pluginFactory": { "type": "TestPlugins.AddProperty.AddPropertyPluginFactory, TestPlugins.AddProperty" }
+          },
+          "input": {
+            "settings": {
+              "PassThrough": "*.cs"
+            }
           },
           "output": {
             "settings": {
