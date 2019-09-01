@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Text;
 
-namespace Game08.Sdk.CodeMixer.CSharp
+namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 {
-    public class CSharpCodeFileHandlerFactory : ICodeFileHandlerFactory
+    public class LtsCodeFileHandlerFactory : ICodeFileHandlerFactory
     {
         public ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, JObject configuration = null)
         {
-            return new CodeFileEnvironmentHandlerCSharp(workspaceManager);
+            return new CodeFileEnvironmentHandlerLts(fileSystem);
         }
     }
 }

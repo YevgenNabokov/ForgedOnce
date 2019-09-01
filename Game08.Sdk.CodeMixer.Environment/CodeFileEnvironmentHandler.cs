@@ -9,10 +9,10 @@ namespace Game08.Sdk.CodeMixer.Environment
 {
     public abstract class CodeFileEnvironmentHandler : ICodeFileEnvironmentHandler
     {
-        private readonly ICodeFileStorageHandler storageHandler;
-        private readonly ICodeFileCompilationHandler compilationHandler;
+        protected readonly ICodeFileStorageHandler storageHandler;
+        protected readonly ICodeFileCompilationHandler compilationHandler;
 
-        private List<CodeFile> output = new List<CodeFile>();
+        protected List<CodeFile> output = new List<CodeFile>();
 
         public CodeFileEnvironmentHandler(ICodeFileStorageHandler codeFileStorageHandler, ICodeFileCompilationHandler codeFileCompilationHandler)
         {
