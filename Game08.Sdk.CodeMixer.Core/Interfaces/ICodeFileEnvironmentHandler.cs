@@ -8,6 +8,10 @@ namespace Game08.Sdk.CodeMixer.Core.Interfaces
     {
         bool SupportsCodeLanguage(string language);
 
+        IEnumerable<CodeFile> GetOutputs();
+
+        void AddOutput(CodeFile codeFile);
+
         void Add(CodeFile codeFile);
 
         void Remove(CodeFile codeFile);

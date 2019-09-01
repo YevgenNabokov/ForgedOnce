@@ -12,35 +12,53 @@ namespace Game08.Sdk.CodeMixer.Environment
         private readonly ICodeFileStorageHandler storageHandler;
         private readonly ICodeFileCompilationHandler compilationHandler;
 
+        private List<CodeFile> output = new List<CodeFile>();
+
         public CodeFileEnvironmentHandler(ICodeFileStorageHandler codeFileStorageHandler, ICodeFileCompilationHandler codeFileCompilationHandler)
         {
             this.storageHandler = codeFileStorageHandler;
             this.compilationHandler = codeFileCompilationHandler;
         }
 
-        public void Add(CodeFile codeFile)
+        public virtual IEnumerable<CodeFile> GetOutputs()
+        {
+            return this.output;
+        }
+
+        public virtual void AddOutput(CodeFile codeFile)
+        {
+            if (!this.output.Contains(codeFile))
+            {
+                this.output.Add(codeFile);
+            }
+        }
+
+        public virtual void Add(CodeFile codeFile)
         {
             this.storageHandler.Add(codeFile);
             this.compilationHandler.Register(codeFile);
         }
 
-        public void RefreshAndRecompile()
+        public virtual void RefreshAndRecompile()
         {
             this.compilationHandler.RefreshAndRecompile();
         }
 
-        public void Remove(CodeFile codeFile)
+        public virtual void Remove(CodeFile codeFile)
         {
-            this.compilationHandler.Unregister(codeFile);
-            this.storageHandler.Remove(codeFile);
+            if (!this.output.Contains(codeFile))
+            {
+                this.compilationHandler.Unregister(codeFile);
+                this.storageHandler.Remove(codeFile);
+            }
         }
 
-        public bool SupportsCodeLanguage(string language)
+        public virtual bool SupportsCodeLanguage(string language)
         {
             return this.compilationHandler.SupportsCodeLanguage(language);
         }
 
-        public CodeFile ResolveExistingCodeFile(CodeFileLocation location)
+        public virtual CodeFile ResolveExistingCodeFile(CodeFileLocation location)
         {
             var codeFile = this.CreateCodeFile(this.storageHandler.ResolveCodeFileName(location));
             codeFile.Location = location;
@@ -49,7 +67,7 @@ namespace Game08.Sdk.CodeMixer.Environment
             return codeFile;
         }
 
-        public ICodeStream CreateCodeStream(string language, string name, ICodeFileLocationProvider codeFileLocationProvider = null)
+        public virtual ICodeStream CreateCodeStream(string language, string name, ICodeFileLocationProvider codeFileLocationProvider = null)
         {
             return new CodeStream(language, name, this, codeFileLocationProvider);
         }

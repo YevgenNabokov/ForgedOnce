@@ -9,13 +9,23 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
     {
         protected List<ICodeStream> activeCodeStreams = new List<ICodeStream>();
 
-        public List<CodeFile> Output = new List<CodeFile>();
-
         public List<ICodeFileEnvironmentHandler> Handlers = new List<ICodeFileEnvironmentHandler>();
 
         public IEnumerable<CodeFile> GetOutputs()
         {
-            return this.Output;
+            List<CodeFile> result = new List<CodeFile>();
+            foreach (var handler in this.Handlers)
+            {
+                foreach (var file in handler.GetOutputs())
+                {
+                    if (!result.Contains(file))
+                    {
+                        result.Add(file);
+                    }
+                }
+            }
+
+            return result;
         }
 
         public void CodeStreamsDiscarded(IEnumerable<ICodeStream> streams)
@@ -26,10 +36,7 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
                 {
                     foreach (var file in stream.Files)
                     {
-                        if (!this.Output.Contains(file))
-                        {
-                            this.HandlerFor(file.Language).Remove(file);
-                        }
+                        this.HandlerFor(file.Language).Remove(file);
                     }
 
                     this.activeCodeStreams.Remove(stream);
@@ -57,10 +64,7 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
         {
             foreach (var file in files)
             {
-                if (!this.Output.Contains(file))
-                {
-                    this.Output.Add(file);
-                }
+                this.HandlerFor(file.Language).AddOutput(file);
             }
         }
 

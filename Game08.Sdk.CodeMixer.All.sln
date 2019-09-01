@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GLSL", "GLSL", "{51A4EC07-6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CSharp", "CSharp", "{656CE996-AC8A-4125-AB2E-9CBB8405A591}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TypeScript", "TypeScript", "{DCFA4EAE-D23E-4834-9156-9F4BB5E08BBC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LimitedTypeScript", "LimitedTypeScript", "{DCFA4EAE-D23E-4834-9156-9F4BB5E08BBC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.Core", "Game08.Sdk.CodeMixer.Core\Game08.Sdk.CodeMixer.Core.csproj", "{FB7230C3-1DDC-41AE-BA78-53718C6C236B}"
 EndProject
@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.Enviro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.UnitTests", "Game08.Sdk.CodeMixer.UnitTests\Game08.Sdk.CodeMixer.UnitTests.csproj", "{B640C4CF-6A4B-4E98-8C3C-56213BA53308}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game08.Sdk.CodeMixer.Launcher.MSBuild", "Game08.Sdk.CodeMixer.Launcher.MSBuild\Game08.Sdk.CodeMixer.Launcher.MSBuild.csproj", "{8F4704C2-7AA5-418B-95C2-805EAB436721}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.Launcher.MSBuild", "Game08.Sdk.CodeMixer.Launcher.MSBuild\Game08.Sdk.CodeMixer.Launcher.MSBuild.csproj", "{8F4704C2-7AA5-418B-95C2-805EAB436721}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game08.Sdk.CodeMixer.LimitedTypeScript", "Game08.Sdk.CodeMixer.LimitedTypeScript\Game08.Sdk.CodeMixer.LimitedTypeScript.csproj", "{EA882786-E90F-43A7-A7A2-786FD1581517}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{8F4704C2-7AA5-418B-95C2-805EAB436721}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F4704C2-7AA5-418B-95C2-805EAB436721}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F4704C2-7AA5-418B-95C2-805EAB436721}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA882786-E90F-43A7-A7A2-786FD1581517}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA882786-E90F-43A7-A7A2-786FD1581517}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA882786-E90F-43A7-A7A2-786FD1581517}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA882786-E90F-43A7-A7A2-786FD1581517}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{0F570CFB-82FD-43FF-96F3-0E733CF8F1F2} = {656CE996-AC8A-4125-AB2E-9CBB8405A591}
 		{5B08CFBF-103F-4388-B48B-382F056C3E17} = {51A4EC07-6E01-4151-88B9-8C9AAD385B6B}
+		{EA882786-E90F-43A7-A7A2-786FD1581517} = {DCFA4EAE-D23E-4834-9156-9F4BB5E08BBC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {843F4242-074C-4FEE-BECB-2735D8E71695}

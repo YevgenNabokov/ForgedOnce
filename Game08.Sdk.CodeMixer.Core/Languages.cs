@@ -10,6 +10,6 @@ namespace Game08.Sdk.CodeMixer.Core
 
         public const string Glsl = "Glsl";
 
-        public const string TypeScript = "TypeScript";
+        public const string LimitedTypeScript = "LimitedTypeScript";
     }
 }
