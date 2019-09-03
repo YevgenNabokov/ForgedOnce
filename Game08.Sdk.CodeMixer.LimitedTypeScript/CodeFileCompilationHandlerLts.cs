@@ -8,18 +8,19 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 {
     public class CodeFileCompilationHandlerLts : ICodeFileCompilationHandler
     {
-        private List<CodeFile> codeFiles = new List<CodeFile>();
+        private List<CodeFileLtsModel> codeFiles = new List<CodeFileLtsModel>();
 
         public void RefreshAndRecompile()
         {
-            throw new NotImplementedException();
+            this.RefreshTypeRepository();
         }
 
         public void Register(CodeFile codeFile)
         {
-            if (!this.codeFiles.Contains(codeFile))
+            var ltsCodeFile = codeFile as CodeFileLtsModel;
+            if (!this.codeFiles.Contains(ltsCodeFile))
             {
-                this.codeFiles.Add(codeFile);
+                this.codeFiles.Add(ltsCodeFile);
             }
         }
 
@@ -30,10 +31,21 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 
         public void Unregister(CodeFile codeFile)
         {
-            if (this.codeFiles.Contains(codeFile))
+            var ltsCodeFile = codeFile as CodeFileLtsModel;
+            if (this.codeFiles.Contains(ltsCodeFile))
             {
-                this.codeFiles.Remove(codeFile);
+                this.codeFiles.Remove(ltsCodeFile);
             }
+        }
+
+        private void RefreshTypeRepository()
+        {
+            foreach (var codeFile in this.codeFiles)
+            {
+                
+            }
+
+            throw new NotImplementedException();
         }
     }
 }
