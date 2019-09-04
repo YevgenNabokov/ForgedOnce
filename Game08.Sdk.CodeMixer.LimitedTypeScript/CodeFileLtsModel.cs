@@ -1,4 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
+using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace;
 using Game08.Sdk.LTS.Builder.Interfaces;
 using Game08.Sdk.LTS.Model.DefinitionTree;
 using Newtonsoft.Json;
@@ -26,6 +27,30 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
         {
             get;
             private set;
+        }
+
+        public string GetPath()
+        {
+            if (this.Location != null)
+            {
+                if (this.Location is WorkspaceCodeFileLocation)
+                {
+                    var wLocation = this.Location as WorkspaceCodeFileLocation;
+                    if (wLocation.ProjectFolders != null)
+                    {
+                        return string.Format("{0}\\{1}\\{2}", wLocation.ProjectId.ToString(), string.Join("\\", wLocation.ProjectFolders), this.Name);
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(this.Location.FilePath))
+                    {
+                        return this.Location.FilePath;
+                    }
+                }
+            }
+
+            return this.Name;
         }
 
         protected override string GetSourceCodeText()

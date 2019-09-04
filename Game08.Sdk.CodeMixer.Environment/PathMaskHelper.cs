@@ -41,6 +41,50 @@ namespace Game08.Sdk.CodeMixer.Environment
             return fileSystem.Path.Combine(startDirectory, string.Join(fileSystem.Path.PathSeparator.ToString(), parts.Skip(levelUpParts)));
         }
 
+        public static string GetCommonRootPath(string path1, string path2, IFileSystem fileSystem)
+        {
+            string result = string.Empty;
+            var parts1 = fileSystem.Path.GetDirectoryName(path1).Split(fileSystem.Path.PathSeparator);
+            var parts2 = fileSystem.Path.GetDirectoryName(path2).Split(fileSystem.Path.PathSeparator);
+            var b1 = new StringBuilder();
+            var b2 = new StringBuilder();
+
+            for (var i = 0; i < parts1.Length; i++)
+            {
+                if(i > 0)
+                {
+                    b1.Append(fileSystem.Path.PathSeparator);
+                }
+
+                b1.Append(parts1[i]);
+
+                if (parts2.Length > i)
+                {
+                    if (i > 0)
+                    {
+                        b2.Append(fileSystem.Path.PathSeparator);
+                    }
+
+                    b2.Append(parts2[i]);
+                }
+                else
+                {
+                    return result;
+                }
+
+                if (b1.ToString() == b2.ToString())
+                {
+                    result = b1.ToString();
+                }
+                else
+                {
+                    return result;
+                }
+            }
+
+            return result;
+        }
+
         private static Regex FileMaskToRegex(string mask)
         {
             String convertedMask = "^" + Regex.Escape(mask).Replace("\\*", ".*").Replace("\\?", ".") + "$";
