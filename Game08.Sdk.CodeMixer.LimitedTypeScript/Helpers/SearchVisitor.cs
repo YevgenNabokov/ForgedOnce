@@ -23,7 +23,7 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.Helpers
 
         public override void Visit(Node node, SearchVisitorContext context)
         {
-            if (context.SearchedType != null && context.SearchedType.IsAssignableFrom(node.GetType()))
+            if (node != null && context.SearchedType != null && context.SearchedType.IsAssignableFrom(node.GetType()))
             {
                 context.Result.Add(node);
             }

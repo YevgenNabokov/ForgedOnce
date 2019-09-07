@@ -23,7 +23,10 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
         {            
         }
 
-        public CodeFileEnvironmentHandlerLts(IFileSystem fileSystem, ICodeFileStorageHandler codeFileStorageHandler, ICodeFileCompilationHandler codeFileCompilationHandler)
+        public CodeFileEnvironmentHandlerLts(
+            IFileSystem fileSystem,
+            ICodeFileStorageHandler codeFileStorageHandler,
+            ICodeFileCompilationHandler codeFileCompilationHandler)
             : base(codeFileStorageHandler, codeFileCompilationHandler)
         {
             this.fileSystem = fileSystem;
@@ -54,6 +57,11 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
                         commonRootPath = PathMaskHelper.GetCommonRootPath(commonRootPath, path, this.fileSystem);
                     }
                 }
+            }
+
+            if (commonRootPath != null && this.fileSystem.Path.IsPathRooted(commonRootPath))
+            {
+                commonRootPath = this.fileSystem.Path.GetPathRoot(commonRootPath);
             }
 
             var root = this.fileSystem.Path.GetTempPath();
