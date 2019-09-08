@@ -1,0 +1,37 @@
+{
+  "codeFileHandlers": [
+    { "type": "Game08.Sdk.CodeMixer.CSharp.CSharpCodeFileHandlerFactory, Game08.Sdk.CodeMixer.CSharp" },
+    { "type": "Game08.Sdk.CodeMixer.LimitedTypeScript.LtsCodeFileHandlerFactory, Game08.Sdk.CodeMixer.LimitedTypeScript" }
+  ],
+  "inputs": {
+    "InputOne": "CSharp:Project:Subject/SourceModels/*.cs"
+  },
+  "batches": [
+    {
+      "name": "Batch01",
+      "stages": [
+        {
+          "name": "Stage01",
+          "plugin": {
+            "pluginFactory": { "type": "LtsTestPlugin.LtsTestPluginFactory, LtsTestPlugin" }
+          },
+          "input": {
+            "settings": {
+              "InputOne": "*.cs"
+            }
+          },
+          "output": {
+            "settings": {
+              "PassThrough": "*.ts"
+            }
+          },
+          "mappings": {
+            "PassThrough": {
+              "settings": { "path": "Product/TypeScripts/Generated" }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

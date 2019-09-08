@@ -21,7 +21,7 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.UnitTests.Integration
             var fileSystem = new FileSystem();
             var path = fileSystem.Path.GetTempPath();
             var tempDir = fileSystem.Directory.CreateDirectory(fileSystem.Path.Combine(path, Guid.NewGuid().ToString()));
-            var fileSystemMock = this.SetupRestrictedFileSystem(fileSystem, tempDir.FullName);
+            var fileSystemMock = this.SetupRestrictedFileSystem(tempDir.FullName);
 
             CodeFileEnvironmentHandlerLts subject = new CodeFileEnvironmentHandlerLts(fileSystemMock);
 
@@ -72,7 +72,7 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.UnitTests.Integration
             fileSystem.Directory.Delete(tempDir.FullName, true);
         }
 
-        private IFileSystem SetupRestrictedFileSystem(IFileSystem realFileSystem, string rootFolder)
+        private IFileSystem SetupRestrictedFileSystem(string rootFolder)
         {
             var result = new Mock<IFileSystem>(MockBehavior.Strict);
             var pathMock = new Mock<IPath>(MockBehavior.Strict);

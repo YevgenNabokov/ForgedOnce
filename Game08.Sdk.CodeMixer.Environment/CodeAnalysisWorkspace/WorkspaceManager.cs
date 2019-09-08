@@ -134,8 +134,8 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
                 throw new InvalidOperationException($"Project with Id={projectId} is not found.");
             }
             
-            var document = project.AddDocument(name, SourceText.From(sourceCodeText), projectFolders, filePath);
-
+            var document = project.AddDocument(name, sourceCodeText, projectFolders, filePath);            
+            
             this.ApplyChanges(document.Project.Solution);
 
             return document;

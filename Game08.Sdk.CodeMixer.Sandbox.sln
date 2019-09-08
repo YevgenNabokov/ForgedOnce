@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.CSharp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.Glsl", "Game08.Sdk.CodeMixer.Glsl\Game08.Sdk.CodeMixer.Glsl.csproj", "{18075779-A3DE-4F0A-BB08-924CF39B13EA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.LimitedTypeScript", "Game08.Sdk.CodeMixer.LimitedTypeScript\Game08.Sdk.CodeMixer.LimitedTypeScript.csproj", "{AAFC0E1D-A196-44F7-B33F-EA368956223F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{18075779-A3DE-4F0A-BB08-924CF39B13EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18075779-A3DE-4F0A-BB08-924CF39B13EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18075779-A3DE-4F0A-BB08-924CF39B13EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAFC0E1D-A196-44F7-B33F-EA368956223F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAFC0E1D-A196-44F7-B33F-EA368956223F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAFC0E1D-A196-44F7-B33F-EA368956223F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAFC0E1D-A196-44F7-B33F-EA368956223F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

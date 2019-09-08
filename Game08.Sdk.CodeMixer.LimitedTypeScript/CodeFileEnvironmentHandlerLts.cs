@@ -14,6 +14,8 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 {
     public class CodeFileEnvironmentHandlerLts : CodeFileEnvironmentHandler
     {
+        private readonly string outputFolderName = "TsOutputs";
+
         private readonly IFileSystem fileSystem;
 
         private LtsTypeRepository typeRepository;
@@ -65,6 +67,7 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
             }
 
             var root = this.fileSystem.Path.GetTempPath();
+            var outputRoot = this.fileSystem.Path.Combine(root, outputFolderName);
             Dictionary<string, CodeFileLtsModel> fileNameMappings = new Dictionary<string, CodeFileLtsModel>();
             foreach (var file in models)
             {
@@ -82,7 +85,7 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 
             task.Types = this.typeRepository.GetTypeCache();
 
-            var launcher = new Launcher(root);
+            var launcher = new Launcher(outputRoot, root);
             var output = launcher.Execute(task);
 
             List<CodeFileLtsText> result = new List<CodeFileLtsText>();
@@ -91,7 +94,7 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
                 result.Add(new CodeFileLtsText(map.Value.Id, map.Value.Name)
                 {
                     Location = map.Value.Location,
-                    SourceCodeText = this.fileSystem.File.ReadAllText(this.fileSystem.Path.Combine(root, map.Key))
+                    SourceCodeText = this.fileSystem.File.ReadAllText(this.fileSystem.Path.Combine(outputRoot, map.Key))
                 });
             }
 
