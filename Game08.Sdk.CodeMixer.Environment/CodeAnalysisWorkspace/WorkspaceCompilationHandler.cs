@@ -15,21 +15,21 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             this.workspaceManager = workspaceManager;
         }
 
-        public Dictionary<Guid, Compilation> CompileProjects(IEnumerable<Guid> projectIds)
+        public Dictionary<string, Compilation> CompileProjects(IEnumerable<string> projectNames)
         {
-            Dictionary<Guid, Compilation> result = new Dictionary<Guid, Compilation>();
+            Dictionary<string, Compilation> result = new Dictionary<string, Compilation>();
 
-            var chains = this.workspaceManager.GetProjectsDependencyChains(projectIds);
+            var chains = this.workspaceManager.GetProjectsDependencyChains(projectNames);
 
             foreach (var chain in chains)
             {
-                foreach (var id in chain)
+                foreach (var name in chain)
                 {
-                    if (!result.ContainsKey(id))
+                    if (!result.ContainsKey(name))
                     {
-                        var project = this.workspaceManager.FindProject(id);
+                        var project = this.workspaceManager.FindProject(name);
                         var compilation = project.GetCompilationAsync().Result;
-                        result.Add(id, compilation);
+                        result.Add(name, compilation);
                     }
                 }
             }

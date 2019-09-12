@@ -30,10 +30,10 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace.TypeLoaders
 
                 if (project != null)
                 {
-                    var compilations = this.compilationHandler.CompileProjects(new[] { project.Id.Id });
+                    var compilations = this.compilationHandler.CompileProjects(new[] { project.Name });
                     using (var stream = new MemoryStream())
                     {
-                        compilations[project.Id.Id].Emit(stream);
+                        compilations[project.Name].Emit(stream);
                         Assembly assembly = Assembly.Load(stream.GetBuffer());
 
                         var strippedTypeName = typeName.Substring(0, typeName.IndexOf(","));

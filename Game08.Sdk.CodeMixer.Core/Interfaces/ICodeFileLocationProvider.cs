@@ -6,6 +6,6 @@ namespace Game08.Sdk.CodeMixer.Core.Interfaces
 {
     public interface ICodeFileLocationProvider
     {
-        CodeFileLocation GetLocation();
+        CodeFileLocation GetLocation(string name);
     }
 }

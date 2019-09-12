@@ -4,6 +4,7 @@ using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
+using System.Linq;
 using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
@@ -72,7 +73,9 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
                 {
                     codeFiles.Add(this.codeFileResolver.ResolveCodeFile(this.language, new WorkspaceCodeFileLocation()
                     {
-                        DocumentId = doc.Id.Id                        
+                        ProjectName = doc.Project.Name,
+                        ProjectFolders = doc.Folders.ToArray(),
+                        DocumentName = doc.Name
                     }));
                 }
             }

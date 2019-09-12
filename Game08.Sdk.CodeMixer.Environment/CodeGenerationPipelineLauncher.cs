@@ -18,12 +18,14 @@ namespace Game08.Sdk.CodeMixer.Environment
         private readonly Workspace workspace;
         private readonly IFileSystem fileSystem;
         private readonly ITypeLoader additionalTypeLoader;
+        private readonly ICodeFileStorageHandler outputStorageHandler;
 
-        public CodeGenerationPipelineLauncher(Workspace workspace, IFileSystem fileSystem, ITypeLoader additionalTypeLoader = null)
+        public CodeGenerationPipelineLauncher(Workspace workspace, IFileSystem fileSystem, ITypeLoader additionalTypeLoader = null, ICodeFileStorageHandler outputStorageHandler = null)
         {
             this.workspace = workspace;
             this.fileSystem = fileSystem;
             this.additionalTypeLoader = additionalTypeLoader;
+            this.outputStorageHandler = outputStorageHandler;
         }
 
         public void Launch(string pipelineConfigurationFilePath)
@@ -64,7 +66,7 @@ namespace Game08.Sdk.CodeMixer.Environment
 
         private void SaveOutputs(WorkspaceManager workspaceManager, IEnumerable<CodeFile> outputs)
         {
-            WorkspaceFileStorageHandler handler = new WorkspaceFileStorageHandler(workspaceManager);
+            var handler = this.outputStorageHandler ?? new WorkspaceFileStorageHandler(workspaceManager);
 
             foreach (var file in outputs)
             {

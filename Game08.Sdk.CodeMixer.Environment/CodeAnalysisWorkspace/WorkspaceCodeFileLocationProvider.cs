@@ -19,7 +19,7 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             this.path = path;
         }
 
-        public CodeFileLocation GetLocation()
+        public CodeFileLocation GetLocation(string name)
         {
             var pathParts = this.path.Split('/');
             var project = this.workspaceManager.FindProject(pathParts[0]);
@@ -31,8 +31,9 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
 
             return new WorkspaceCodeFileLocation()
             {
-                ProjectId = project.Id.Id,
-                ProjectFolders = pathParts.Skip(1).ToArray()
+                ProjectName = project.Name,
+                ProjectFolders = pathParts.Skip(1).ToArray(),
+                DocumentName = name
             };
         }
     }

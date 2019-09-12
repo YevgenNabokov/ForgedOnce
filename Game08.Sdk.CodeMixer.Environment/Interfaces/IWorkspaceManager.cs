@@ -9,7 +9,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Interfaces
     {
         IEnumerable<TReference> GetMetadataReferences<TReference>(Guid? projectId = null) where TReference : MetadataReference;
 
-        IEnumerable<List<Guid>> GetProjectsDependencyChains(IEnumerable<Guid> projectIds);
+        IEnumerable<List<string>> GetProjectsDependencyChains(IEnumerable<string> projectNames);
 
         Project FindProjectByAssemblyName(string assemblyName);
 
@@ -17,17 +17,17 @@ namespace Game08.Sdk.CodeMixer.Environment.Interfaces
 
         Project FindProject(Guid id);
 
-        Document FindDocument(Guid documentId);
+        Document FindDocument(string projectName, string[] projectFolders, string documentName);
 
         Document FindDocumentByFilePath(string filePath);
 
         Document FindDocumentByDocumentPath(string documentPath);
 
-        Document AddCodeFile(Guid projectId, IEnumerable<string> projectFolders, string name, string sourceCodeText, string filePath = null);
+        Document AddCodeFile(string projectName, IEnumerable<string> projectFolders, string name, string sourceCodeText, string filePath = null);
 
         void ReplaceDocumentText(Guid documentId, string newText);
 
-        void RemoveCodeFile(Guid documentId);
+        void RemoveCodeFile(string projectName, string[] projectFolders, string documentName);
 
         IEnumerable<string> DocumentPaths
         {

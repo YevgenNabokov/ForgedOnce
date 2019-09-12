@@ -58,7 +58,7 @@ namespace Game08.Sdk.CodeMixer.Core
             var result = this.codeFileFactory.CreateCodeFile(name);
             if (this.codeFileLocationProvider != null)
             {
-                result.Location = this.codeFileLocationProvider.GetLocation();
+                result.Location = this.codeFileLocationProvider.GetLocation(name);
             }
 
             this.codeFiles.Add(result);
