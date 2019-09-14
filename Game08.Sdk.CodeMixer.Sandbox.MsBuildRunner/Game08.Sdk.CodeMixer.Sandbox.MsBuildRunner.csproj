@@ -7,15 +7,17 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis" Version="3.3.0-beta2-final" />
-    <PackageReference Include="System.IO.Abstractions" Version="6.0.23" />
+    <PackageReference Include="System.IO.Abstractions" Version="6.0.32" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Game08.Sdk.CodeMixer.Core\Game08.Sdk.CodeMixer.Core.csproj" />
+    <ProjectReference Include="..\Game08.Sdk.CodeMixer.CSharp.MsBuild\Game08.Sdk.CodeMixer.CSharp.MsBuild.csproj" />
     <ProjectReference Include="..\Game08.Sdk.CodeMixer.CSharp\Game08.Sdk.CodeMixer.CSharp.csproj" />
     <ProjectReference Include="..\Game08.Sdk.CodeMixer.Environment\Game08.Sdk.CodeMixer.Environment.csproj" />
     <ProjectReference Include="..\Game08.Sdk.CodeMixer.Glsl\Game08.Sdk.CodeMixer.Glsl.csproj" />
     <ProjectReference Include="..\Game08.Sdk.CodeMixer.Launcher.MSBuild\Game08.Sdk.CodeMixer.Launcher.MSBuild.csproj" />
+    <ProjectReference Include="..\Game08.Sdk.CodeMixer.LimitedTypeScript.MsBuild\Game08.Sdk.CodeMixer.LimitedTypeScript.MsBuild.csproj" />
     <ProjectReference Include="..\Game08.Sdk.CodeMixer.LimitedTypeScript\Game08.Sdk.CodeMixer.LimitedTypeScript.csproj" />
   </ItemGroup>
 

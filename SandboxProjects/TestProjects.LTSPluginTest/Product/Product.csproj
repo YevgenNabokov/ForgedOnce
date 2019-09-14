@@ -185,6 +185,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="TypeScripts\Generated\SomeClass.ts" />
+    <TypeScriptCompile Include="TypeScripts\Generated\SomeOtherClass.ts" />
     <TypeScriptCompile Include="TypeScripts\Something.ts" />
   </ItemGroup>
   <ItemGroup>

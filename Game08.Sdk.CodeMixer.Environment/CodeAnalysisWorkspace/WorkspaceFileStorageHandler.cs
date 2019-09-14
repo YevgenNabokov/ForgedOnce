@@ -26,10 +26,6 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             }
 
             var location = codeFile.Location as WorkspaceCodeFileLocation;
-            if (this.workspaceManager.FindDocument(location.ProjectName, location.ProjectFolders, location.DocumentName) != null)
-            {
-                return;
-            }
 
             if (!string.IsNullOrEmpty(location.FilePath))
             {
@@ -47,19 +43,15 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
 
             if (!string.IsNullOrEmpty(location.ProjectName))
             {
-                var proj = this.workspaceManager.FindProject(location.ProjectName);
-                if (proj != null)
+                var existingDocument = this.workspaceManager.FindDocument(location.ProjectName, location.ProjectFolders, location.DocumentName);
+                if (existingDocument != null)
                 {
-                    var existingDocument = this.workspaceManager.FindDocumentByDocumentPath(DocumentPathHelper.GetPath(proj.Name, location.ProjectFolders, codeFile.Name));
-                    if (existingDocument != null)
-                    {
-                        this.workspaceManager.ReplaceDocumentText(existingDocument.Id.Id, codeFile.SourceCodeText);
-                        location.DocumentName = existingDocument.Name;
-                        location.ProjectName = existingDocument.Project.Name;
-                        location.ProjectFolders = existingDocument.Folders.ToArray();
-                        return;
-                        ////this.workspaceManager.RemoveCodeFile(existingDocument.Id.Id);
-                    }
+                    this.workspaceManager.ReplaceDocumentText(existingDocument.Id.Id, codeFile.SourceCodeText);
+                    location.DocumentName = existingDocument.Name;
+                    location.ProjectName = existingDocument.Project.Name;
+                    location.ProjectFolders = existingDocument.Folders.ToArray();
+                    return;
+                    ////this.workspaceManager.RemoveCodeFile(existingDocument.Id.Id);
                 }
             }
 

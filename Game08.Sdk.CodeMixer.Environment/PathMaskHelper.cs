@@ -41,6 +41,20 @@ namespace Game08.Sdk.CodeMixer.Environment
             return fileSystem.Path.Combine(startDirectory, string.Join(fileSystem.Path.PathSeparator.ToString(), parts.Skip(levelUpParts)));
         }
 
+        public static string GetRelativePath(string absoluteRootPath, string absolutePath, IFileSystem fileSystem)
+        {
+            var rootDirPath = fileSystem.Path.GetDirectoryName(absoluteRootPath);
+
+            var commonRoot = GetCommonRootPath(rootDirPath, absolutePath, fileSystem);
+
+            var levelUps = fileSystem.Path.Combine(rootDirPath.Substring(commonRoot.Length)
+                .Split(fileSystem.Path.DirectorySeparatorChar)
+                .Where(p => !string.IsNullOrEmpty(p))
+                .Select(p => "..").ToArray());
+
+            return fileSystem.Path.Combine(levelUps, absolutePath.Substring(commonRoot.Length));
+        }
+
         public static string GetCommonRootPath(string path1, string path2, IFileSystem fileSystem)
         {
             string result = string.Empty;

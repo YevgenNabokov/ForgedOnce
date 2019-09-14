@@ -8,7 +8,7 @@
     <PackageReference Include="Game08.Sdk.LTS.Builder" Version="1.0.8" />
     <PackageReference Include="Game08.Sdk.LTS.ModelToCode.Generator" Version="1.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="System.IO.Abstractions" Version="6.0.23" />
+    <PackageReference Include="System.IO.Abstractions" Version="6.0.32" />
   </ItemGroup>
 
   <PropertyGroup>

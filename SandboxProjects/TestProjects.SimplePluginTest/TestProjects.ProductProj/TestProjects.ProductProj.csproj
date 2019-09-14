@@ -6,6 +6,6 @@
     <Folder Include="TransformedModels\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TransformedModels\TestClass.cs" />
+    <TypeScriptCompile Include="TransformedModels\TestClass.cs" />
   </ItemGroup>
 </Project>

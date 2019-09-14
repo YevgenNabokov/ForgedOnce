@@ -49,7 +49,7 @@ namespace LtsTestPlugin
                 {
                     Name = name,
                     TypeKey = key,
-                    Modifiers = new List<Modifier>() { Modifier.Public }
+                    Modifiers = new List<Modifier>() { Modifier.Export }
                 };
 
                 outFile.Model.Items.Add(definition);
