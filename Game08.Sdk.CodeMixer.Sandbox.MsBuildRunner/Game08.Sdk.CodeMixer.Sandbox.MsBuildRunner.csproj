@@ -15,6 +15,7 @@
     <ProjectReference Include="..\Game08.Sdk.CodeMixer.CSharp.MsBuild\Game08.Sdk.CodeMixer.CSharp.MsBuild.csproj" />
     <ProjectReference Include="..\Game08.Sdk.CodeMixer.CSharp\Game08.Sdk.CodeMixer.CSharp.csproj" />
     <ProjectReference Include="..\Game08.Sdk.CodeMixer.Environment\Game08.Sdk.CodeMixer.Environment.csproj" />
+    <ProjectReference Include="..\Game08.Sdk.CodeMixer.Glsl.MsBuild\Game08.Sdk.CodeMixer.Glsl.MsBuild.csproj" />
     <ProjectReference Include="..\Game08.Sdk.CodeMixer.Glsl\Game08.Sdk.CodeMixer.Glsl.csproj" />
     <ProjectReference Include="..\Game08.Sdk.CodeMixer.Launcher.MSBuild\Game08.Sdk.CodeMixer.Launcher.MSBuild.csproj" />
     <ProjectReference Include="..\Game08.Sdk.CodeMixer.LimitedTypeScript.MsBuild\Game08.Sdk.CodeMixer.LimitedTypeScript.MsBuild.csproj" />

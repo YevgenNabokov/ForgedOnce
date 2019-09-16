@@ -1,0 +1,37 @@
+{
+  "codeFileHandlers": [
+    { "type": "Game08.Sdk.CodeMixer.CSharp.CSharpCodeFileHandlerFactory, Game08.Sdk.CodeMixer.CSharp" },
+    { "type": "Game08.Sdk.CodeMixer.Glsl.GlslCodeFileHandlerFactory, Game08.Sdk.CodeMixer.Glsl" }
+  ],
+  "inputs": {
+    "InputOne": "CSharp:Project:Subject/Inputs/*.cs"
+  },
+  "batches": [
+    {
+      "name": "Batch01",
+      "stages": [
+        {
+          "name": "Stage01",
+          "plugin": {
+            "pluginFactory": { "type": "GlslPlugin.GlslTestPluginFactory, GlslPlugin" }
+          },
+          "input": {
+            "settings": {
+              "InputOne": "*.cs"
+            }
+          },
+          "output": {
+            "settings": {
+              "PassThrough": "*.glsl"
+            }
+          },
+          "mappings": {
+            "PassThrough": {
+              "settings": { "path": "Product/Content/Shaders" }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
