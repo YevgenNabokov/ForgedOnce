@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Plugins
 {
-    public abstract class CodeGenerationPlugin<TSettings, TMetadata, TCodeFile> : ICodeGenerationPlugin where TCodeFile : CodeFile
+    public abstract class CodeGenerationPlugin<TSettings, TInputParameters, TCodeFile> : ICodeGenerationPlugin where TCodeFile : CodeFile
     {
-        public IPluginPreprocessor<TMetadata> Preprocessor;
+        public IPluginPreprocessor<TInputParameters> Preprocessor;
 
         public TSettings Settings;
 
@@ -43,6 +43,6 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
 
         protected abstract List<ICodeStream> CreateOutputs(ICodeStreamFactory codeStreamFactory);
 
-        protected abstract void Implementation(TCodeFile input, TMetadata metadata, IMetadataWriter outputMetadataWriter);
+        protected abstract void Implementation(TCodeFile input, TInputParameters inputParameters, IMetadataWriter outputMetadataWriter);
     }
 }

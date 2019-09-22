@@ -30,7 +30,7 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
 
             if (existingItems.All(i => i.ItemType != this.itemType))
             {
-                msBuildProject.Project.AddItem(this.itemType, relativeItemPath);
+                msBuildProject.AddItem(this.itemType, relativeItemPath);
             }
 
             this.UpdateFileContent(fullItemPath, codeFile.SourceCodeText);
@@ -48,7 +48,7 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
 
             foreach (var item in existingItems)
             {
-                msBuildProject.Project.RemoveItem(item);
+                msBuildProject.RemoveItem(item);
             }
         }
 
@@ -58,9 +58,9 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
             {
                 var wLocation = location as WorkspaceCodeFileLocation;
 
-                if (!string.IsNullOrEmpty(wLocation.DocumentName))
+                if (!string.IsNullOrEmpty(wLocation.DocumentPath?.DocumentName))
                 {
-                    return this.fileSystem.Path.Combine(string.Join(this.fileSystem.Path.DirectorySeparatorChar.ToString(), wLocation.ProjectFolders), wLocation.DocumentName);
+                    return this.fileSystem.Path.Combine(string.Join(this.fileSystem.Path.DirectorySeparatorChar.ToString(), wLocation.DocumentPath.ProjectFolders), wLocation.DocumentPath.DocumentName);
                 }
             }
             else

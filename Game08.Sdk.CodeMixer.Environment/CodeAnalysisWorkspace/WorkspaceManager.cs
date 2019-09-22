@@ -54,9 +54,9 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             return result;
         }
 
-        public Document FindDocument(string projectName, string[] projectFolders, string documentName)
+        public Document FindDocument(DocumentPath documentPath)
         {
-            return this.workspace.CurrentSolution.Projects.FirstOrDefault(p => p.Name == projectName)?.Documents.FirstOrDefault(d => d.Folders.SequenceEqual(projectFolders) && d.Name == documentName);
+            return this.workspace.CurrentSolution.Projects.FirstOrDefault(p => p.Name == documentPath.ProjectName)?.Documents.FirstOrDefault(d => d.Folders.SequenceEqual(documentPath.ProjectFolders) && d.Name == documentPath.DocumentName);
         }
 
         public Document FindDocumentByFilePath(string filePath)
@@ -71,19 +71,16 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             return null;
         }
 
-        public Document FindDocumentByDocumentPath(string documentPath)
+        public Document FindDocumentByDocumentPath(DocumentPath documentPath)
         {
-            var parts = documentPath.Split('/');
-            var folders = new string[parts.Length - 2];
-            Array.Copy(parts, 1, folders, 0, parts.Length - 2);
-            var project = this.FindProject(parts[0]);
+            var project = this.FindProject(documentPath.ProjectName);
             if (project != null)
             {
                 foreach (var document in project.Documents)
                 {
-                    if (folders.Length == document.Folders.Count && folders.SequenceEqual(document.Folders))
+                    if (documentPath.ProjectFolders.Length == document.Folders.Count && documentPath.ProjectFolders.SequenceEqual(document.Folders))
                     {
-                        if (document.Name == parts.Last())
+                        if (document.Name == documentPath.DocumentName)
                         {
                             return document;
                         }
@@ -94,16 +91,16 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             return null;
         }
 
-        public IEnumerable<string> DocumentPaths
+        public IEnumerable<DocumentPath> DocumentPaths
         {
             get
             {
-                List<string> result = new List<string>();
+                List<DocumentPath> result = new List<DocumentPath>();
                 foreach (var project in this.workspace.CurrentSolution.Projects)
                 {
                     foreach (var document in project.Documents)
                     {
-                        result.Add(DocumentPathHelper.GetPath(project.Name, document.Folders, document.Name));
+                        result.Add(new DocumentPath(project.Name, document.Folders, document.Name));
                     }
                 }
 
@@ -126,15 +123,15 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             return this.workspace.CurrentSolution.Projects.FirstOrDefault(p => p.Id.Id == id);
         }
 
-        public Document AddCodeFile(string projectName, IEnumerable<string> projectFolders, string name, string sourceCodeText, string filePath = null)
+        public Document AddCodeFile(DocumentPath documentPath, string sourceCodeText, string filePath = null)
         {
-            var project = this.FindProject(projectName);
+            var project = this.FindProject(documentPath.ProjectName);
             if (project == null)
             {
-                throw new InvalidOperationException($"Project with Name={projectName} is not found.");
+                throw new InvalidOperationException($"Project with Name={documentPath.ProjectName} is not found.");
             }
             
-            var document = project.AddDocument(name, sourceCodeText, projectFolders, filePath);            
+            var document = project.AddDocument(documentPath.DocumentName, sourceCodeText, documentPath.ProjectFolders, filePath);            
             
             this.ApplyChanges(document.Project.Solution);
 
@@ -153,24 +150,24 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             this.ApplyChanges(changed.Project.Solution);
         }
 
-        public void ReplaceDocumentText(string projectName, string[] projectFolders, string documentName, string newText)
+        public void ReplaceDocumentText(DocumentPath documentPath, string newText)
         {
-            var document = this.FindDocument(projectName, projectFolders, documentName);
+            var document = this.FindDocument(documentPath);
             if (document == null)
             {
-                throw new InvalidOperationException($"Document {documentName} is not found in workspace.");
+                throw new InvalidOperationException($"Document {documentPath} is not found in workspace.");
             }            
 
             var changed = document.WithText(SourceText.From(newText));
             this.ApplyChanges(changed.Project.Solution);
         }
 
-        public void RemoveCodeFile(string projectName, string[] projectFolders, string documentName)
+        public void RemoveCodeFile(DocumentPath documentPath)
         {
-            var document = this.FindDocument(projectName, projectFolders, documentName);
+            var document = this.FindDocument(documentPath);
             if (document == null)
             {
-                throw new InvalidOperationException($"No document found to remove. DocumentName={documentName}");
+                throw new InvalidOperationException($"No document found to remove. DocumentName={documentPath}");
             }
 
             this.ApplyChanges(this.workspace.CurrentSolution.RemoveDocument(document.Id));
@@ -181,9 +178,9 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             if (codeFile.Location is WorkspaceCodeFileLocation)
             {
                 var workspaceLocation = codeFile.Location as WorkspaceCodeFileLocation;
-                if (!string.IsNullOrEmpty(workspaceLocation.DocumentName))
+                if (workspaceLocation.DocumentPath != null)
                 {
-                    this.RemoveCodeFile(workspaceLocation.ProjectName, workspaceLocation.ProjectFolders, workspaceLocation.DocumentName);
+                    this.RemoveCodeFile(workspaceLocation.DocumentPath);
                 }
             }
             else
@@ -237,6 +234,31 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             {
                 throw new InvalidOperationException($"Failed to apply changes to solution.");
             }
+        }
+
+        public WorkspaceCodeFileLocation GetDocumentLocationByPath(DocumentPath documentPath)
+        {
+            var doc = this.FindDocument(documentPath);
+            if (doc != null)
+            {
+                return new WorkspaceCodeFileLocation()
+                {
+                    DocumentPath = documentPath,
+                    FilePath = doc.FilePath
+                };
+            }
+
+            return null;
+        }
+
+        public bool ProjectExists(string projectName)
+        {
+            return this.FindProject(projectName) != null;
+        }
+
+        public bool DocumentExists(string fullPath)
+        {
+            return this.FindDocumentByFilePath(fullPath) != null;
         }
     }
 }

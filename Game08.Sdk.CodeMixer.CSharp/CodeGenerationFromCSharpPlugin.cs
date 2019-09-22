@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.CSharp
 {
-    public abstract class CodeGenerationFromCSharpPlugin<TSettings, TMetadata> : CodeGenerationPlugin<TSettings, TMetadata, CodeFileCSharp>
+    public abstract class CodeGenerationFromCSharpPlugin<TSettings, TInputParameters> : CodeGenerationPlugin<TSettings, TInputParameters, CodeFileCSharp>
     {
     }
 }

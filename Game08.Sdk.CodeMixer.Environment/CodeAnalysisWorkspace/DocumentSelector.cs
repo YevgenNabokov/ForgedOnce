@@ -16,14 +16,14 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             this.documentPaths = documentPaths;
         }
 
-        public IEnumerable<Document> GetDocuments(IWorkspaceManager workspaceManager)
+        public IEnumerable<WorkspaceCodeFileLocation> GetDocuments(IWorkspaceManagerBase workspaceManager)
         {
-            List<Document> result = new List<Document>();
+            List<WorkspaceCodeFileLocation> result = new List<WorkspaceCodeFileLocation>();
             foreach (var docPath in workspaceManager.DocumentPaths)
             {
-                if (this.documentPaths.Any(m => PathMaskHelper.PathMatchMask(docPath, m)))
+                if (this.documentPaths.Any(m => PathMaskHelper.PathMatchMask(docPath.ToString(), m)))
                 {
-                    result.Add(workspaceManager.FindDocumentByDocumentPath(docPath));
+                    result.Add(workspaceManager.GetDocumentLocationByPath(docPath));
                 }
                 
             }

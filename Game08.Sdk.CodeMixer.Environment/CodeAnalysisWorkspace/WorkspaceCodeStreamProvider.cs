@@ -14,7 +14,7 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
         private readonly string language;
         private readonly string name;
         private readonly ICodeFileResolver codeFileResolver;
-        private readonly IWorkspaceManager workspaceManager;
+        private readonly IWorkspaceManagerBase workspaceManager;
         private readonly IDocumentSelector documentSelector;
         private readonly IFileSystem fileSystem;
         private readonly string basePath;
@@ -24,7 +24,7 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             string language,
             string name,
             ICodeFileResolver codeFileResolver,
-            IWorkspaceManager workspaceManager,
+            IWorkspaceManagerBase workspaceManager,
             IFileSystem fileSystem,
             string basePath,
             IFileSelector fileSelector)
@@ -58,9 +58,8 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             if (this.fileSelector != null)
             {
                 foreach (var filePath in this.fileSelector.GetFiles(this.fileSystem, this.basePath))
-                {
-                    var document = this.workspaceManager.FindDocumentByFilePath(filePath);
-                    if (document != null)
+                {                    
+                    if (this.workspaceManager.DocumentExists(filePath))
                     {
                         codeFiles.Add(this.codeFileResolver.ResolveCodeFile(this.language, new CodeFileLocation() { FilePath = filePath }));
                     }
@@ -71,12 +70,7 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             {
                 foreach (var doc in this.documentSelector.GetDocuments(this.workspaceManager))
                 {
-                    codeFiles.Add(this.codeFileResolver.ResolveCodeFile(this.language, new WorkspaceCodeFileLocation()
-                    {
-                        ProjectName = doc.Project.Name,
-                        ProjectFolders = doc.Folders.ToArray(),
-                        DocumentName = doc.Name
-                    }));
+                    codeFiles.Add(this.codeFileResolver.ResolveCodeFile(this.language, doc));
                 }
             }
 

@@ -28,7 +28,7 @@ namespace Game08.Sdk.CodeMixer.CSharp
 
             foreach (var file in this.codeFiles)
             {
-                var projName = (file.Location as WorkspaceCodeFileLocation).ProjectName;
+                var projName = (file.Location as WorkspaceCodeFileLocation).DocumentPath.ProjectName;
 
                 if (!projectsToRebuild.Contains(projName))
                 {
@@ -41,7 +41,7 @@ namespace Game08.Sdk.CodeMixer.CSharp
             foreach (var file in this.codeFiles)
             {
                 var location = file.Location as WorkspaceCodeFileLocation;                
-                var document = this.workspaceManager.FindDocument(location.ProjectName, location.ProjectFolders, location.DocumentName);
+                var document = this.workspaceManager.FindDocument(location.DocumentPath);
 
                 file.SyntaxTree = document.GetSyntaxTreeAsync().Result;
                 file.SemanticModel = compilations[document.Project.Name].GetSemanticModel(file.SyntaxTree);

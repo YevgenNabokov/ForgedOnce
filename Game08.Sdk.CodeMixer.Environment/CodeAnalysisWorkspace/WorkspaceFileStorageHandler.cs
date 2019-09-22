@@ -33,32 +33,26 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
                 if (existingDocument != null)
                 {
                     this.workspaceManager.ReplaceDocumentText(existingDocument.Id.Id, codeFile.SourceCodeText);
-                    location.DocumentName = existingDocument.Name;
-                    location.ProjectName = existingDocument.Project.Name;
-                    location.ProjectFolders = existingDocument.Folders.ToArray();
+                    location.DocumentPath = new DocumentPath(existingDocument.Project.Name, existingDocument.Folders, existingDocument.Name);
                     return;
                     ////this.workspaceManager.RemoveCodeFile(existingDocument.Id.Id);
                 }
             }
 
-            if (!string.IsNullOrEmpty(location.ProjectName))
+            if (location.DocumentPath != null)
             {
-                var existingDocument = this.workspaceManager.FindDocument(location.ProjectName, location.ProjectFolders, location.DocumentName);
+                var existingDocument = this.workspaceManager.FindDocument(location.DocumentPath);
                 if (existingDocument != null)
                 {
                     this.workspaceManager.ReplaceDocumentText(existingDocument.Id.Id, codeFile.SourceCodeText);
-                    location.DocumentName = existingDocument.Name;
-                    location.ProjectName = existingDocument.Project.Name;
-                    location.ProjectFolders = existingDocument.Folders.ToArray();
+                    location.DocumentPath = new DocumentPath(existingDocument.Project.Name, existingDocument.Folders, existingDocument.Name);
                     return;
                     ////this.workspaceManager.RemoveCodeFile(existingDocument.Id.Id);
                 }
             }
 
-            var document = this.workspaceManager.AddCodeFile(location.ProjectName, location.ProjectFolders, codeFile.Name, codeFile.SourceCodeText, location.FilePath);
-            location.DocumentName = document.Name;
-            location.ProjectName = document.Project.Name;
-            location.ProjectFolders = document.Folders.ToArray();
+            var document = this.workspaceManager.AddCodeFile(location.DocumentPath, codeFile.SourceCodeText, location.FilePath);
+            location.DocumentPath = new DocumentPath(document.Project.Name, document.Folders, document.Name);
         }
 
         public void Remove(CodeFile codeFile)
@@ -69,7 +63,7 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             }
 
             var location = codeFile.Location as WorkspaceCodeFileLocation;
-            this.workspaceManager.RemoveCodeFile(location.ProjectName, location.ProjectFolders, location.DocumentName);
+            this.workspaceManager.RemoveCodeFile(location.DocumentPath);
         }
 
         public string ResolveCodeFileName(CodeFileLocation location)
@@ -100,9 +94,7 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
                     if (resolveLocation)
                     {
                         var location = codeFile.Location is WorkspaceCodeFileLocation ? (WorkspaceCodeFileLocation)codeFile.Location : new WorkspaceCodeFileLocation(codeFile.Location);
-                        location.DocumentName = document.Name;
-                        location.ProjectName = document.Project.Name;
-                        location.ProjectFolders = document.Folders.ToArray();
+                        location.DocumentPath = new DocumentPath(document.Project.Name, document.Folders.ToArray(), document.Name);
 
                         codeFile.Location = location;
                     }
@@ -117,9 +109,9 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             if (location is WorkspaceCodeFileLocation)
             {
                 var workspaceLocation = location as WorkspaceCodeFileLocation;
-                if (!string.IsNullOrEmpty(workspaceLocation.DocumentName))
+                if (workspaceLocation.DocumentPath != null)
                 {
-                    document = this.workspaceManager.FindDocument(workspaceLocation.ProjectName, workspaceLocation.ProjectFolders, workspaceLocation.DocumentName);
+                    document = this.workspaceManager.FindDocument(workspaceLocation.DocumentPath);
                 }
             }
             else

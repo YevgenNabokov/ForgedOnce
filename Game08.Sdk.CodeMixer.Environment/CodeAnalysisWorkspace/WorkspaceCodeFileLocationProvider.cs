@@ -10,10 +10,10 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
 {
     public class WorkspaceCodeFileLocationProvider : ICodeFileLocationProvider
     {
-        private readonly IWorkspaceManager workspaceManager;
+        private readonly IWorkspaceManagerBase workspaceManager;
         private readonly string path;
 
-        public WorkspaceCodeFileLocationProvider(IWorkspaceManager workspaceManager, string path)
+        public WorkspaceCodeFileLocationProvider(IWorkspaceManagerBase workspaceManager, string path)
         {
             this.workspaceManager = workspaceManager;
             this.path = path;
@@ -22,18 +22,16 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
         public CodeFileLocation GetLocation(string name)
         {
             var pathParts = this.path.Split('/');
-            var project = this.workspaceManager.FindProject(pathParts[0]);
+            var projName = pathParts[0];
 
-            if (project == null)
+            if (!this.workspaceManager.ProjectExists(projName))
             {
                 throw new InvalidOperationException($"Cannot resolve project for path {this.path}");
             }
 
             return new WorkspaceCodeFileLocation()
             {
-                ProjectName = project.Name,
-                ProjectFolders = pathParts.Skip(1).ToArray(),
-                DocumentName = name
+                DocumentPath = new DocumentPath(projName, pathParts.Skip(1), name)
             };
         }
     }

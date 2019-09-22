@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Glsl
 {
-    public abstract class CodeGenerationFromGlslPlugin<TSettings, TMetadata> : CodeGenerationPlugin<TSettings, TMetadata, CodeFileGlsl>
+    public abstract class CodeGenerationFromGlslPlugin<TSettings, TInputParameters> : CodeGenerationPlugin<TSettings, TInputParameters, CodeFileGlsl>
     {
     }
 }

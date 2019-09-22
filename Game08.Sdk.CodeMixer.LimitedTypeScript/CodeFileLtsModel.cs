@@ -36,9 +36,9 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
                 if (this.Location is WorkspaceCodeFileLocation)
                 {
                     var wLocation = this.Location as WorkspaceCodeFileLocation;
-                    if (wLocation.ProjectFolders != null)
+                    if (wLocation.DocumentPath != null)
                     {
-                        return string.Format("{0}\\{1}\\{2}", wLocation.ProjectName, string.Join("\\", wLocation.ProjectFolders), this.Name);
+                        return string.Format("{0}\\{1}\\{2}", wLocation.DocumentPath.ProjectName, string.Join("\\", wLocation.DocumentPath.ProjectFolders), this.Name);
                     }
                 }
                 else

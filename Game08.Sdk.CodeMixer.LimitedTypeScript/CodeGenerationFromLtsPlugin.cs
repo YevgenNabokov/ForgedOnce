@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 {
-    public abstract class CodeGenerationFromLtsPlugin<TSettings, TMetadata> : CodeGenerationPlugin<TSettings, TMetadata, CodeFileLtsModel>
+    public abstract class CodeGenerationFromLtsPlugin<TSettings, TInputParameters> : CodeGenerationPlugin<TSettings, TInputParameters, CodeFileLtsModel>
     {
     }
 }

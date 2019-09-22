@@ -10,15 +10,30 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
     {
         private readonly string MsBuildProjectNamePropertyName = "MSBuildProjectName";
 
+        private List<MsBuildItem> items = new List<MsBuildItem>();
+
         public MsBuildProject(Project project)
         {
             this.Project = project;
+
+            foreach (var item in project.Items)
+            {
+                this.items.Add(new MsBuildItem(item, this));
+            }
         }
 
-        public Project Project
+        protected Project Project
         {
             get;
             private set;
+        }
+
+        public IEnumerable<MsBuildItem> Items
+        {
+            get
+            {
+                return this.items;
+            }
         }
 
         public string Name
@@ -43,13 +58,13 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
             }
         }
 
-        public IEnumerable<ProjectItem> FindProjectItems(string fullItemPath)
+        public IEnumerable<MsBuildItem> FindProjectItems(string fullItemPath)
         {
-            List<ProjectItem> result = new List<ProjectItem>();
+            List<MsBuildItem> result = new List<MsBuildItem>();
 
-            foreach (var item in this.Project.Items)
+            foreach (var item in this.Items)
             {
-                if (this.GetProjectItemFullPath(item.EvaluatedInclude) == Path.GetFullPath(fullItemPath))
+                if (item.FullPath == Path.GetFullPath(fullItemPath))
                 {
                     result.Add(item);
                 }
@@ -58,9 +73,28 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
             return result;
         }
 
-        private string GetProjectItemFullPath(string itemPath)
+        public IEnumerable<MsBuildItem> AddItem(string itemType, string unevaluatedInclude)
         {
-            return Path.IsPathRooted(itemPath) ? Path.GetFullPath(itemPath) : Path.GetFullPath(Path.Combine(Path.GetDirectoryName(this.FullPath), itemPath));
+            var result = new List<MsBuildItem>();
+            foreach (var item in this.Project.AddItem(itemType, unevaluatedInclude))
+            {
+                var newItem = new MsBuildItem(item, this);
+                this.items.Add(newItem);
+                result.Add(newItem);                
+            }
+
+            return result;
+        }
+
+        public void RemoveItem(MsBuildItem item)
+        {
+            this.Project.RemoveItem(item.Item);
+            this.items.Remove(item);
+        }        
+
+        public void Save()
+        {
+            this.Project.Save();
         }
     }
 }

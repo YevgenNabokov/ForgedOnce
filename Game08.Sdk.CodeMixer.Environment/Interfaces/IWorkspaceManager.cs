@@ -1,11 +1,12 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace;
+using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Environment.Interfaces
 {
-    public interface IWorkspaceManager
+    public interface IWorkspaceManager : IWorkspaceManagerBase
     {
         IEnumerable<TReference> GetMetadataReferences<TReference>(Guid? projectId = null) where TReference : MetadataReference;
 
@@ -17,21 +18,16 @@ namespace Game08.Sdk.CodeMixer.Environment.Interfaces
 
         Project FindProject(Guid id);
 
-        Document FindDocument(string projectName, string[] projectFolders, string documentName);
+        Document FindDocument(DocumentPath documentPath);
 
         Document FindDocumentByFilePath(string filePath);
 
-        Document FindDocumentByDocumentPath(string documentPath);
+        Document FindDocumentByDocumentPath(DocumentPath documentPath);
 
-        Document AddCodeFile(string projectName, IEnumerable<string> projectFolders, string name, string sourceCodeText, string filePath = null);
+        Document AddCodeFile(DocumentPath documentPath, string sourceCodeText, string filePath = null);
 
         void ReplaceDocumentText(Guid documentId, string newText);
 
-        void RemoveCodeFile(string projectName, string[] projectFolders, string documentName);
-
-        IEnumerable<string> DocumentPaths
-        {
-            get;
-        }
+        void RemoveCodeFile(DocumentPath documentPath);
     }
 }

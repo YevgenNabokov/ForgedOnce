@@ -16,10 +16,6 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             this.FilePath = location.FilePath;
         }
 
-        public string DocumentName;
-
-        public string ProjectName;
-
-        public string[] ProjectFolders;
+        public DocumentPath DocumentPath;
     }
 }
