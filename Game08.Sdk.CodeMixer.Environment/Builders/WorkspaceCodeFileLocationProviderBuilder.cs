@@ -1,5 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
-using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace;
+using Game08.Sdk.CodeMixer.Environment.Workspace;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using Newtonsoft.Json.Linq;
 using System;
@@ -12,11 +12,11 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
     {
         public const string PathKey = "path";
 
-        private readonly IWorkspaceManager workspaceManager;
+        private readonly IWorkspaceManagerBase workspaceManager;
 
         public string Name => null;
 
-        public WorkspaceCodeFileLocationProviderBuilder(IWorkspaceManager workspaceManager)
+        public WorkspaceCodeFileLocationProviderBuilder(IWorkspaceManagerBase workspaceManager)
         {
             this.workspaceManager = workspaceManager;
         }

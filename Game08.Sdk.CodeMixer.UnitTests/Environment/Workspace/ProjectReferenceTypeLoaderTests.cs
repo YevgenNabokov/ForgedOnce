@@ -1,5 +1,7 @@
-﻿using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace;
-using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace.TypeLoaders;
+﻿using Game08.Sdk.CodeMixer.Environment.Workspace;
+using Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis;
+using Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders;
+using Game08.Sdk.CodeMixer.Environment.Workspace.TypeLoaders;
 using Game08.Sdk.CodeMixer.UnitTests.TestObjectFactories;
 using Microsoft.CodeAnalysis;
 using Moq;

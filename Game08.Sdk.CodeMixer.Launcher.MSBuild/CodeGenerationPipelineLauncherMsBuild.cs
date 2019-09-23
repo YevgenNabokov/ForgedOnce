@@ -1,4 +1,6 @@
 ﻿using Game08.Sdk.CodeMixer.Environment;
+using Game08.Sdk.CodeMixer.Environment.Workspace;
+using Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis;
 using Game08.Sdk.CodeMixer.Launcher.MSBuild.Interfaces;
 using Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage;
 using Microsoft.Build.Locator;
@@ -28,12 +30,12 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild
             var workspace = MSBuildWorkspace.Create();
             var solution = workspace.OpenSolutionAsync(solutionPath).Result;
 
-            var outputStorage = new MsBuildSolutionStorage(this.fileSystem.Path.GetFullPath(solutionPath), this.msBuildStoreAdapters);
+            var solutionManager = new MsBuildSolutionStorage(this.fileSystem.Path.GetFullPath(solutionPath), this.msBuildStoreAdapters);
 
-            var launcher = new CodeGenerationPipelineLauncher(workspace, this.fileSystem, null, outputStorage);
+            var launcher = new CodeGenerationPipelineLauncher(new WorkspaceManager(workspace), solutionManager, this.fileSystem, null, solutionManager);
             launcher.Launch(pipelineConfigurationPath);
 
-            outputStorage.Save();
+            solutionManager.Save();
         }
     }
 }

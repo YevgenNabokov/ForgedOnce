@@ -1,4 +1,4 @@
-﻿using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace;
+﻿using Game08.Sdk.CodeMixer.Environment.Workspace;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;

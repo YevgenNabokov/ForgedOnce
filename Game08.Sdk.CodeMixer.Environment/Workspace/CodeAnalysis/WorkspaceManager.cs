@@ -8,13 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
+namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis
 {
     public class WorkspaceManager : IWorkspaceManager
     {
-        private Workspace workspace;
+        private Microsoft.CodeAnalysis.Workspace workspace;
 
-        public WorkspaceManager(Workspace workspace)
+        public WorkspaceManager(Microsoft.CodeAnalysis.Workspace workspace)
         {
             this.workspace = workspace;
         }        

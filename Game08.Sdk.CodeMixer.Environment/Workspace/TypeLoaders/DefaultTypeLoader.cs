@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace.TypeLoaders
+namespace Game08.Sdk.CodeMixer.Environment.Workspace.TypeLoaders
 {
     public class DefaultTypeLoader : ITypeLoader
     {

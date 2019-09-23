@@ -1,4 +1,4 @@
-﻿using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace;
+﻿using Game08.Sdk.CodeMixer.Environment.Workspace;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -29,5 +29,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Interfaces
         void ReplaceDocumentText(Guid documentId, string newText);
 
         void RemoveCodeFile(DocumentPath documentPath);
+
+        IWorkspaceManager CreateAdHocClone();
     }
 }

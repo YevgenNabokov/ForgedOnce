@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
+namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis
 {
     public class WorkspaceCompilationHandler
     {

@@ -1,5 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
-using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace;
+using Game08.Sdk.CodeMixer.Environment.Workspace;
 using Game08.Sdk.CodeMixer.Environment.Configuration;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using Newtonsoft.Json.Linq;

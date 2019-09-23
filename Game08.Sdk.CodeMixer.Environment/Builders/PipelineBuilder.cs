@@ -16,6 +16,8 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
 
         private readonly IWorkspaceManager workspaceManager;
 
+        private readonly IWorkspaceManagerBase initialWorkspaceManager;
+
         private readonly string basePath;
         private readonly IFileSystem fileSystem;
         private readonly ITypeLoader typeLoader;
@@ -25,12 +27,14 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
         public PipelineBuilder(
             IBuilderProvider builderProvider,
             IWorkspaceManager workspaceManager,
+            IWorkspaceManagerBase initialWorkspaceManager,
             string basePath,
             IFileSystem fileSystem,
             ITypeLoader typeLoader)
         {
             this.builderProvider = builderProvider;
             this.workspaceManager = workspaceManager;
+            this.initialWorkspaceManager = initialWorkspaceManager;
             this.basePath = basePath;
             this.fileSystem = fileSystem;
             this.typeLoader = typeLoader;
@@ -45,7 +49,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
             var inputConfig = reader.InputCodeStreamProviderConfiguration;
             if (inputConfig != null)
             {
-                var inputBuilder = new CodeStreamProviderBuilder(result.PipelineEnvironment, this.workspaceManager, this.fileSystem, this.basePath);
+                var inputBuilder = new CodeStreamProviderBuilder(result.PipelineEnvironment, this.initialWorkspaceManager, this.fileSystem, this.basePath);
                 result.InputCodeStreamProvider = inputBuilder.Build(inputConfig);
             }
 

@@ -1,10 +1,7 @@
-﻿using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace;
-using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace.TypeLoaders;
+﻿using Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis;
+using Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders;
 using Game08.Sdk.CodeMixer.UnitTests.TestObjectFactories;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Game08.Sdk.CodeMixer.UnitTests.Environment.Workspace
 {

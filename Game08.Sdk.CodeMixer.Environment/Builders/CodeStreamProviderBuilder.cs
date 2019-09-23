@@ -1,5 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
-using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace;
+using Game08.Sdk.CodeMixer.Environment.Workspace;
 using Game08.Sdk.CodeMixer.Environment.Configuration;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using Newtonsoft.Json.Linq;
@@ -13,14 +13,14 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
     public class CodeStreamProviderBuilder : IBuilder<ICodeStreamProvider>
     {
         private readonly ICodeFileResolver codeFileResolver;
-        private readonly IWorkspaceManager workspaceManager;
+        private readonly IWorkspaceManagerBase workspaceManager;
         private readonly IFileSystem fileSystem;
         private readonly string basePath;
 
         public string Name => "GenericCodeStreamProvider";
 
         public CodeStreamProviderBuilder(ICodeFileResolver codeFileResolver,
-            IWorkspaceManager workspaceManager,
+            IWorkspaceManagerBase workspaceManager,
             IFileSystem fileSystem,
             string basePath)
         {

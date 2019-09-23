@@ -1,28 +1,34 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
 using Game08.Sdk.CodeMixer.Core.Interfaces;
 using Game08.Sdk.CodeMixer.Environment.Builders;
-using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace;
-using Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace.TypeLoaders;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
-using Microsoft.CodeAnalysis;
+using Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis;
+using Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders;
+using Game08.Sdk.CodeMixer.Environment.Workspace.TypeLoaders;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
-using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Environment
 {
     public class CodeGenerationPipelineLauncher
     {
-        private readonly Workspace workspace;
+        private readonly IWorkspaceManager codeAnalysisWorkspaceManager;
+        private readonly IWorkspaceManagerBase initialWorkspaceManager;
         private readonly IFileSystem fileSystem;
         private readonly ITypeLoader additionalTypeLoader;
         private readonly ICodeFileStorageHandler outputStorageHandler;
 
-        public CodeGenerationPipelineLauncher(Workspace workspace, IFileSystem fileSystem, ITypeLoader additionalTypeLoader = null, ICodeFileStorageHandler outputStorageHandler = null)
+        public CodeGenerationPipelineLauncher(
+            IWorkspaceManager codeAnalysisWorkspaceManager,
+            IWorkspaceManagerBase initialWorkspaceManager,
+            IFileSystem fileSystem,
+            ITypeLoader additionalTypeLoader = null,
+            ICodeFileStorageHandler outputStorageHandler = null)
         {
-            this.workspace = workspace;
+            this.codeAnalysisWorkspaceManager = codeAnalysisWorkspaceManager;
+            this.initialWorkspaceManager = initialWorkspaceManager;
             this.fileSystem = fileSystem;
             this.additionalTypeLoader = additionalTypeLoader;
             this.outputStorageHandler = outputStorageHandler;
@@ -33,30 +39,34 @@ namespace Game08.Sdk.CodeMixer.Environment
             if (!fileSystem.File.Exists(pipelineConfigurationFilePath))
             {
                 throw new InvalidOperationException($"Pipeline configuration file not found: {pipelineConfigurationFilePath}.");
-            }
-
-            var workspaceManager = new WorkspaceManager(this.workspace);
+            }            
 
             var typeLoader = new AggregateTypeLoader(
                 new DefaultTypeLoader(),
-                new ProjectReferenceTypeLoader(workspaceManager, this.fileSystem),
-                new WorkspaceTypeLoader(workspaceManager));
+                new ProjectReferenceTypeLoader(codeAnalysisWorkspaceManager, this.fileSystem),
+                new WorkspaceTypeLoader(codeAnalysisWorkspaceManager));
             if (this.additionalTypeLoader != null)
             {
                 typeLoader.AddResolver(this.additionalTypeLoader);
             }
 
-            var processWorkspaceManager = workspaceManager.CreateAdHocClone();
+            var processWorkspaceManager = codeAnalysisWorkspaceManager.CreateAdHocClone();
             var basePath = this.fileSystem.Path.GetDirectoryName(pipelineConfigurationFilePath);
-            var builderProvider = this.GetBuilderProvider(processWorkspaceManager);
+            var builderProvider = this.GetBuilderProvider(initialWorkspaceManager);
 
-            var pipelineBuilder = new PipelineBuilder(builderProvider, processWorkspaceManager, basePath, this.fileSystem, typeLoader);
+            var pipelineBuilder = new PipelineBuilder(
+                builderProvider,
+                processWorkspaceManager,
+                this.initialWorkspaceManager,
+                basePath,
+                this.fileSystem,
+                typeLoader);
 
             var pipeline = pipelineBuilder.Build(JObject.Parse(this.fileSystem.File.ReadAllText(pipelineConfigurationFilePath)));
 
             this.ExecutePipeline(pipeline);
 
-            this.SaveOutputs(workspaceManager, pipeline.GetOutputs());
+            this.SaveOutputs(codeAnalysisWorkspaceManager, pipeline.GetOutputs());
         }
 
         private void ExecutePipeline(ICodeGenerationPipeline pipeline)
@@ -64,7 +74,7 @@ namespace Game08.Sdk.CodeMixer.Environment
             pipeline.Execute();
         }
 
-        private void SaveOutputs(WorkspaceManager workspaceManager, IEnumerable<CodeFile> outputs)
+        private void SaveOutputs(IWorkspaceManager workspaceManager, IEnumerable<CodeFile> outputs)
         {
             var handler = this.outputStorageHandler ?? new WorkspaceFileStorageHandler(workspaceManager);
 
@@ -74,7 +84,7 @@ namespace Game08.Sdk.CodeMixer.Environment
             }
         }
 
-        private IBuilderProvider GetBuilderProvider(IWorkspaceManager workspaceManager)
+        private IBuilderProvider GetBuilderProvider(IWorkspaceManagerBase workspaceManager)
         {
             BuilderRegistry result = new BuilderRegistry();
 

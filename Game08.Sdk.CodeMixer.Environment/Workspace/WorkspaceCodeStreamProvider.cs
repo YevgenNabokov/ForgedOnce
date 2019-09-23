@@ -7,7 +7,7 @@ using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
 
-namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
+namespace Game08.Sdk.CodeMixer.Environment.Workspace
 {
     public class WorkspaceCodeStreamProvider
     {
@@ -42,7 +42,7 @@ namespace Game08.Sdk.CodeMixer.Environment.CodeAnalysisWorkspace
             string language,
             string name,
             ICodeFileResolver codeFileResolver,
-            IWorkspaceManager workspaceManager,
+            IWorkspaceManagerBase workspaceManager,
             IDocumentSelector documentSelector)
         {
             this.language = language;
