@@ -1,4 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
+using Game08.Sdk.CodeMixer.Core.Metadata;
 using System.Collections.Generic;
 
 namespace Game08.Sdk.CodeMixer.Core.Pipeline
@@ -27,7 +28,7 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
         {
             var inputs = this.InputCodeStreamProvider.RetrieveCodeStreams();
             this.PipelineEnvironment.RefreshAndRecompile();
-            this.MetadataStore.ResolveNames();
+            this.MetadataStore.Refresh();
 
             this.ExecuteAllBatches(this.Batches, inputs);
         }
@@ -65,7 +66,7 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
             this.PipelineEnvironment.CodeStreamsCompleted(result);
             this.PipelineEnvironment.StoreForOutput(storableOutputs);
             this.PipelineEnvironment.RefreshAndRecompile();
-            this.MetadataStore.ResolveNames();
+            this.MetadataStore.Refresh();
 
             return result;
         }

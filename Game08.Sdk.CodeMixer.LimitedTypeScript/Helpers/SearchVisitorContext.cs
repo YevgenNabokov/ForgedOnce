@@ -1,4 +1,4 @@
-﻿using Game08.Sdk.LTS.Model.DefinitionTree;
+﻿using Game08.Sdk.LTS.Builder.DefinitionTree;
 using System;
 using System.Collections.Generic;
 using System.Text;

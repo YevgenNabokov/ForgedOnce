@@ -3,6 +3,7 @@ using Game08.Sdk.CodeMixer.Environment;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using Game08.Sdk.LTS.Builder.TypeData;
 using Game08.Sdk.LTS.Model;
+using Game08.Sdk.LTS.Model.DefinitionTree;
 using Game08.Sdk.LTS.ModelToCode;
 using System;
 using System.Collections.Generic;
@@ -77,7 +78,7 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 
                 task.Files.Add(new LTS.Model.CodeFile()
                 {
-                    RootNode = file.Model,
+                    RootNode = file.Model.ToLtsModelFileRoot(),
                     IsDefinitionFile = file.IsDefinition,
                     FileName = tempPath
                 });

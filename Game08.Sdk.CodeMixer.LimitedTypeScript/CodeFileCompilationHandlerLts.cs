@@ -2,10 +2,10 @@
 using Game08.Sdk.CodeMixer.Environment.Workspace;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using Game08.Sdk.CodeMixer.LimitedTypeScript.Helpers;
-using Game08.Sdk.LTS.Model.DefinitionTree;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Game08.Sdk.LTS.Builder.DefinitionTree;
 
 namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 {

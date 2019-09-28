@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Metadata
 {
-    public class PathLevel
+    public class SemanticPath
     {
-        public string Name;
+        public string Language;
 
-        public string Type;
+        public IReadOnlyList<PathLevel> Parts { get; private set; }
     }
 }

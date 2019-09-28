@@ -1,12 +1,12 @@
 ﻿using Game08.Sdk.LTS.Builder;
-using Game08.Sdk.LTS.Model.DefinitionTree;
+using Game08.Sdk.LTS.Builder.DefinitionTree;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Game08.Sdk.CodeMixer.LimitedTypeScript.Helpers
 {
-    public class UpdateTypeReferencesVisitor : DefinitionTreeVisitor<Dictionary<string, string>>
+    public class UpdateTypeReferencesVisitor : BuilderDefinitionTreeVisitor<Dictionary<string, string>>
     {
         public override void VisitTypeReferenceId(TypeReferenceId node, Dictionary<string, string> context)
         {

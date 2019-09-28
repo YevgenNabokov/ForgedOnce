@@ -7,16 +7,20 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Changes
 {
     public class Generated : RecordBase
     {
-        public Generated(ISemanticName from, ISemanticName to)
+        public Generated(ISemanticSymbol subject, ISemanticSymbol from = null)
         {
-            this.Names.Add(from);
-            this.Names.Add(to);
+            this.Names.Add(subject);
+            if (from != null)
+            {
+                this.Names.Add(from);
+            }
+
+            this.Subject = subject;
             this.From = from;
-            this.To = to;
         }
 
-        public ISemanticName From { get; private set; }
+        public ISemanticSymbol From { get; private set; }
 
-        public ISemanticName To { get; private set; }
+        public ISemanticSymbol Subject { get; private set; }
     }
 }

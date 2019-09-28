@@ -1,5 +1,5 @@
 ﻿using Game08.Sdk.LTS.Builder;
-using Game08.Sdk.LTS.Model.DefinitionTree;
+using Game08.Sdk.LTS.Builder.DefinitionTree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.LimitedTypeScript.Helpers
 {
-    public class SearchVisitor : DefinitionTreeVisitor<SearchVisitorContext>
+    public class SearchVisitor : BuilderDefinitionTreeVisitor<SearchVisitorContext>
     {
         public IEnumerable<TNode> FindNodes<TNode>(Node node) where TNode: Node
         {

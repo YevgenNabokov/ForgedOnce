@@ -7,7 +7,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Changes
 {
     public class Bound : RecordBase
     {
-        public Bound(ISemanticName item1, ISemanticName item2)
+        public Bound(ISemanticSymbol item1, ISemanticSymbol item2)
         {
             this.Names.Add(item1);
             this.Names.Add(item2);
@@ -15,14 +15,14 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Changes
             this.Item2 = item2;
         }
 
-        public ISemanticName Item1
+        public ISemanticSymbol Item1
         {
             get;
 
             private set;
         }
 
-        public ISemanticName Item2
+        public ISemanticSymbol Item2
         {
             get;
 

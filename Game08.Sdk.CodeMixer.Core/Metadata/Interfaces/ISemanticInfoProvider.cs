@@ -4,10 +4,8 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Metadata.Interfaces
 {
-    public interface ISemanticSymbol
+    public interface ISemanticInfoProvider<TAstNode> : ISemanticInfoResolver
     {
-        int BatchIndex { get; }
-
-        SemanticPath SemanticPath { get; }
+        ISemanticSymbol GetSymbol(TAstNode astNode);
     }
 }

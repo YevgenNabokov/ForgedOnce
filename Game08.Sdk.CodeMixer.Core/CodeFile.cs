@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -41,6 +42,8 @@ namespace Game08.Sdk.CodeMixer.Core
                 this.SourceCodeTextUpdated(value);
             }
         }
+
+        public abstract ISemanticInfoResolver SemanticInfoResolver { get; }
 
         protected abstract string GetSourceCodeText();
 

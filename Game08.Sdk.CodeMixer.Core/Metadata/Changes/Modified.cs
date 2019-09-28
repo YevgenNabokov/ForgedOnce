@@ -7,12 +7,12 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Changes
 {
     public class Modified : RecordBase
     {
-        public Modified(ISemanticName target)
+        public Modified(ISemanticSymbol target)
         {
             this.Names.Add(target);
             this.Target = target;
         }
 
-        public ISemanticName Target { get; private set; }
+        public ISemanticSymbol Target { get; private set; }
     }
 }

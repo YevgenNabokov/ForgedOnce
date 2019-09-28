@@ -5,10 +5,11 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Metadata
 {
-    public class SemanticSymbol : ISemanticSymbol
+    public class DummySemanticInfoResolver : ISemanticInfoResolver
     {
-        public int BatchIndex { get; private set; }
-
-        public SemanticPath SemanticPath { get; private set; }
+        public bool Resolve(ISemanticSymbol symbol)
+        {
+            return false;
+        }
     }
 }

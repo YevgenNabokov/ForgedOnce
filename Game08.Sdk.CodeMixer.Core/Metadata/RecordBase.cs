@@ -15,6 +15,6 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
 
         public HashSet<string> Tags;
 
-        public List<ISemanticName> Names = new List<ISemanticName>();
+        public List<ISemanticSymbol> Names = new List<ISemanticSymbol>();
     }
 }

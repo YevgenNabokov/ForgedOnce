@@ -1,4 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
+using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using Game08.Sdk.GlslLanguageServices.Builder;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,14 @@ namespace Game08.Sdk.CodeMixer.Glsl
             : base(id, name)
         {
         }
+
+        public SemanticInfoProvider SemanticInfoProvider
+        {
+            get;
+            private set;
+        }
+
+        public override ISemanticInfoResolver SemanticInfoResolver => this.SemanticInfoProvider;
 
         protected override string GetSourceCodeText()
         {

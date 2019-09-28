@@ -1,7 +1,8 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
+using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using Game08.Sdk.CodeMixer.Environment.Workspace;
+using Game08.Sdk.LTS.Builder.DefinitionTree;
 using Game08.Sdk.LTS.Builder.Interfaces;
-using Game08.Sdk.LTS.Model.DefinitionTree;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,14 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
         public bool IsDefinition;
 
         public FileRoot Model;
+
+        public SemanticInfoProvider SemanticInfoProvider
+        {
+            get;
+            private set;
+        }
+
+        public override ISemanticInfoResolver SemanticInfoResolver => this.SemanticInfoProvider;
 
         public ILtsTypeRepository TypeRepository
         {

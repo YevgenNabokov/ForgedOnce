@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Metadata.Interfaces
 {
-    public interface IResolvableName : ISemanticName
+    public interface ISemanticInfoResolver
     {
-        void Resolve();
+        bool Resolve(ISemanticSymbol symbol);
     }
 }

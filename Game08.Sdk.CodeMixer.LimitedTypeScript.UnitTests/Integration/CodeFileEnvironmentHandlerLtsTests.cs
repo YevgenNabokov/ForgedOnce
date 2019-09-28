@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
-using Game08.Sdk.LTS.Model.DefinitionTree;
+using Game08.Sdk.LTS.Builder.DefinitionTree;
+using LTSModel = Game08.Sdk.LTS.Model.DefinitionTree;
 using Game08.Sdk.LTS.Model.TypeData;
 using Moq;
 using NUnit.Framework;
@@ -40,21 +41,20 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.UnitTests.Integration
 
             var numberRef = codeFile.TypeRepository.RegisterTypeReferenceBuiltin("number");
 
-            codeFile.Model = new LTS.Model.DefinitionTree.FileRoot();
+            codeFile.Model = new FileRoot();
             var classDef = new ClassDefinition()
             {
                 TypeKey = classKey,
-                Name = className,
-                Fields = new List<FieldDeclaration>()
-                {
-                    new FieldDeclaration()
-                    {
-                        TypeReference = new TypeReferenceId() { ReferenceKey = numberRef },
-                        Name = "A",
-                        Modifiers = new List<Modifier>() { Modifier.Public }
-                    }
-                }
+                Name = new Identifier() { Name = className }
             };
+            var fieldDec = new FieldDeclaration()
+            {
+                TypeReference = new TypeReferenceId() { ReferenceKey = numberRef },
+                Name = new Identifier() { Name = "A" }
+            };
+            fieldDec.Modifiers.Add(LTSModel.Modifier.Public);
+
+            classDef.Fields.Add(fieldDec);
 
             codeFile.Model.Items.Add(classDef);
 

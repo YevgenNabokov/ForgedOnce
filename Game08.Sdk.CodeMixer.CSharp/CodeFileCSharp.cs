@@ -1,4 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
+using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,16 @@ namespace Game08.Sdk.CodeMixer.CSharp
         public CodeFileCSharp(string id, string name)
             :base(id, name)
         {
+            this.SemanticInfoProvider = new SemanticInfoProvider(this);
         }
+
+        public SemanticInfoProvider SemanticInfoProvider
+        {
+            get;
+            private set;
+        }
+
+        public override ISemanticInfoResolver SemanticInfoResolver => this.SemanticInfoProvider;
 
         protected override string GetSourceCodeText()
         {
