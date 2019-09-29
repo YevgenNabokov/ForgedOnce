@@ -10,6 +10,7 @@ using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
 using System.Text;
+using Game08.Sdk.CodeMixer.Core.Pipeline;
 
 namespace Game08.Sdk.CodeMixer.LimitedTypeScript.UnitTests.Integration
 {
@@ -24,7 +25,7 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.UnitTests.Integration
             var tempDir = fileSystem.Directory.CreateDirectory(fileSystem.Path.Combine(path, Guid.NewGuid().ToString()));
             var fileSystemMock = this.SetupRestrictedFileSystem(tempDir.FullName);
 
-            CodeFileEnvironmentHandlerLts subject = new CodeFileEnvironmentHandlerLts(fileSystemMock);
+            CodeFileEnvironmentHandlerLts subject = new CodeFileEnvironmentHandlerLts(fileSystemMock, new PipelineExecutionInfo());
 
             var codeFile = subject.CreateCodeFile("Test.ts") as CodeFileLtsModel;
             codeFile.Location = new Core.CodeFileLocation()

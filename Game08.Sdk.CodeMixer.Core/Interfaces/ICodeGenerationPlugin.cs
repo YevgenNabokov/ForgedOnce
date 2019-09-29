@@ -1,4 +1,5 @@
-﻿using Game08.Sdk.CodeMixer.Core.Plugins;
+﻿using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
+using Game08.Sdk.CodeMixer.Core.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,6 @@ namespace Game08.Sdk.CodeMixer.Core.Interfaces
 
         List<ICodeStream> InitializeOutputs(ICodeStreamFactory codeStreamFactory);
 
-        void Execute(IEnumerable<CodeFile> input, IMetadataWriter metadataWriter, IMetadataReader metadataReader);
+        void Execute(IEnumerable<CodeFile> input, IMetadataRecorder metadataRecorder, IMetadataReader metadataReader);
     }
 }

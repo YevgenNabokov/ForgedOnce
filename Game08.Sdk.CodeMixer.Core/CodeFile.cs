@@ -23,6 +23,8 @@ namespace Game08.Sdk.CodeMixer.Core
 
         public CodeFileLocation Location { get; set; }
 
+        public int LastRefreshBatchIndex { get; private set; }
+
         public string SourceCodeText
         {
             get
@@ -41,6 +43,16 @@ namespace Game08.Sdk.CodeMixer.Core
                 this.sourceCodeText = value;
                 this.SourceCodeTextUpdated(value);
             }
+        }
+
+        public void SetLastRefreshBatchIndex(int index)
+        {
+            if (this.LastRefreshBatchIndex > index)
+            {
+                throw new InvalidOperationException($"Cannot set {nameof(LastRefreshBatchIndex)} to older value.");
+            }
+
+            this.LastRefreshBatchIndex = index;
         }
 
         public abstract ISemanticInfoResolver SemanticInfoResolver { get; }

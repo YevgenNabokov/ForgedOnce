@@ -15,7 +15,22 @@ namespace Game08.Sdk.CodeMixer.Glsl
             this.codeFileGlsl = codeFileGlsl;
         }
 
-        public ISemanticSymbol GetSymbol(AstNode astNode)
+        public bool CanGetSymbolFor(AstNode astNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ISemanticSymbol> GetImmediateDownstreamSymbols(AstNode astNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISemanticSymbol GetImmediateUpstreamSymbol(AstNode astNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISemanticSymbol GetSymbolFor(AstNode astNode)
         {
             throw new NotImplementedException();
         }

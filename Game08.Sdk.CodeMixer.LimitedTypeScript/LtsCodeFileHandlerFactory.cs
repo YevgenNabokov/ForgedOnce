@@ -1,4 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
+using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using Newtonsoft.Json.Linq;
 using System;
@@ -10,9 +11,9 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 {
     public class LtsCodeFileHandlerFactory : ICodeFileHandlerFactory
     {
-        public ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, JObject configuration = null)
+        public ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, JObject configuration = null)
         {
-            return new CodeFileEnvironmentHandlerLts(fileSystem);
+            return new CodeFileEnvironmentHandlerLts(fileSystem, pipelineExecutionInfo);
         }
     }
 }

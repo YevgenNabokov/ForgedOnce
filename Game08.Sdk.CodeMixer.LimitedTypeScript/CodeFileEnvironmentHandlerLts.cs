@@ -1,4 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
+using Game08.Sdk.CodeMixer.Core.Interfaces;
 using Game08.Sdk.CodeMixer.Environment;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using Game08.Sdk.LTS.Builder.TypeData;
@@ -21,8 +22,8 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 
         private LtsTypeRepository typeRepository;
 
-        public CodeFileEnvironmentHandlerLts(IFileSystem fileSystem)
-            : this(fileSystem, new CodeFileStorageHandlerLts(), new CodeFileCompilationHandlerLts())
+        public CodeFileEnvironmentHandlerLts(IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo)
+            : this(fileSystem, new CodeFileStorageHandlerLts(), new CodeFileCompilationHandlerLts(pipelineExecutionInfo))
         {            
         }
 

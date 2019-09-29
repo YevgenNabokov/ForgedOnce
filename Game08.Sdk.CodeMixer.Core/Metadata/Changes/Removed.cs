@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Metadata.Changes
 {
-    public class Modified : RecordBase
+    public class Removed : RecordBase
     {
-        public Modified(ISemanticSymbol target, string stageName, string pluginId, object pluginMetadata, HashSet<string> tags)
+        public Removed(ISemanticSymbol target, string stageName, string pluginId, object pluginMetadata, HashSet<string> tags)
             : base(stageName, pluginId, pluginMetadata, tags)
         {
             this.Names.Add(target);

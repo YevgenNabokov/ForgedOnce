@@ -6,20 +6,22 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis;
+using Game08.Sdk.CodeMixer.Core.Interfaces;
 
 namespace Game08.Sdk.CodeMixer.CSharp
 {
     public class CodeFileCompilationHandlerCSharp : ICodeFileCompilationHandler
     {
         private IWorkspaceManager workspaceManager;
-
+        private readonly IPipelineExecutionInfo pipelineExecutionInfo;
         private WorkspaceCompilationHandler compilationHandler;
 
         private List<CodeFileCSharp> codeFiles = new List<CodeFileCSharp>();
 
-        public CodeFileCompilationHandlerCSharp(IWorkspaceManager workspaceManager)
+        public CodeFileCompilationHandlerCSharp(IWorkspaceManager workspaceManager, IPipelineExecutionInfo pipelineExecutionInfo)
         {
             this.workspaceManager = workspaceManager;
+            this.pipelineExecutionInfo = pipelineExecutionInfo;
             this.compilationHandler = new WorkspaceCompilationHandler(workspaceManager);
         }
 
@@ -46,6 +48,7 @@ namespace Game08.Sdk.CodeMixer.CSharp
 
                 file.SyntaxTree = document.GetSyntaxTreeAsync().Result;
                 file.SemanticModel = compilations[document.Project.Name].GetSemanticModel(file.SyntaxTree);
+                file.SetLastRefreshBatchIndex(this.pipelineExecutionInfo.CurrentBatchIndex);
             }
         }
 

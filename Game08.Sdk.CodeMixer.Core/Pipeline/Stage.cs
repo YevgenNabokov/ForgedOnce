@@ -1,4 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
+using Game08.Sdk.CodeMixer.Core.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,11 +20,12 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
             }
         }
 
-        public List<ICodeStream> Execute(IEnumerable<CodeFile> inputs, IMetadataWriter metadataWriter, IMetadataReader metadataReader, ICodeStreamFactory codeStreamFactory)
-        {            
+        public List<ICodeStream> Execute(IEnumerable<CodeFile> inputs, IMetadataWriter metadataWriter, IMetadataReader metadataReader, ICodeStreamFactory codeStreamFactory, IPipelineExecutionInfo pipelineExecutionInfo)
+        {
+            var metadataRecorder = new MetadataRecorder(metadataWriter, pipelineExecutionInfo, this.Plugin.Signature.Id);
             var result = this.Plugin.InitializeOutputs(codeStreamFactory);
 
-            this.Plugin.Execute(inputs, metadataWriter, metadataReader);
+            this.Plugin.Execute(inputs, metadataRecorder, metadataReader);
 
             return result;
         }

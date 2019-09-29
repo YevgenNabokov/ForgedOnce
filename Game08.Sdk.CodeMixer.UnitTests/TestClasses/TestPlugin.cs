@@ -1,5 +1,6 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
 using Game08.Sdk.CodeMixer.Core.Interfaces;
+using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using Game08.Sdk.CodeMixer.Core.Plugins;
 using Game08.Sdk.CodeMixer.CSharp;
 using System;
@@ -21,7 +22,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.TestClasses
             return result;
         }
 
-        protected override void Implementation(CodeFileCSharp input, TestPluginMetadata metadata, IMetadataWriter outputMetadataWriter)
+        protected override void Implementation(CodeFileCSharp input, TestPluginMetadata metadata, IMetadataRecorder metadataRecorder)
         {
             var code = this.Outputs[outputStreamName].CreateCodeFile("Output.cs") as CodeFileCSharp;
 

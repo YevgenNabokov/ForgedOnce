@@ -1,4 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
+using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,7 +27,7 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
             return outputs;
         }
 
-        public void Execute(IEnumerable<CodeFile> input, IMetadataWriter metadataWriter, IMetadataReader metadataReader)
+        public void Execute(IEnumerable<CodeFile> input, IMetadataRecorder metadataRecorder, IMetadataReader metadataReader)
         {
             foreach (var file in input)
             {
@@ -37,12 +38,12 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
                     throw new InvalidOperationException($"Plugin supports only {typeof(TCodeFile)} as input.");
                 }
 
-                this.Implementation((TCodeFile)file, metadata, metadataWriter);
+                this.Implementation((TCodeFile)file, metadata, metadataRecorder);
             }
         }
 
         protected abstract List<ICodeStream> CreateOutputs(ICodeStreamFactory codeStreamFactory);
 
-        protected abstract void Implementation(TCodeFile input, TInputParameters inputParameters, IMetadataWriter outputMetadataWriter);
+        protected abstract void Implementation(TCodeFile input, TInputParameters inputParameters, IMetadataRecorder metadataRecorder);
     }
 }

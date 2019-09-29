@@ -1,4 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
+using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using Game08.Sdk.CodeMixer.Core.Pipeline;
 using Game08.Sdk.CodeMixer.Environment.Configuration;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
@@ -44,7 +45,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
         {
             var reader = new PipelineConfiguration(configuration);
             var result = new CodeGenerationPipeline();
-            result.PipelineEnvironment = this.CreatePipelineEnvironment(reader);
+            result.PipelineEnvironment = this.CreatePipelineEnvironment(result.PipelineExecutionInfo, reader);
 
             var inputConfig = reader.InputCodeStreamProviderConfiguration;
             if (inputConfig != null)
@@ -85,9 +86,9 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
             return result;
         }
 
-        private IPipelineEnvironment CreatePipelineEnvironment(PipelineConfiguration configuration)
+        private IPipelineEnvironment CreatePipelineEnvironment(IPipelineExecutionInfo pipelineExecutionInfo, PipelineConfiguration configuration)
         {
-            var result = new PipelineEnvironment();
+            var result = new PipelineEnvironment(pipelineExecutionInfo);
 
             foreach (var handlerRegistration in configuration.CodeFileHandlerTypeRegistrations)
             {
@@ -103,7 +104,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
                     throw new InvalidOperationException($"CodeFileHandler type {handlerRegistration.Type} should implement {typeof(ICodeFileHandlerFactory)} interface.");
                 }
 
-                var handler = codeFileHandlerFactory.Create(this.workspaceManager, this.fileSystem, handlerRegistration.Configuration);
+                var handler = codeFileHandlerFactory.Create(this.workspaceManager, this.fileSystem, pipelineExecutionInfo, handlerRegistration.Configuration);
                 result.Handlers.Add(handler);
             }
 

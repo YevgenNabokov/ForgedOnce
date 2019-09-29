@@ -1,4 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
+using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,17 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
         protected List<ICodeStream> activeCodeStreams = new List<ICodeStream>();
 
         public List<ICodeFileEnvironmentHandler> Handlers = new List<ICodeFileEnvironmentHandler>();
+
+        public PipelineEnvironment(IPipelineExecutionInfo pipelineExecutionInfo)
+        {
+            this.PipelineExecutionInfo = pipelineExecutionInfo;
+        }
+
+        public IPipelineExecutionInfo PipelineExecutionInfo
+        {
+            get;
+            private set;
+        }
 
         public IEnumerable<CodeFile> GetOutputs()
         {

@@ -6,22 +6,30 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Game08.Sdk.LTS.Builder.DefinitionTree;
+using Game08.Sdk.CodeMixer.Core.Interfaces;
 
 namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 {
     public class CodeFileCompilationHandlerLts : ICodeFileCompilationHandler
     {
+        private readonly IPipelineExecutionInfo pipelineExecutionInfo;
         private SearchVisitor search = new SearchVisitor();
 
         private UpdateTypeReferencesVisitor referenceUpdater = new UpdateTypeReferencesVisitor();
 
         private List<CodeFileLtsModel> codeFiles = new List<CodeFileLtsModel>();
 
+        public CodeFileCompilationHandlerLts(IPipelineExecutionInfo pipelineExecutionInfo)
+        {
+            this.pipelineExecutionInfo = pipelineExecutionInfo;
+        }
+
         public void RefreshAndRecompile()
         {
             foreach (var codeFile in this.codeFiles)
             {
                 this.UpdateCodeFileTypeLocation(codeFile);
+                codeFile.SetLastRefreshBatchIndex(this.pipelineExecutionInfo.CurrentBatchIndex);
             }
         }
 

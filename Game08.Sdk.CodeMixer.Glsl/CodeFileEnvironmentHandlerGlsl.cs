@@ -1,4 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
+using Game08.Sdk.CodeMixer.Core.Interfaces;
 using Game08.Sdk.CodeMixer.Environment;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using System;
@@ -9,8 +10,8 @@ namespace Game08.Sdk.CodeMixer.Glsl
 {
     public class CodeFileEnvironmentHandlerGlsl : CodeFileEnvironmentHandler
     {
-        public CodeFileEnvironmentHandlerGlsl()
-            : this(new CodeFileStorageHandlerGlsl(), new CodeFileCompilationHandlerGlsl())
+        public CodeFileEnvironmentHandlerGlsl(IPipelineExecutionInfo pipelineExecutionInfo)
+            : this(new CodeFileStorageHandlerGlsl(), new CodeFileCompilationHandlerGlsl(pipelineExecutionInfo))
         {
         }
 

@@ -14,8 +14,22 @@ namespace Game08.Sdk.CodeMixer.CSharp
         {
             this.codeFileCSharp = codeFileCSharp;
         }
+        public bool CanGetSymbolFor(SyntaxNode astNode)
+        {
+            throw new NotImplementedException();
+        }
 
-        public ISemanticSymbol GetSymbol(SyntaxNode astNode)
+        public IEnumerable<ISemanticSymbol> GetImmediateDownstreamSymbols(SyntaxNode astNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISemanticSymbol GetImmediateUpstreamSymbol(SyntaxNode astNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISemanticSymbol GetSymbolFor(SyntaxNode astNode)
         {
             throw new NotImplementedException();
         }

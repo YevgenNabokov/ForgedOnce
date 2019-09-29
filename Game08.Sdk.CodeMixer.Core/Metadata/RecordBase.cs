@@ -7,14 +7,23 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
 {
     public abstract class RecordBase
     {
-        public string StageName;
+        public RecordBase(string stageName, string pluginId, object pluginMetadata, HashSet<string> tags)
+        {
+            this.Names = new List<ISemanticSymbol>();
+            this.StageName = stageName;
+            this.PluginId = pluginId;
+            this.PluginMetadata = pluginMetadata;
+            this.Tags = new HashSet<string>(tags);
+        }
 
-        public string PluginId;
+        public string StageName { get; private set; }
 
-        public object PluginMetadata;
+        public string PluginId { get; private set; }
 
-        public HashSet<string> Tags;
+        public object PluginMetadata { get; private set; }
 
-        public List<ISemanticSymbol> Names = new List<ISemanticSymbol>();
+        public HashSet<string> Tags { get; private set; }
+
+        public List<ISemanticSymbol> Names { get; private set; }
     }
 }

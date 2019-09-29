@@ -9,5 +9,11 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
         public string Name;
 
         public string Type;
+
+        public PathLevel(string name, string type)
+        {
+            this.Name = name;
+            this.Type = type;
+        }
     }
 }

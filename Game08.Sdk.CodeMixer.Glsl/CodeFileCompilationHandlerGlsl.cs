@@ -1,4 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
+using Game08.Sdk.CodeMixer.Core.Interfaces;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,20 @@ namespace Game08.Sdk.CodeMixer.Glsl
 {
     public class CodeFileCompilationHandlerGlsl : ICodeFileCompilationHandler
     {
+        private readonly IPipelineExecutionInfo pipelineExecutionInfo;
         private List<CodeFileGlsl> codeFiles = new List<CodeFileGlsl>();
+
+        public CodeFileCompilationHandlerGlsl(IPipelineExecutionInfo pipelineExecutionInfo)
+        {
+            this.pipelineExecutionInfo = pipelineExecutionInfo;
+        }
 
         public void RefreshAndRecompile()
         {
             foreach (var codeFile in this.codeFiles)
             {
                 codeFile.ShaderFile.RebuildSemanticContext();
+                codeFile.SetLastRefreshBatchIndex(this.pipelineExecutionInfo.CurrentBatchIndex);
             }
         }
 
