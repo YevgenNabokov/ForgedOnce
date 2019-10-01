@@ -35,16 +35,10 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Interfaces
             HashSet<string> tags,
             object pluginMetadata = null);
 
-        void SymbolMoved<TNode>(
+        void SymbolSourcingFrom<TNode>(
             ISemanticInfoProvider<TNode> semanticInfoProvider1,
             TNode from,
             TNode to,
-            HashSet<string> tags,
-            object pluginMetadata = null);
-
-        void SymbolRemoved<TTarget>(
-            ISemanticInfoProvider<TTarget> semanticInfoProvider1,
-            TTarget target,
             HashSet<string> tags,
             object pluginMetadata = null);
     }

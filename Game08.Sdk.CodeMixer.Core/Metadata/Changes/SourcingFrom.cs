@@ -5,19 +5,19 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Metadata.Changes
 {
-    public class Moved : RecordBase
+    public class SourcingFrom : RecordBase
     {
-        public Moved(ISemanticSymbol from, ISemanticSymbol to, string stageName, string pluginId, object pluginMetadata, HashSet<string> tags)
+        public SourcingFrom(ISemanticSymbol from, ISemanticSymbol subject, string stageName, string pluginId, object pluginMetadata, HashSet<string> tags)
             : base(stageName, pluginId, pluginMetadata, tags)
         {
             this.Names.Add(from);
-            this.Names.Add(to);
+            this.Names.Add(subject);
             this.From = from;
-            this.To = to;
+            this.Subject = subject;
         }
 
         public ISemanticSymbol From { get; private set; }
 
-        public ISemanticSymbol To { get; private set; }
+        public ISemanticSymbol Subject { get; private set; }
     }
 }

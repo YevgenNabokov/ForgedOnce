@@ -11,6 +11,8 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.Metadata
 {
     public class SemanticPathHelper
     {
+        public static string FileIdLevelType = "FileId";
+
         public static IReadOnlyDictionary<Type, string> PathLevelTypeNames = new ReadOnlyDictionary<Type, string>(new Dictionary<Type, string>()
         {
             { typeof(ClassDefinition), nameof(ClassDefinition) },
@@ -33,7 +35,14 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.Metadata
             { typeof(EnumMember), (n) => ((EnumMember)n).Name?.Name }
         });
 
+        private readonly CodeFileLtsModel codeFileLtsModel;
+
         private PathHelperVisitor pathHelperVisitor = new PathHelperVisitor();
+
+        public SemanticPathHelper(CodeFileLtsModel codeFileLtsModel)
+        {
+            this.codeFileLtsModel = codeFileLtsModel;
+        }
 
         public bool CanGetExactPathFor(Node astNode)
         {
@@ -75,7 +84,9 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.Metadata
                 }
 
                 node = astNode.Parent;
-            }
+            }            
+
+            levels.Add(new PathLevel(this.codeFileLtsModel.Id, FileIdLevelType));
 
             levels.Reverse();
 

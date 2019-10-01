@@ -1,6 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
-using Game08.Sdk.CodeMixer.Core.Metadata;
-using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
+using Game08.Sdk.CodeMixer.Core.Metadata.Storage;
 using System.Collections.Generic;
 
 namespace Game08.Sdk.CodeMixer.Core.Pipeline
@@ -64,8 +63,6 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
             foreach (var stage in batch.Stages)
             {
                 this.pipelineExecutionInfo.CurrentStageName = stage.Stage.StageName;
-                this.MetadataStore.CurrentStageName = stage.Stage.StageName;
-                this.MetadataStore.CurrentPluginId = stage.Stage.PluginId;
 
                 var codeStreamFactory = new CodeStreamFactory(this.PipelineEnvironment, stage.CodeFileLocationProviders);
                 var outputs = stage.Stage.Execute(stage.InputSelector.Select(inputs), this.MetadataStore, this.MetadataStore, codeStreamFactory, this.pipelineExecutionInfo);

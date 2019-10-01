@@ -9,13 +9,14 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.Metadata
 {
     public class SemanticInfoProvider : ISemanticInfoProvider<Node>
     {
-        private SemanticPathHelper semanticPathHelper = new SemanticPathHelper();
+        private SemanticPathHelper semanticPathHelper;
 
         private readonly CodeFileLtsModel codeFileLtsModel;
 
         public SemanticInfoProvider(CodeFileLtsModel codeFileLtsModel)
         {
             this.codeFileLtsModel = codeFileLtsModel;
+            this.semanticPathHelper = new SemanticPathHelper(codeFileLtsModel);
         }
 
         public IEnumerable<ISemanticSymbol> GetImmediateDownstreamSymbols(Node astNode)

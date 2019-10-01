@@ -90,59 +90,27 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
             }
         }
 
-        public void SymbolMoved<TNode>(
+        public void SymbolSourcingFrom<TNode>(
             ISemanticInfoProvider<TNode> semanticInfoProvider1,
             TNode from,
-            TNode to,
+            TNode subject,
             HashSet<string> tags,
             object pluginMetadata = null)
         {
-            if (semanticInfoProvider1.CanGetSymbolFor(from) && semanticInfoProvider1.CanGetSymbolFor(to))
+            var fromSymbol = semanticInfoProvider1.GetImmediateUpstreamSymbol(from);
+            if (fromSymbol != null)
             {
-                this.metadataWriter.Write(
-                    new Moved(
-                        semanticInfoProvider1.GetSymbolFor(from),
-                        semanticInfoProvider1.GetSymbolFor(to),
+                foreach (var symbol in semanticInfoProvider1.GetImmediateDownstreamSymbols(subject))
+                {
+                    this.metadataWriter.Write(
+                    new SourcingFrom(
+                        fromSymbol,
+                        symbol,
                         this.pipelineExecutionInfo.CurrentStageName,
                         this.pluginId,
                         pluginMetadata,
                         tags));
-            }
-            else
-            {
-                if (!semanticInfoProvider1.CanGetSymbolFor(from))
-                {
-                    this.SymbolModified<TNode>(semanticInfoProvider1, from, new HashSet<string>());
                 }
-                else
-                {
-                    this.SymbolRemoved(semanticInfoProvider1, from, new HashSet<string>());
-                }
-
-                if (!semanticInfoProvider1.CanGetSymbolFor(to))
-                {
-                    this.SymbolModified<TNode>(semanticInfoProvider1, to, new HashSet<string>());
-                }
-                else
-                {
-                    this.SymbolGenerated(semanticInfoProvider1, to, new HashSet<string>());
-                }
-            }
-        }
-
-        public void SymbolRemoved<TTarget>(
-            ISemanticInfoProvider<TTarget> semanticInfoProvider1,
-            TTarget target,
-            HashSet<string> tags,
-            object pluginMetadata = null)
-        {
-            if (semanticInfoProvider1.CanGetSymbolFor(target))
-            {
-                this.metadataWriter.Write(new Removed(semanticInfoProvider1.GetSymbolFor(target), this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags));
-            }
-            else
-            {
-                this.SymbolModified(semanticInfoProvider1, target, new HashSet<string>());
             }
         }
     }
