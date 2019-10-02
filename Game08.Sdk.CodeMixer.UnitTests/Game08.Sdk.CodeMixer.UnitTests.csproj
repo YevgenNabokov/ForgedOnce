@@ -28,8 +28,4 @@
     <ProjectReference Include="..\Game08.Sdk.CodeMixer.Environment\Game08.Sdk.CodeMixer.Environment.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Metadata\" />
-  </ItemGroup>
-
 </Project>

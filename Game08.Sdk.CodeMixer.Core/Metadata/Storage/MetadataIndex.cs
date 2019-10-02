@@ -72,7 +72,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                                 if (node.Children.ContainsKey(path.Parts[l + 1]))
                                 {
                                     node = node.Children[path.Parts[l + 1]];
-                                    nl = 0;
+                                    nl = -1;
                                 }
                                 else
                                 {

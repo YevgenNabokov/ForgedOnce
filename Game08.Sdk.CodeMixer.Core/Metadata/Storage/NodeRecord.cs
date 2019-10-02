@@ -14,6 +14,10 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             this.Tags = tags;
             this.Change = change;
             this.Relation = relation;
+            if (relation != null)
+            {
+                relation.ParentRecord = this;
+            }
         }
 
         public string StageName { get; private set; }

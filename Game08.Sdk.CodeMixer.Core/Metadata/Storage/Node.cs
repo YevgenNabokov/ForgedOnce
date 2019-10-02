@@ -27,6 +27,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             if (parent != null)
             {
                 parent.children.Add(this.pathLevels[0], this);
+                this.Parent = parent;
             }
 
             this.RootIndex = rootIndex;
@@ -69,6 +70,32 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             {
                 return this.relations;
             }
+        }
+
+        public void AddRelation(NodeRelation relation)
+        {
+            if (relation.Node1 == this || relation.Node2 == this)
+            {
+                if (!this.relations.ContainsKey(relation.RelationKind))
+                {
+                    this.relations.Add(relation.RelationKind, new List<NodeRelation>());
+                }
+
+                if (!this.relations[relation.RelationKind].Contains(relation))
+                {
+                    this.relations[relation.RelationKind].Add(relation);
+                }
+            }
+        }
+
+        public void AddRecord(NodeRecord record)
+        {
+            if (record.Relation != null)
+            {
+                this.AddRelation(record.Relation);
+            }
+
+            this.records.Add(record);
         }
 
         public Node Split(int pathLevelIndex)
