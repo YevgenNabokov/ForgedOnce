@@ -3,6 +3,7 @@ using Game08.Sdk.CodeMixer.Core.Metadata.Changes;
 using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
@@ -101,6 +102,64 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             }
         }
 
+        public bool SymbolIsGeneratedBy(ISemanticSymbol symbol, ActivityFrame activityFrame)
+        {
+            //// I stopped here.
+            /// First should implement some basic method (Verify) where request will include:
+            /// RelationsFirst/ParentFirst, RelationKind[] to search, Func<NodeRelation, bool> searchRelationSelector,
+            /// Func<Node, bool> searchParentSelector, Func<Node, bool?> resultEvaluator.
+            /// And then exact search methods will use base one with proper params.
+            /// Other idea is usage of expressions for mentioned above Funcs and some nice fluent generator for those.
+
+
+
+
+            var visited = new HashSet<Node>();
+            var nextBatch = new HashSet<Node>();
+            var currentBatch = new HashSet<Node>();
+            HashSet<Node> b = null;
+
+            var node = this.GetExactNode(symbol, true);
+            if (node != null)
+            {
+                currentBatch.Add(node);
+
+                while (currentBatch.Count > 0)
+                {
+                    foreach (var n in currentBatch)
+                    {
+                        bool lookupRelations = true;
+                        visited.Add(n);
+                        foreach (var record in n.Records.Where(r => r.Change == ChangeKind.Created))
+                        {
+                            if ((activityFrame.PluginId == null || activityFrame.PluginId == record.PluginId)
+                                && (activityFrame.StageName == null || activityFrame.StageName == record.StageName)
+                                && (activityFrame.BatchIndex == null || activityFrame.BatchIndex == n.RootIndex.BatchIndex))
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                lookupRelations = false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public bool Verify(ISemanticSymbol symbol, MetadataVerificationRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ISemanticSymbol> Lookup(MetadataLookupRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Refresh()
         {
             
@@ -114,6 +173,18 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             }
 
             return this.metadataIndexed[symbol.BatchIndex].AllocateNode(symbol.SemanticPath);
+        }
+
+        private Node GetExactNode(ISemanticSymbol symbol, bool orParent = false)
+        {
+            if (!this.metadataIndexed.ContainsKey(symbol.BatchIndex))
+            {
+                return null;
+            }
+
+            var index = this.metadataIndexed[symbol.BatchIndex];
+
+            return index.GetExactNode(symbol.SemanticPath, orParent);
         }
     }
 }

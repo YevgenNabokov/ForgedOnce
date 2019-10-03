@@ -16,6 +16,73 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
 
         public int BatchIndex { get; private set; }
 
+        public Node GetExactNode(SemanticPath path, bool orParent = false)
+        {
+            if (path.Parts.Count == 0 || !this.roots.ContainsKey(path.Language))
+            {
+                return null;
+            }
+
+            var language = this.roots[path.Language];
+            if (language.ContainsKey(path.Parts[0]))
+            {
+                var node = language[path.Parts[0]];
+                var i = 0;
+                for (var p = 0; p < path.Parts.Count; p++)
+                {
+                    if (node.PathLevels[i].Equals(path.Parts[p]))
+                    {
+                        if (p == path.Parts.Count - 1)
+                        {
+                            if (i == node.PathLevels.Count - 1)
+                            {
+                                return node;
+                            }
+                            else
+                            {
+                                if (orParent)
+                                {
+                                    return node.Parent;
+                                }
+
+                                return null;
+                            }
+                        }
+                        else
+                        {
+                            if (i == node.PathLevels.Count - 1)
+                            {
+                                if (node.Children.ContainsKey(path.Parts[p + 1]))
+                                {
+                                    node = node.Children[path.Parts[p + 1]];
+                                    i = -1;
+                                }
+                                else
+                                {
+                                    return null;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (orParent)
+                        {
+                            return node.Parent;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+
+                    i++;
+                }
+            }
+
+            return null;
+        }
+
         public Node AllocateNode(SemanticPath path)
         {
             if (!this.roots.ContainsKey(path.Language))

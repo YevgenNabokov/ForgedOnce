@@ -178,5 +178,95 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
             result.Parent.Parent.PathLevels[0].Should().Be(path3.Parts[0]);
             result.Parent.Parent.PathLevels[1].Should().Be(path3.Parts[1]);
         }
+
+        [Test]
+        public void GetExactNode()
+        {
+            var subject = new MetadataIndex(0);
+
+            var path = new SemanticPath("Lang1", new PathLevel[]
+            {
+                new PathLevel("Level1", "Type1"),
+                new PathLevel("Level2", "Type2")
+            });
+
+            var result1 = subject.AllocateNode(path);
+
+            var result = subject.GetExactNode(path);
+
+            result.Should().Be(result1);
+        }
+
+        [Test]
+        [TestCase(true, false)]
+        [TestCase(false, true)]
+        public void GetExactNodeParent(bool orParent, bool resultShouldBeNull)
+        {
+            var subject = new MetadataIndex(0);
+
+            var path = new SemanticPath("Lang1", new PathLevel[]
+            {
+                new PathLevel("Level1", "Type1"),
+                new PathLevel("Level2", "Type2"),                
+            });
+
+            var result1 = subject.AllocateNode(path);
+
+            var path2 = new SemanticPath("Lang1", new PathLevel[]
+            {
+                new PathLevel("Level1", "Type1"),
+                new PathLevel("Level2", "Type2"),
+                new PathLevel("Level3", "Type3"),
+                new PathLevel("Level4", "Type4"),
+            });
+
+            var result2 = subject.AllocateNode(path2);
+
+            var path3 = new SemanticPath("Lang1", new PathLevel[]
+            {
+                new PathLevel("Level1", "Type1"),
+                new PathLevel("Level2", "Type2"),
+                new PathLevel("Level3", "Type3"),                
+            });
+
+            var result = subject.GetExactNode(path3, orParent);
+
+            if (!resultShouldBeNull)
+            {
+                result.Should().Be(result1);
+            }
+            else
+            {
+                result.Should().BeNull();
+            }
+        }
+
+        [Test]
+        public void GetExactNodeSecondNode()
+        {
+            var subject = new MetadataIndex(0);
+
+            var path = new SemanticPath("Lang1", new PathLevel[]
+            {
+                new PathLevel("Level1", "Type1"),
+                new PathLevel("Level2", "Type2"),
+            });
+
+            var result1 = subject.AllocateNode(path);
+
+            var path2 = new SemanticPath("Lang1", new PathLevel[]
+            {
+                new PathLevel("Level1", "Type1"),
+                new PathLevel("Level2", "Type2"),
+                new PathLevel("Level3", "Type3"),
+                new PathLevel("Level4", "Type4"),
+            });
+
+            var result2 = subject.AllocateNode(path2);            
+
+            var result = subject.GetExactNode(path2, true);
+
+            result.Should().Be(result2);
+        }
     }
 }
