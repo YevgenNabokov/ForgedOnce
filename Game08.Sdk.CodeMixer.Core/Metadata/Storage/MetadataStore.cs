@@ -102,6 +102,8 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             }
         }
 
+
+
         public bool SymbolIsGeneratedBy(ISemanticSymbol symbol, ActivityFrame activityFrame)
         {
             //// I stopped here.
@@ -152,6 +154,13 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
 
         public bool Verify(ISemanticSymbol symbol, MetadataVerificationRequest request)
         {
+            var visited = new HashSet<Node>();
+            var nextBatch = new HashSet<Node>();
+            var currentBatch = new HashSet<Node>();
+            HashSet<Node> b = null;
+
+
+
             throw new NotImplementedException();
         }
 
