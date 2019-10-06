@@ -15,6 +15,8 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 
         public override ISemanticInfoResolver SemanticInfoResolver => this.dummySemanticInfoResolver;
 
+        public override IEnumerable<ISemanticSymbol> SemanticSymbols => new ISemanticSymbol[0];
+
         public CodeFileLtsText(string id, string name)
             : base(id, name)
         {
