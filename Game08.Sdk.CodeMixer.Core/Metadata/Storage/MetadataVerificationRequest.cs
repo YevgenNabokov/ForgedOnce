@@ -12,7 +12,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             Func<Node, bool?> resultEvaluator,
             Func<NodeRelation, bool> relationSelector = null,
             Func<Node, bool> ancestryNeighborSelector = null,
-            RelationKind[] relationsToCheck = null)
+            HashSet<RelationKind> relationsToCheck = null)
         {
             this.SearchMode = searchMode;
             this.AncestrySearchDirection = ancestrySearchDirection;
@@ -26,7 +26,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
 
         public AncestrySearchDirection AncestrySearchDirection { get; private set; }
 
-        public RelationKind[] RelationsToCheck { get; private set; }
+        public HashSet<RelationKind> RelationsToCheck { get; private set; }
 
         public Func<NodeRelation, bool> RelationSelector { get; private set; }
 

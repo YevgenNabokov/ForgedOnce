@@ -76,9 +76,25 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
             this.PipelineEnvironment.CodeStreamsDiscarded(inputs);
             this.PipelineEnvironment.CodeStreamsCompleted(result);
             this.PipelineEnvironment.StoreForOutput(storableOutputs);
-            this.MetadataStore.Refresh();
+            this.RefineMetadata(result);
 
             return result;
+        }
+
+        private void RefineMetadata(IEnumerable<ICodeStream> codeStreams)
+        {
+            foreach (var stream in codeStreams)
+            {
+                foreach (var codeFile in stream.Files)
+                {
+                    foreach (var symbol in codeFile.SemanticSymbols)
+                    {
+                        this.MetadataStore.Refine(symbol);
+                    }
+                }
+            }
+
+            this.MetadataStore.Refresh();
         }
     }
 }

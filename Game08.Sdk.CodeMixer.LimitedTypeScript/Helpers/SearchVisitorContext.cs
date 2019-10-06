@@ -9,6 +9,8 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.Helpers
     {
         public Type SearchedType;
 
+        public Func<Node, bool> Selector;
+
         public List<Node> Result = new List<Node>();
     }
 }

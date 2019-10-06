@@ -1,6 +1,7 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
 using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using Game08.Sdk.CodeMixer.Environment.Workspace;
+using Game08.Sdk.CodeMixer.LimitedTypeScript.Helpers;
 using Game08.Sdk.CodeMixer.LimitedTypeScript.Metadata;
 using Game08.Sdk.LTS.Builder.DefinitionTree;
 using Game08.Sdk.LTS.Builder.Interfaces;
@@ -37,6 +38,21 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
         {
             get;
             private set;
+        }
+
+        public override IEnumerable<ISemanticSymbol> SemanticSymbols
+        {
+            get
+            {
+                if (this.Model != null)
+                {
+                    var visitor = new SearchVisitor();
+                    foreach (var node in visitor.FindNodes<Node>(this.Model, (n) => this.SemanticInfoProvider.CanGetSymbolFor(n)))
+                    {
+                        yield return this.SemanticInfoProvider.GetSymbolFor(node);
+                    }
+                }
+            }
         }
 
         public string GetPath()

@@ -105,18 +105,38 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                 throw new InvalidOperationException($"Cannot split node: {nameof(pathLevelIndex)} must be greater than zero and less than current level count minus one.");
             }
 
+            var replaceInIndex = false;
             if (this.Parent != null)
             {
                 this.Parent.children.Remove(this.pathLevels[0]);
             }
+            else
+            {
+                replaceInIndex = true;
+            }
 
             var result = new Node(this.Parent, this.Language, this.RootIndex, this.pathLevels.Take(pathLevelIndex + 1));
+            if (replaceInIndex)
+            {
+                this.RootIndex.ReplaceNode(this, result);
+            }
+
             this.pathLevels = new List<PathLevel>(this.pathLevels.Skip(pathLevelIndex + 1));
 
             result.children.Add(this.pathLevels[0], this);
             this.Parent = result;
 
             return result;
+        }
+
+        public IEnumerable<PathLevel> GetPathLevelsFromRoot()
+        {
+            return this.Parent != null ? this.Parent.GetPathLevelsFromRoot().Concat(this.PathLevels) : this.PathLevels;
+        }
+
+        public IEnumerable<PathLevel> GetPathLevelsFrom(Node node)
+        {
+            return this.Parent != null && this.Parent != node ? this.Parent.GetPathLevelsFrom(node).Concat(this.PathLevels) : this.PathLevels;
         }
     }
 }

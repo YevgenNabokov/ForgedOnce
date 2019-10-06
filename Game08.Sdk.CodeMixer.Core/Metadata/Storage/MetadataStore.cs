@@ -102,49 +102,87 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             }
         }
 
-
-
         public bool SymbolIsGeneratedBy(ISemanticSymbol symbol, ActivityFrame activityFrame)
-        {
-            //// I stopped here.
-            /// First should implement some basic method (Verify) where request will include:
-            /// RelationsFirst/ParentFirst, RelationKind[] to search, Func<NodeRelation, bool> searchRelationSelector,
-            /// Func<Node, bool> searchParentSelector, Func<Node, bool?> resultEvaluator.
-            /// And then exact search methods will use base one with proper params.
-            /// Other idea is usage of expressions for mentioned above Funcs and some nice fluent generator for those.
-
-
-
-
-            var visited = new HashSet<Node>();
-            var nextBatch = new HashSet<Node>();
-            var currentBatch = new HashSet<Node>();
-            HashSet<Node> b = null;
-
+        {            
             var node = this.GetExactNode(symbol, true);
             if (node != null)
             {
-                currentBatch.Add(node);
-
-                while (currentBatch.Count > 0)
+                MetadataVerificationRequest request = new MetadataVerificationRequest(
+                SearchMode.RelationsFirst,
+                AncestrySearchDirection.ToParent,
+                (n) =>
                 {
-                    foreach (var n in currentBatch)
+                    foreach (var record in n.Records.Where(r => r.Change == ChangeKind.Created))
                     {
-                        bool lookupRelations = true;
-                        visited.Add(n);
-                        foreach (var record in n.Records.Where(r => r.Change == ChangeKind.Created))
+                        if ((activityFrame.PluginId == null || activityFrame.PluginId == record.PluginId)
+                            && (activityFrame.StageName == null || activityFrame.StageName == record.StageName)
+                            && (activityFrame.BatchIndex == null || activityFrame.BatchIndex == n.RootIndex.BatchIndex))
                         {
-                            if ((activityFrame.PluginId == null || activityFrame.PluginId == record.PluginId)
-                                && (activityFrame.StageName == null || activityFrame.StageName == record.StageName)
-                                && (activityFrame.BatchIndex == null || activityFrame.BatchIndex == n.RootIndex.BatchIndex))
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                lookupRelations = false;
-                            }
+                            return true;
                         }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+
+                    return null;
+                },
+                (r) => r.Node1.RootIndex.BatchIndex <= symbol.BatchIndex && r.Node2.RootIndex.BatchIndex <= symbol.BatchIndex,
+                null,
+                new HashSet<RelationKind>() { RelationKind.SourcingFrom }
+                );
+
+                return this.Verify(node, request);
+            }
+
+            return false;
+        }
+
+        public bool Verify(Node node, MetadataVerificationRequest request)
+        {
+            var toCheckAncestry = new HashSet<Node>();
+            var toCheckRelations = new HashSet<Node>();
+
+            var visited = new HashSet<Node>();            
+            var currentBatch = new HashSet<Node>();
+            currentBatch.Add(node);
+
+            while (currentBatch.Count > 0 || toCheckRelations.Count > 0 || toCheckAncestry.Count > 0)
+            {
+                foreach (var n in currentBatch)
+                {
+                    visited.Add(n);
+                    toCheckRelations.Add(n);
+                    toCheckAncestry.Add(n);
+
+                    var result = request.ResultEvaluator(n);
+                    if (result.HasValue)
+                    {
+                        return result.Value;
+                    }
+                }
+
+                currentBatch.Clear();
+
+                if (request.SearchMode == SearchMode.AncestryFirst)
+                {
+                    this.ExtractAncestry(toCheckAncestry, currentBatch, visited, request.AncestryNeighborSelector, request.AncestrySearchDirection);
+                    toCheckAncestry.Clear();
+                    if (currentBatch.Count == 0)
+                    {
+                        this.ExtractRelations(toCheckRelations, currentBatch, visited, request.RelationsToCheck, request.RelationSelector);
+                        toCheckRelations.Clear();
+                    }
+                }
+                else
+                {
+                    this.ExtractRelations(toCheckRelations, currentBatch, visited, request.RelationsToCheck, request.RelationSelector);
+                    toCheckRelations.Clear();
+                    if (currentBatch.Count == 0)
+                    {
+                        this.ExtractAncestry(toCheckAncestry, currentBatch, visited, request.AncestryNeighborSelector, request.AncestrySearchDirection);
+                        toCheckAncestry.Clear();
                     }
                 }
             }
@@ -152,16 +190,73 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             return false;
         }
 
-        public bool Verify(ISemanticSymbol symbol, MetadataVerificationRequest request)
+        private void ExtractRelations(
+            HashSet<Node> source,
+            HashSet<Node> destination,
+            HashSet<Node> excludeNodes,
+            HashSet<RelationKind> relationKinds,
+            Func<NodeRelation, bool> selector)
         {
-            var visited = new HashSet<Node>();
-            var nextBatch = new HashSet<Node>();
-            var currentBatch = new HashSet<Node>();
-            HashSet<Node> b = null;
+            if (relationKinds != null && relationKinds.Count == 0)
+            {
+                return;
+            }
 
+            foreach (var node in source)
+            {
+                foreach (var relationGroup in node.Relations.Where(r => relationKinds == null || relationKinds.Contains(r.Key)))
+                {
+                    foreach(var relation in relationGroup.Value)
+                    {
+                        if (selector == null || selector(relation))
+                        {
+                            var newNode = relation.GetOther(node);
+                            if (!excludeNodes.Contains(newNode) && !destination.Contains(newNode))
+                            {
+                                destination.Add(newNode);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
+        private void ExtractAncestry(
+            HashSet<Node> source,
+            HashSet<Node> destination,
+            HashSet<Node> excludeNodes,
+            Func<Node, bool> ancestryNeighborSelector,
+            AncestrySearchDirection ancestrySearchDirection)
+        {
+            if (ancestrySearchDirection != AncestrySearchDirection.None)
+            {
+                foreach (var node in source)
+                {
+                    if (ancestrySearchDirection.HasFlag(AncestrySearchDirection.ToParent))
+                    {
+                        if (node.Parent != null
+                            && (ancestryNeighborSelector == null || ancestryNeighborSelector(node.Parent))
+                            && !excludeNodes.Contains(node.Parent)
+                            && !destination.Contains(node.Parent))
+                        {
+                            destination.Add(node.Parent);
+                        }
+                    }
 
-            throw new NotImplementedException();
+                    if (ancestrySearchDirection.HasFlag(AncestrySearchDirection.ToChild))
+                    {
+                        foreach (var child in node.Children.Values)
+                        {
+                            if ((ancestryNeighborSelector == null || ancestryNeighborSelector(child))
+                            && !excludeNodes.Contains(child)
+                            && !destination.Contains(child))
+                            {
+                                destination.Add(child);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public IEnumerable<ISemanticSymbol> Lookup(MetadataLookupRequest request)
@@ -169,9 +264,65 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             throw new NotImplementedException();
         }
 
+        public void Refine(ISemanticSymbol symbol)
+        {
+            var exactNode = this.GetExactNode(symbol);
+            var exactOrParentNode = this.GetExactNode(symbol, true);
+
+            if (exactNode != null 
+                && (exactNode.Relations.ContainsKey(RelationKind.SourcingFrom) || exactNode.Records.Any(r => r.Change == ChangeKind.Created)))
+            {
+                return;
+            }
+
+            var parentWithSourcing = this.FindParentWithKnownSourcing(exactOrParentNode);
+            if (parentWithSourcing != null)
+            {
+                var sourcingRelation = parentWithSourcing.Relations[RelationKind.SourcingFrom].First();
+                var sourceNode = sourcingRelation.GetOther(parentWithSourcing);
+                var relativePath = symbol.SemanticPath.Parts.Skip(parentWithSourcing.GetPathLevelsFromRoot().Count());
+                var mirrorPath = new SemanticPath(symbol.SemanticPath.Language, sourceNode.GetPathLevelsFromRoot().Concat(relativePath));
+                var mirrorNode = sourceNode.RootIndex.GetExactNode(mirrorPath);
+                if (mirrorNode != null)
+                {
+                    exactNode = exactNode ?? this.AllocateNode(symbol);
+                    var newRelation = new NodeRelation(RelationKind.SourcingFrom, exactNode, mirrorNode);
+                    var record = new NodeRecord(
+                        sourcingRelation.ParentRecord.StageName,
+                        sourcingRelation.ParentRecord.PluginId,
+                        sourcingRelation.ParentRecord.PluginMetadata,
+                        sourcingRelation.ParentRecord.Tags,
+                        sourcingRelation.ParentRecord.Change,
+                        newRelation);
+                    exactNode.AddRecord(record);
+                    mirrorNode.AddRelation(newRelation);
+                }
+            }
+        }
+
         public void Refresh()
         {
             
+        }
+
+        private Node FindParentWithKnownSourcing(Node node)
+        {
+            while (node != null)
+            {
+                if (node.Relations.ContainsKey(RelationKind.SourcingFrom) && node.Relations[RelationKind.SourcingFrom].Count > 0)
+                {
+                    return node;
+                }
+
+                if (node.Records.Any(r => r.Change == ChangeKind.Created))
+                {
+                    return null;
+                }
+
+                node = node.Parent;
+            }
+
+            return null;
         }
 
         private Node AllocateNode(ISemanticSymbol symbol)

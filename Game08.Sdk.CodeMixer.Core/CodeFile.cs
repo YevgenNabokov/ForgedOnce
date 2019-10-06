@@ -57,6 +57,8 @@ namespace Game08.Sdk.CodeMixer.Core
 
         public abstract ISemanticInfoResolver SemanticInfoResolver { get; }
 
+        public abstract IEnumerable<ISemanticSymbol> SemanticSymbols { get; }
+
         protected abstract string GetSourceCodeText();
 
         protected abstract void SourceCodeTextUpdated(string newSourceCode);

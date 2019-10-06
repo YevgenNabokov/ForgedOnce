@@ -3,6 +3,7 @@ using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Game08.Sdk.CodeMixer.CSharp
@@ -28,6 +29,20 @@ namespace Game08.Sdk.CodeMixer.CSharp
         }
 
         public override ISemanticInfoResolver SemanticInfoResolver => this.SemanticInfoProvider;
+
+        public override IEnumerable<ISemanticSymbol> SemanticSymbols
+        {
+            get
+            {
+                if (this.SyntaxTree != null)
+                {                    
+                    foreach (var node in this.SyntaxTree.GetRoot().DescendantNodes().Where(n => this.SemanticInfoProvider.CanGetSymbolFor(n)))
+                    {
+                        yield return this.SemanticInfoProvider.GetSymbolFor(node);
+                    }
+                }
+            }
+        }
 
         protected override string GetSourceCodeText()
         {

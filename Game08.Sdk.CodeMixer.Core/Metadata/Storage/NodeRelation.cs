@@ -11,6 +11,10 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             this.RelationKind = relationKind;
             this.Node1 = node1;
             this.Node2 = node2;
+            if (node1 == node2)
+            {
+                throw new InvalidOperationException("Node relation cannot have the same node on both sides.");
+            }
         }
 
         public RelationKind RelationKind { get; private set; }

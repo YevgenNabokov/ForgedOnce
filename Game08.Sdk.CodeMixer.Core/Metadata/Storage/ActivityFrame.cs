@@ -6,7 +6,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
 {
     public class ActivityFrame
     {
-        public ActivityFrame(string stageName, string pluginId, int? batchIndex)
+        public ActivityFrame(string stageName = null, string pluginId = null, int? batchIndex = null)
         {
             this.StageName = stageName;
             this.PluginId = pluginId;

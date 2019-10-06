@@ -16,6 +16,27 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
 
         public int BatchIndex { get; private set; }
 
+        public void ReplaceNode(Node subject, Node replacement)
+        {
+            if (subject.RootIndex != this)
+            {
+                throw new InvalidOperationException("Cannot replace node not belonging to metadata index.");
+            }
+
+            if (!subject.PathLevels.First().Equals(replacement.PathLevels.First()))
+            {
+                throw new InvalidOperationException("Replacement node should have the same starting path level.");
+            }
+
+            var lang = roots[subject.Language];
+            if (!lang.ContainsKey(subject.PathLevels.First()))
+            {
+                throw new InvalidOperationException("Node was not found in metadata index.");
+            }
+
+            lang[subject.PathLevels.First()] = replacement;
+        }
+
         public Node GetExactNode(SemanticPath path, bool orParent = false)
         {
             if (path.Parts.Count == 0 || !this.roots.ContainsKey(path.Language))
@@ -59,6 +80,11 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                                 }
                                 else
                                 {
+                                    if (orParent)
+                                    {
+                                        return node;
+                                    }
+
                                     return null;
                                 }
                             }
