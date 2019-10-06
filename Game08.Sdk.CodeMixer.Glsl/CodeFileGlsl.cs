@@ -1,5 +1,6 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
 using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
+using Game08.Sdk.CodeMixer.Glsl.Metadata;
 using Game08.Sdk.GlslLanguageServices.Builder;
 using Game08.Sdk.GlslLanguageServices.Builder.AstAnalysis;
 using System;
