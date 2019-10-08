@@ -1,5 +1,6 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
 using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
+using Game08.Sdk.CodeMixer.CSharp.Metadata;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
