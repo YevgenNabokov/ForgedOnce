@@ -1,5 +1,6 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
 using Game08.Sdk.CodeMixer.Core.Interfaces;
+using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using Game08.Sdk.CodeMixer.CSharp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -30,7 +31,7 @@ namespace TestProjects.SimplePlugin
             return result;
         }
 
-        protected override void Implementation(CodeFileCSharp input, AddSerializableAttributeToClassMetadata metadata, IMetadataWriter outputMetadataWriter)
+        protected override void Implementation(CodeFileCSharp input, AddSerializableAttributeToClassMetadata inputParameters, IMetadataRecorder metadataRecorder)
         {
             SerializableAttributeAdder serializableAttributeAdder = new SerializableAttributeAdder();
             var newRoot = serializableAttributeAdder.Visit(input.SyntaxTree.GetRoot());

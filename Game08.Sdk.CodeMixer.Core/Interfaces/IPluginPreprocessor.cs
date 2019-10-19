@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Interfaces
 {
-    public interface IPluginPreprocessor<TMetadata>
+    public interface IPluginPreprocessor<TInputParameters>
     {
-        TMetadata GenerateMetadata(CodeFile input, IMetadataReader metadataReader);
+        TInputParameters GenerateMetadata(CodeFile input, IMetadataReader metadataReader);
     }
 }

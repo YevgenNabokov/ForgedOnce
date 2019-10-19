@@ -27,7 +27,7 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild
         public void Execute(string solutionPath, string pipelineConfigurationPath)
         {
             var vsi = MSBuildLocator.RegisterDefaults();
-            var workspace = MSBuildWorkspace.Create();
+            var workspace = MSBuildWorkspace.Create();            
             var solution = workspace.OpenSolutionAsync(solutionPath).Result;
 
             var solutionManager = new MsBuildSolutionStorage(this.fileSystem.Path.GetFullPath(solutionPath), this.msBuildStoreAdapters);

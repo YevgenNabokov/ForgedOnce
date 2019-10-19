@@ -13,6 +13,8 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders
 
         private readonly WorkspaceCompilationHandler compilationHandler;
 
+        private readonly Dictionary<AssemblyName, Assembly> loadedAssemblies = new Dictionary<AssemblyName, Assembly>();
+
         public WorkspaceTypeLoader(IWorkspaceManager workspaceManager)
         {
             this.workspaceManager = workspaceManager;
@@ -21,10 +23,24 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders
 
         public Type LoadType(string typeName, string nugetPackageName = null, string nugetPackageVersion = null)
         {
-            var assemblyString = typeName.Contains(",") ? typeName.Substring(typeName.IndexOf(",") + 1) : null;
-            if (assemblyString != null)
+            AssemblyName assemblyName = this.GetAssemblyNameFromTypeName(typeName);
+            if (assemblyName != null)
             {
-                AssemblyName assemblyName = new AssemblyName(assemblyString);
+                var strippedTypeName = typeName.Substring(0, typeName.IndexOf(","));
+
+                foreach (var name in this.loadedAssemblies.Keys)
+                {
+                    if (name.Name == assemblyName.Name)
+                    {
+                        var loadedType = this.loadedAssemblies[name].GetType(strippedTypeName, false, false);
+                        if (loadedType == null)
+                        {
+                            throw new InvalidOperationException($"Cannot resolve type {strippedTypeName} from compiled assembly {name}.");
+                        }
+
+                        return loadedType;
+                    }
+                }
 
                 var project = this.workspaceManager.FindProjectByAssemblyName(assemblyName.Name);
 
@@ -36,7 +52,8 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders
                         compilations[project.Name].Emit(stream);
                         Assembly assembly = Assembly.Load(stream.GetBuffer());
 
-                        var strippedTypeName = typeName.Substring(0, typeName.IndexOf(","));
+                        this.loadedAssemblies.Add(assembly.GetName(), assembly);
+                        
                         var result = assembly.GetType(strippedTypeName, false, false);
                         if (result == null)
                         {
@@ -46,6 +63,17 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders
                         return result;
                     }
                 }
+            }
+
+            return null;
+        }
+
+        private AssemblyName GetAssemblyNameFromTypeName(string typeName)
+        {
+            var assemblyString = typeName.Contains(",") ? typeName.Substring(typeName.IndexOf(",") + 1) : null;
+            if (assemblyString != null)
+            {
+                return new AssemblyName(assemblyString);
             }
 
             return null;

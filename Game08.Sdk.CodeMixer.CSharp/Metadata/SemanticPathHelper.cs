@@ -47,6 +47,11 @@ namespace Game08.Sdk.CodeMixer.CSharp.Metadata
                 return (nameSyntax as IdentifierNameSyntax).Identifier.ValueText;
             }
 
+            if (nameSyntax is QualifiedNameSyntax)
+            {
+                return (nameSyntax as QualifiedNameSyntax).GetText().ToString();
+            }
+
             throw new NotSupportedException($"{nameSyntax.GetType()} is not supported as name for syntax path.");
         }
 
@@ -115,7 +120,7 @@ namespace Game08.Sdk.CodeMixer.CSharp.Metadata
                     levels.Add(new PathLevel(PathLevelIdentifierGetters[node.GetType()](node), PathLevelTypeNames[node.GetType()]));
                 }
 
-                node = astNode.Parent;
+                node = node.Parent;
             }
 
             levels.Add(new PathLevel(this.codeFileCSharp.Id, FileIdLevelType));

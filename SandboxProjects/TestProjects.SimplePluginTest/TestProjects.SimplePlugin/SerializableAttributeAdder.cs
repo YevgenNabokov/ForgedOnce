@@ -11,7 +11,7 @@ namespace TestProjects.SimplePlugin
     {
         public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            //// OFCOURSE there must be a verification that there is no such attribute already.
+            //// OF COURSE there must be a verification that there is no such attribute already.
             var changedClass = node.AddAttributeLists(
         SyntaxFactory.AttributeList(SyntaxFactory.SingletonSeparatedList<AttributeSyntax>(
             SyntaxFactory.Attribute(SyntaxFactory.IdentifierName("Serializable")))));
