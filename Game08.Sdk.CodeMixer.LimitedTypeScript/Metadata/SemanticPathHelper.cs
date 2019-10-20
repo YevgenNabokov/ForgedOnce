@@ -83,7 +83,7 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.Metadata
                     levels.Add(new PathLevel(PathLevelIdentifierGetters[node.GetType()](node), PathLevelTypeNames[node.GetType()]));
                 }
 
-                node = astNode.Parent;
+                node = node.Parent;
             }            
 
             levels.Add(new PathLevel(this.codeFileLtsModel.Id, FileIdLevelType));

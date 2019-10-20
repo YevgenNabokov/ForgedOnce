@@ -12,28 +12,37 @@ namespace AddPropertyPlugin
 {
     public class PropertyAdder : CSharpSyntaxRewriter
     {
-        public PropertyAdder()
+        private Dictionary<string, string> propertiesToAdd;
+
+        public PropertyAdder(Dictionary<string, string> propertiesToAdd)
         {
-            this.AddedProperties = new List<PropertyDeclarationSyntax>();
+            this.AnnotationKey = $"PropertyAdder_{Guid.NewGuid()}";
+            this.propertiesToAdd = propertiesToAdd;
         }
 
-        public List<PropertyDeclarationSyntax> AddedProperties
+        public string AnnotationKey
         {
-            get; private set;
-        }        
+            get;
+            private set;
+        }
 
         public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            var newDeclaration = SyntaxFactory.PropertyDeclaration(SyntaxFactory.ParseTypeName("int"), "AddedProp")
-                .WithAccessorList(SyntaxFactory.AccessorList(new SyntaxList<AccessorDeclarationSyntax>(new AccessorDeclarationSyntax[] {
+            List<PropertyDeclarationSyntax> newDeclarations = new List<PropertyDeclarationSyntax>();
+            foreach (var prop in this.propertiesToAdd)
+            {
+                var newDeclaration = SyntaxFactory.PropertyDeclaration(SyntaxFactory.ParseTypeName(prop.Value), prop.Key)
+                    .WithAccessorList(SyntaxFactory.AccessorList(new SyntaxList<AccessorDeclarationSyntax>(new AccessorDeclarationSyntax[] {
                 SyntaxFactory.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration).WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)),
                 SyntaxFactory.AccessorDeclaration(SyntaxKind.SetAccessorDeclaration).WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken))
-                })))
-                .WithModifiers(new SyntaxTokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)));
+                    })))
+                    .WithModifiers(new SyntaxTokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)));
 
-            this.AddedProperties.Add(newDeclaration);
+                newDeclaration = newDeclaration.WithAdditionalAnnotations(new SyntaxAnnotation(this.AnnotationKey));
+                newDeclarations.Add(newDeclaration);
+            }
 
-            var changedClass = node.AddMembers(newDeclaration);
+            var changedClass = node.AddMembers(newDeclarations.ToArray());
 
             return base.VisitClassDeclaration(changedClass);
         }

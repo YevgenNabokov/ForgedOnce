@@ -1,8 +1,10 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
 using Game08.Sdk.CodeMixer.Core.Interfaces;
+using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using Game08.Sdk.CodeMixer.CSharp;
 using Game08.Sdk.CodeMixer.LimitedTypeScript;
-using Game08.Sdk.LTS.Model.DefinitionTree;
+using Game08.Sdk.LTS.Builder.DefinitionTree;
+using ModelTree = Game08.Sdk.LTS.Model.DefinitionTree;
 using Game08.Sdk.LTS.Model.TypeData;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -34,7 +36,7 @@ namespace LtsTestPlugin
             return result;
         }
 
-        protected override void Implementation(CodeFileCSharp input, LtsTestPluginMetadata metadata, IMetadataWriter outputMetadataWriter)
+        protected override void Implementation(CodeFileCSharp input, LtsTestPluginMetadata inputParameters, IMetadataRecorder metadataRecorder)
         {
             var outFile = this.Outputs[OutStreamName].CreateCodeFile($"{Path.GetFileNameWithoutExtension(input.Name)}.ts") as CodeFileLtsModel;
             outFile.Model = new FileRoot();
@@ -47,10 +49,11 @@ namespace LtsTestPlugin
 
                 var definition = new ClassDefinition()
                 {
-                    Name = name,
-                    TypeKey = key,
-                    Modifiers = new List<Modifier>() { Modifier.Export }
+                    Name = new Identifier() { Name = name },
+                    TypeKey = key
                 };
+
+                definition.Modifiers.Add(ModelTree.Modifier.Export);
 
                 outFile.Model.Items.Add(definition);
             }

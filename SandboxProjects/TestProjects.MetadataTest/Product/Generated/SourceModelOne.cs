@@ -17,7 +17,15 @@ namespace Source.Models
             }
         }
 
+        [DisplayName("AddedProp_Decorated")]
         public int AddedProp
+        {
+            get;
+            set;
+        }
+
+        [DisplayName("OtherAddedProp_Decorated")]
+        public string OtherAddedProp
         {
             get;
             set;

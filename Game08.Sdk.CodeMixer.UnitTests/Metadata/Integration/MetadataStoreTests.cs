@@ -25,9 +25,9 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
                 new PathLevel("Level4", "Type4"),
             });
 
-            var symbol = new SemanticSymbol(0, path);
+            var symbol = new SemanticSymbol(path);
 
-            subject.Write(new Generated(symbol, "stage1", "plugin1", null, new HashSet<string>()));
+            subject.Write(new Generated(symbol, 0, "stage1", "plugin1", null, new HashSet<string>()));
 
             var result = subject.SymbolIsGeneratedBy(symbol, new ActivityFrame(null, "plugin1"));
 
@@ -45,22 +45,28 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
                 new PathLevel("Level2", "Type2"),                
             });
 
-            var symbol1 = new SemanticSymbol(0, path1);
+            var symbol1 = new SemanticSymbol(path1);
+
+            var path12 = new SemanticPath("Lang1", new PathLevel[]
+            {
+                new PathLevel("Level12", "Type1"),
+                new PathLevel("Level2", "Type2"),
+            });
 
             var path2 = new SemanticPath("Lang1", new PathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
+                new PathLevel("Level12", "Type1"),
                 new PathLevel("Level2", "Type2"),
                 new PathLevel("Level3", "Type3"),
                 new PathLevel("Level4", "Type4"),
             });
 
-            var symbol2 = new SemanticSymbol(1, path1);
+            var symbol2 = new SemanticSymbol(path12);
 
-            var symbol3 = new SemanticSymbol(1, path2);
+            var symbol3 = new SemanticSymbol(path2);
 
-            subject.Write(new Generated(symbol1, "stage1", "plugin1", null, new HashSet<string>()));
-            subject.Write(new SourcingFrom(symbol1, symbol2, "stage2", "plugin2", null, new HashSet<string>()));
+            subject.Write(new Generated(symbol1, 0, "stage1", "plugin1", null, new HashSet<string>()));
+            subject.Write(new SourcingFrom(symbol1, symbol2, 1, "stage2", "plugin2", null, new HashSet<string>()));
 
             var result = subject.SymbolIsGeneratedBy(symbol3, new ActivityFrame(null, "plugin1"));
 
@@ -77,7 +83,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
                 new PathLevel("Level1", "Type1"),                
             });
 
-            var symbol01 = new SemanticSymbol(0, path0);
+            var symbol01 = new SemanticSymbol(path0);
 
             var path1 = new SemanticPath("Lang1", new PathLevel[]
             {
@@ -85,24 +91,35 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
                 new PathLevel("Level2", "Type2"),
             });
 
-            var symbol1 = new SemanticSymbol(0, path1);
+            var path02 = new SemanticPath("Lang1", new PathLevel[]
+            {
+                new PathLevel("Level12", "Type1"),
+            });
+
+            var path12 = new SemanticPath("Lang1", new PathLevel[]
+            {
+                new PathLevel("Level12", "Type1"),
+                new PathLevel("Level2", "Type2"),
+            });
+
+            var symbol1 = new SemanticSymbol(path1);
 
             var path2 = new SemanticPath("Lang1", new PathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
+                new PathLevel("Level12", "Type1"),
                 new PathLevel("Level2", "Type2"),
                 new PathLevel("Level3", "Type3"),
                 new PathLevel("Level4", "Type4"),
             });
 
-            var symbol02 = new SemanticSymbol(1, path0);
+            var symbol02 = new SemanticSymbol(path02);
 
-            var symbol2 = new SemanticSymbol(1, path1);
+            var symbol2 = new SemanticSymbol(path12);
 
-            var symbol3 = new SemanticSymbol(1, path2);
+            var symbol3 = new SemanticSymbol(path2);
 
-            subject.Write(new Generated(symbol1, "stage1", "plugin1", null, new HashSet<string>()));
-            subject.Write(new SourcingFrom(symbol02, symbol01, "stage2", "plugin2", null, new HashSet<string>()));
+            subject.Write(new Generated(symbol1, 0, "stage1", "plugin1", null, new HashSet<string>()));
+            subject.Write(new SourcingFrom(symbol02, symbol01, 1, "stage2", "plugin2", null, new HashSet<string>()));
 
             subject.Refine(symbol2);
 
@@ -122,23 +139,29 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
                 new PathLevel("Level2", "Type2"),
             });
 
-            var symbol1 = new SemanticSymbol(0, path1);
+            var path12 = new SemanticPath("Lang1", new PathLevel[]
+            {
+                new PathLevel("Level12", "Type1"),
+                new PathLevel("Level2", "Type2"),
+            });
+
+            var symbol1 = new SemanticSymbol(path1);
 
             var path2 = new SemanticPath("Lang1", new PathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
+                new PathLevel("Level12", "Type1"),
                 new PathLevel("Level2", "Type2"),
                 new PathLevel("Level3", "Type3"),
                 new PathLevel("Level4", "Type4"),
             });
 
-            var symbol2 = new SemanticSymbol(1, path1);
+            var symbol2 = new SemanticSymbol(path12);
 
-            var symbol3 = new SemanticSymbol(1, path2);
+            var symbol3 = new SemanticSymbol(path2);
 
-            subject.Write(new Generated(symbol1, "stage1", "plugin1", null, new HashSet<string>()));
-            subject.Write(new SourcingFrom(symbol1, symbol2, "stage2", "plugin2", null, new HashSet<string>()));
-            subject.Write(new Generated(symbol3, "stage3", "plugin3", null, new HashSet<string>()));
+            subject.Write(new Generated(symbol1, 0, "stage1", "plugin1", null, new HashSet<string>()));
+            subject.Write(new SourcingFrom(symbol1, symbol2, 1, "stage2", "plugin2", null, new HashSet<string>()));
+            subject.Write(new Generated(symbol3, 1, "stage3", "plugin3", null, new HashSet<string>()));
 
             var result = subject.SymbolIsGeneratedBy(symbol3, new ActivityFrame(null, "plugin1"));
 
@@ -150,52 +173,81 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
         {
             var subject = new MetadataStore();
 
-            var path1 = new SemanticPath("Lang1", new PathLevel[]
+            var path01 = new SemanticPath("Lang1", new PathLevel[]
             {
                 new PathLevel("Level1", "Type1"),
             });
 
-            var path2 = new SemanticPath("Lang1", new PathLevel[]
+            var path02 = new SemanticPath("Lang1", new PathLevel[]
             {
                 new PathLevel("Level1", "Type1"),
                 new PathLevel("Level2", "Type2"),
             });
 
-            var path3 = new SemanticPath("Lang1", new PathLevel[]
+            var path11 = new SemanticPath("Lang1", new PathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
+                new PathLevel("Level11", "Type1"),
+            });
+
+            var path12 = new SemanticPath("Lang1", new PathLevel[]
+            {
+                new PathLevel("Level11", "Type1"),
+                new PathLevel("Level2", "Type2"),
+            });
+
+            var path13 = new SemanticPath("Lang1", new PathLevel[]
+            {
+                new PathLevel("Level11", "Type1"),
                 new PathLevel("Level2", "Type2"),
                 new PathLevel("Level3", "Type3")                
             });
 
-            var path4 = new SemanticPath("Lang1", new PathLevel[]
+            var path21 = new SemanticPath("Lang1", new PathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
+                new PathLevel("Level12", "Type1"),
+            });
+
+            var path22 = new SemanticPath("Lang1", new PathLevel[]
+            {
+                new PathLevel("Level12", "Type1"),
+                new PathLevel("Level2", "Type2"),
+            });
+
+            var path23 = new SemanticPath("Lang1", new PathLevel[]
+            {
+                new PathLevel("Level12", "Type1"),
+                new PathLevel("Level2", "Type2"),
+                new PathLevel("Level3", "Type3")
+            });
+
+            var path24 = new SemanticPath("Lang1", new PathLevel[]
+            {
+                new PathLevel("Level12", "Type1"),
                 new PathLevel("Level2", "Type2"),
                 new PathLevel("Level3", "Type3"),
                 new PathLevel("Level4", "Type4"),
             });
 
-            var symbol01 = new SemanticSymbol(0, path1);
-            var symbol02 = new SemanticSymbol(0, path2);
+            var symbol01 = new SemanticSymbol(path01);
+            var symbol02 = new SemanticSymbol(path02);
 
-            var symbol11 = new SemanticSymbol(1, path1);
-            var symbol12 = new SemanticSymbol(1, path2);
-            var symbol13 = new SemanticSymbol(1, path3);
+            var symbol11 = new SemanticSymbol(path11);
+            var symbol12 = new SemanticSymbol(path12);
+            var symbol13 = new SemanticSymbol(path13);
 
-            var symbol21 = new SemanticSymbol(2, path1);
-            var symbol22 = new SemanticSymbol(2, path2);
-            var symbol23 = new SemanticSymbol(2, path3);
-            var symbol24 = new SemanticSymbol(2, path4);
+            var symbol21 = new SemanticSymbol(path21);
+            var symbol22 = new SemanticSymbol(path22);
+            var symbol23 = new SemanticSymbol(path23);
+            var symbol24 = new SemanticSymbol(path24);
 
-            subject.Write(new Generated(symbol02, "stage1", "plugin1", null, new HashSet<string>()));
-            subject.Write(new SourcingFrom(symbol01, symbol11, "stage2", "plugin2", null, new HashSet<string>()));
-            subject.Write(new Generated(symbol13, "stage3", "plugin3", null, new HashSet<string>()));
+            subject.Write(new Generated(symbol02, 0, "stage1", "plugin1", null, new HashSet<string>()));
+            subject.Write(new SourcingFrom(symbol01, symbol11, 1, "stage2", "plugin2", null, new HashSet<string>()));
+            subject.Write(new Generated(symbol13, 1, "stage3", "plugin3", null, new HashSet<string>()));
 
             subject.Refine(symbol12);
             subject.Refine(symbol13);
 
-            subject.Write(new SourcingFrom(symbol11, symbol21, "stage4", "plugin4", null, new HashSet<string>()));
+            subject.Write(new SourcingFrom(symbol11, symbol21, 2, "stage4", "plugin4", null, new HashSet<string>()));
 
             subject.Refine(symbol22);
             subject.Refine(symbol23);

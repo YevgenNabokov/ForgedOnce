@@ -21,8 +21,7 @@ namespace Game08.Sdk.CodeMixer.Glsl
         {
             foreach (var codeFile in this.codeFiles)
             {
-                codeFile.ShaderFile.RebuildSemanticContext();
-                codeFile.SetLastRefreshBatchIndex(this.pipelineExecutionInfo.CurrentBatchIndex);
+                codeFile.ShaderFile.RebuildSemanticContext();                
             }
         }
 

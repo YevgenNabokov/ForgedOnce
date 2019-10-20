@@ -30,7 +30,7 @@ namespace Game08.Sdk.CodeMixer.Glsl.Metadata
 
             foreach (var path in this.semanticPathHelper.GetImmediateDownstreamPaths(astNode))
             {
-                result.Add(new SemanticSymbol(this.codeFileGlsl.LastRefreshBatchIndex, path));
+                result.Add(new SemanticSymbol(path));
             }
 
             return result;
@@ -44,13 +44,13 @@ namespace Game08.Sdk.CodeMixer.Glsl.Metadata
                 return null;
             }
 
-            return new SemanticSymbol(this.codeFileGlsl.LastRefreshBatchIndex, path);
+            return new SemanticSymbol(path);
         }
 
         public ISemanticSymbol GetSymbolFor(AstNode astNode)
         {
             var path = this.semanticPathHelper.GetExactPath(astNode);
-            return new SemanticSymbol(this.codeFileGlsl.LastRefreshBatchIndex, path);
+            return new SemanticSymbol(path);
         }
 
         public bool Resolve(ISemanticSymbol symbol)

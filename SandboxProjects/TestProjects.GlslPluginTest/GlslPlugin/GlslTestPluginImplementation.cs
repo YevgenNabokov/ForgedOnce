@@ -1,5 +1,6 @@
 ﻿using Game08.Sdk.CodeMixer.Core;
 using Game08.Sdk.CodeMixer.Core.Interfaces;
+using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using Game08.Sdk.CodeMixer.CSharp;
 using Game08.Sdk.CodeMixer.Glsl;
 using Game08.Sdk.GlslLanguageServices.Builder;
@@ -34,7 +35,7 @@ namespace GlslPlugin
             return result;
         }
 
-        protected override void Implementation(CodeFileCSharp input, GlslTestPluginMetadata metadata, IMetadataWriter outputMetadataWriter)
+        protected override void Implementation(CodeFileCSharp input, GlslTestPluginMetadata inputParameters, IMetadataRecorder metadataRecorder)
         {
             var outFile = this.Outputs[OutStreamName].CreateCodeFile($"{Path.GetFileNameWithoutExtension(input.Name)}.vertex.glsl") as CodeFileGlsl;
             outFile.ShaderFile = ShaderFile.CreateEmpty();

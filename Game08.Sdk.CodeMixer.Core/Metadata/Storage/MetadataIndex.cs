@@ -9,12 +9,9 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
     {
         private readonly Dictionary<string, Dictionary<PathLevel, Node>> roots = new Dictionary<string, Dictionary<PathLevel, Node>>();
 
-        public MetadataIndex(int batchIndex)
+        public MetadataIndex()
         {
-            this.BatchIndex = batchIndex;
         }
-
-        public int BatchIndex { get; private set; }
 
         public void ReplaceNode(Node subject, Node replacement)
         {

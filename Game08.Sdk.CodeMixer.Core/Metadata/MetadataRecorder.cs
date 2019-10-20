@@ -34,7 +34,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
 
             if (symbol1 != null && symbol2 != null)
             {
-                this.metadataWriter.Write(new Bound(symbol1, symbol2, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags));
+                this.metadataWriter.Write(new Bound(symbol1, symbol2, this.pipelineExecutionInfo.CurrentBatchIndex, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags));
             }
         }
 
@@ -47,7 +47,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
             var symbols = semanticInfoProvider1.GetImmediateDownstreamSymbols(subject).ToArray();
             foreach (var symbol in symbols)
             {
-                this.metadataWriter.Write(new Generated(symbol, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags));
+                this.metadataWriter.Write(new Generated(symbol, this.pipelineExecutionInfo.CurrentBatchIndex, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags));
             }
 
             if (symbols.Length == 0)
@@ -68,7 +68,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
             var symbols = semanticInfoProvider1.GetImmediateDownstreamSymbols(subject).ToArray();
             foreach (var symbol in symbols)
             {                
-                this.metadataWriter.Write(new Generated(symbol, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags, fromSymbol));
+                this.metadataWriter.Write(new Generated(symbol, this.pipelineExecutionInfo.CurrentBatchIndex, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags, fromSymbol));
             }
 
             if (symbols.Length == 0)
@@ -86,7 +86,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
             var symbol = semanticInfoProvider1.GetImmediateUpstreamSymbol(target);
             if (symbol != null)
             {
-                this.metadataWriter.Write(new Modified(symbol, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags));
+                this.metadataWriter.Write(new Modified(symbol,this.pipelineExecutionInfo.CurrentBatchIndex, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags));
             }
         }
 
@@ -106,6 +106,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
                     new SourcingFrom(
                         fromSymbol,
                         symbol,
+                        this.pipelineExecutionInfo.CurrentBatchIndex,
                         this.pipelineExecutionInfo.CurrentStageName,
                         this.pluginId,
                         pluginMetadata,

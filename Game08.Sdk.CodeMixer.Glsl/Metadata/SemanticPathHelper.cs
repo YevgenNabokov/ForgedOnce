@@ -72,7 +72,7 @@ namespace Game08.Sdk.CodeMixer.Glsl.Metadata
                     levels.Add(new PathLevel(PathLevelIdentifierGetters[node.GetType()](node), PathLevelTypeNames[node.GetType()]));
                 }
 
-                node = astNode.Parent;
+                node = node.Parent;
             }
 
             levels.Add(new PathLevel(this.codeFileGlsl.Id, FileIdLevelType));

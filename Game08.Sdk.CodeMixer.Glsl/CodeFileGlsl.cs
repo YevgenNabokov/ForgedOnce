@@ -19,6 +19,7 @@ namespace Game08.Sdk.CodeMixer.Glsl
         public CodeFileGlsl(string id, string name)
             : base(id, name)
         {
+            this.SemanticInfoProvider = new SemanticInfoProvider(this);
         }
 
         public SemanticInfoProvider SemanticInfoProvider

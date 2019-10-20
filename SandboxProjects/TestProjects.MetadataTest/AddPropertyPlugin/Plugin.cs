@@ -37,16 +37,20 @@ namespace AddPropertyPlugin
 
         protected override void Implementation(CodeFileCSharp input, Metadata inputParameters, IMetadataRecorder metadataRecorder)
         {
-            PropertyAdder adder = new PropertyAdder();
-            var newRoot = adder.Visit(input.SyntaxTree.GetRoot());
-
-            foreach (var added in adder.AddedProperties)
+            PropertyAdder adder = new PropertyAdder(new Dictionary<string, string>()
             {
-                metadataRecorder.SymbolGenerated<SyntaxNode>(input.SemanticInfoProvider, added, new HashSet<string>());
-            }
+                { "AddedProp", "int" },
+                { "OtherAddedProp", "string" },
+            });
+            var newRoot = adder.Visit(input.SyntaxTree.GetRoot());
 
             var outFile = this.Outputs[OutStreamName].CreateCodeFile(input.Name) as CodeFileCSharp;
             outFile.SyntaxTree = CSharpSyntaxTree.Create(newRoot as CSharpSyntaxNode);
+
+            foreach (var added in outFile.SyntaxTree.GetRoot().DescendantNodes().Where((n) => n.GetAnnotations(adder.AnnotationKey).Any()))
+            {
+                metadataRecorder.SymbolGenerated<SyntaxNode>(outFile.SemanticInfoProvider, added, new HashSet<string>());
+            }
         }
     }
 }

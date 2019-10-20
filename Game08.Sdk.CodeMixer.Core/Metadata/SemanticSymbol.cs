@@ -7,13 +7,10 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
 {
     public class SemanticSymbol : ISemanticSymbol
     {
-        public SemanticSymbol(int batchIndex, SemanticPath semanticPath)
+        public SemanticSymbol(SemanticPath semanticPath)
         {
-            this.BatchIndex = batchIndex;
             this.SemanticPath = semanticPath;
         }
-
-        public int BatchIndex { get; private set; }
 
         public SemanticPath SemanticPath { get; private set; }
     }

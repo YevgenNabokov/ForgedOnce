@@ -29,7 +29,6 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
             foreach (var codeFile in this.codeFiles)
             {
                 this.UpdateCodeFileTypeLocation(codeFile);
-                codeFile.SetLastRefreshBatchIndex(this.pipelineExecutionInfo.CurrentBatchIndex);
             }
         }
 

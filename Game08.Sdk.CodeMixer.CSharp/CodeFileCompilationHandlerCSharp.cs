@@ -48,7 +48,6 @@ namespace Game08.Sdk.CodeMixer.CSharp
 
                 file.SyntaxTree = document.GetSyntaxTreeAsync().Result;
                 file.SemanticModel = compilations[document.Project.Name].GetSemanticModel(file.SyntaxTree);
-                file.SetLastRefreshBatchIndex(this.pipelineExecutionInfo.CurrentBatchIndex);
             }
         }
 

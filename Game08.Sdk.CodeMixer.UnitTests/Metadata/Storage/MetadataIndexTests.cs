@@ -14,7 +14,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         [Test]
         public void SimpleNodeAllocation()
         {
-            var subject = new MetadataIndex(0);
+            var subject = new MetadataIndex();
 
             var path = new SemanticPath("Lang1", new PathLevel[]
             {
@@ -36,7 +36,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         [Test]
         public void RepeatedNodeAllocationWithBranch()
         {
-            var subject = new MetadataIndex(0);
+            var subject = new MetadataIndex();
 
             var path = new SemanticPath("Lang1", new PathLevel[]
             {
@@ -71,7 +71,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         [Test]
         public void RepeatedNodeAllocationWithSplit()
         {
-            var subject = new MetadataIndex(0);
+            var subject = new MetadataIndex();
 
             var path = new SemanticPath("Lang1", new PathLevel[]
             {
@@ -103,7 +103,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         [Test]
         public void RepeatedNodeAllocationWithExtension()
         {
-            var subject = new MetadataIndex(0);
+            var subject = new MetadataIndex();
 
             var path = new SemanticPath("Lang1", new PathLevel[]
             {
@@ -133,7 +133,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         [Test]
         public void RepeatedNodeAllocationWithExtensionOverTwoNodes()
         {
-            var subject = new MetadataIndex(0);
+            var subject = new MetadataIndex();
 
             var path = new SemanticPath("Lang1", new PathLevel[]
             {
@@ -182,7 +182,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         [Test]
         public void GetExactNode()
         {
-            var subject = new MetadataIndex(0);
+            var subject = new MetadataIndex();
 
             var path = new SemanticPath("Lang1", new PathLevel[]
             {
@@ -202,7 +202,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         [TestCase(false, true)]
         public void GetExactNodeParent(bool orParent, bool resultShouldBeNull)
         {
-            var subject = new MetadataIndex(0);
+            var subject = new MetadataIndex();
 
             var path = new SemanticPath("Lang1", new PathLevel[]
             {
@@ -244,7 +244,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         [Test]
         public void GetExactNodeSecondNode()
         {
-            var subject = new MetadataIndex(0);
+            var subject = new MetadataIndex();
 
             var path = new SemanticPath("Lang1", new PathLevel[]
             {

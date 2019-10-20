@@ -12,7 +12,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
     {
         public List<RecordBase> Records = new List<RecordBase>();
 
-        private Dictionary<int, MetadataIndex> metadataIndexed = new Dictionary<int, MetadataIndex>();
+        private MetadataIndex metadataIndexed = new MetadataIndex();
 
         public void Write(RecordBase record)
         {
@@ -32,7 +32,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                     var node1 = this.AllocateNode(bound.Item1);
                     var node2 = this.AllocateNode(bound.Item2);
                     var link = new NodeRelation(RelationKind.Bound, node1, node2);
-                    var nodeRecord = new NodeRecord(record.StageName, record.PluginId, record.PluginMetadata, record.Tags, null, link);
+                    var nodeRecord = new NodeRecord(record.BatchIndex, record.StageName, record.PluginId, record.PluginMetadata, record.Tags, null, link);
                     node1.AddRecord(nodeRecord);
                     node2.AddRecord(nodeRecord);
                     return;
@@ -52,14 +52,14 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                     {
                         var fromNode = this.AllocateNode(generated.From);
                         var link = new NodeRelation(RelationKind.GeneratedFrom, subjectNode, fromNode);
-                        var nodeRecord = new NodeRecord(record.StageName, record.PluginId, record.PluginMetadata, record.Tags, ChangeKind.Created, link);
+                        var nodeRecord = new NodeRecord(record.BatchIndex, record.StageName, record.PluginId, record.PluginMetadata, record.Tags, ChangeKind.Created, link);
                         subjectNode.AddRecord(nodeRecord);
                         fromNode.AddRelation(link);
                         return;
                     }
                     else
                     {
-                        var nodeRecord = new NodeRecord(record.StageName, record.PluginId, record.PluginMetadata, record.Tags, ChangeKind.Created, null);
+                        var nodeRecord = new NodeRecord(record.BatchIndex, record.StageName, record.PluginId, record.PluginMetadata, record.Tags, ChangeKind.Created, null);
                         subjectNode.AddRecord(nodeRecord);
                         return;
                     }
@@ -75,7 +75,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                     }
 
                     var targetNode = this.AllocateNode(modified.Target);
-                    var nodeRecord = new NodeRecord(record.StageName, record.PluginId, record.PluginMetadata, record.Tags, ChangeKind.Created, null);
+                    var nodeRecord = new NodeRecord(record.BatchIndex, record.StageName, record.PluginId, record.PluginMetadata, record.Tags, ChangeKind.Created, null);
                     targetNode.AddRecord(nodeRecord);
                     return;
                 }
@@ -92,7 +92,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                     var subjectNode = this.AllocateNode(sourcingFrom.Subject);
                     var fromNode = this.AllocateNode(sourcingFrom.From);
                     var link = new NodeRelation(RelationKind.SourcingFrom, subjectNode, fromNode);
-                    var nodeRecord = new NodeRecord(record.StageName, record.PluginId, record.PluginMetadata, record.Tags, null, link);
+                    var nodeRecord = new NodeRecord(record.BatchIndex, record.StageName, record.PluginId, record.PluginMetadata, record.Tags, null, link);
                     subjectNode.AddRecord(nodeRecord);
                     fromNode.AddRelation(link);
                     return;
@@ -116,7 +116,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                     {
                         if ((activityFrame.PluginId == null || activityFrame.PluginId == record.PluginId)
                             && (activityFrame.StageName == null || activityFrame.StageName == record.StageName)
-                            && (activityFrame.BatchIndex == null || activityFrame.BatchIndex == n.RootIndex.BatchIndex))
+                            && (activityFrame.BatchIndex == null || activityFrame.BatchIndex == record.BatchIndex))
                         {
                             return true;
                         }
@@ -128,7 +128,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
 
                     return null;
                 },
-                (r) => r.Node1.RootIndex.BatchIndex <= symbol.BatchIndex && r.Node2.RootIndex.BatchIndex <= symbol.BatchIndex,
+                (r, n) => (r.ParentRecord == null || activityFrame.BatchIndex == null || r.ParentRecord.BatchIndex <= activityFrame.BatchIndex) && r.Node1 == n,
                 null,
                 new HashSet<RelationKind>() { RelationKind.SourcingFrom }
                 );
@@ -195,7 +195,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             HashSet<Node> destination,
             HashSet<Node> excludeNodes,
             HashSet<RelationKind> relationKinds,
-            Func<NodeRelation, bool> selector)
+            Func<NodeRelation, Node, bool> selector)
         {
             if (relationKinds != null && relationKinds.Count == 0)
             {
@@ -208,7 +208,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                 {
                     foreach(var relation in relationGroup.Value)
                     {
-                        if (selector == null || selector(relation))
+                        if (selector == null || selector(relation, node))
                         {
                             var newNode = relation.GetOther(node);
                             if (!excludeNodes.Contains(newNode) && !destination.Contains(newNode))
@@ -288,6 +288,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                     exactNode = exactNode ?? this.AllocateNode(symbol);
                     var newRelation = new NodeRelation(RelationKind.SourcingFrom, exactNode, mirrorNode);
                     var record = new NodeRecord(
+                        sourcingRelation.ParentRecord.BatchIndex,
                         sourcingRelation.ParentRecord.StageName,
                         sourcingRelation.ParentRecord.PluginId,
                         sourcingRelation.ParentRecord.PluginMetadata,
@@ -327,24 +328,12 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
 
         private Node AllocateNode(ISemanticSymbol symbol)
         {
-            if (!this.metadataIndexed.ContainsKey(symbol.BatchIndex))
-            {
-                this.metadataIndexed.Add(symbol.BatchIndex, new MetadataIndex(symbol.BatchIndex));
-            }
-
-            return this.metadataIndexed[symbol.BatchIndex].AllocateNode(symbol.SemanticPath);
+            return this.metadataIndexed.AllocateNode(symbol.SemanticPath);
         }
 
         private Node GetExactNode(ISemanticSymbol symbol, bool orParent = false)
         {
-            if (!this.metadataIndexed.ContainsKey(symbol.BatchIndex))
-            {
-                return null;
-            }
-
-            var index = this.metadataIndexed[symbol.BatchIndex];
-
-            return index.GetExactNode(symbol.SemanticPath, orParent);
+            return this.metadataIndexed.GetExactNode(symbol.SemanticPath, orParent);
         }
     }
 }

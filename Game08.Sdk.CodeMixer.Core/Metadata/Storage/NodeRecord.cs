@@ -6,8 +6,9 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
 {
     public class NodeRecord
     {
-        public NodeRecord(string stageName, string pluginId, object pluginMetadata, HashSet<string> tags, ChangeKind? change, NodeRelation relation)
+        public NodeRecord(int batchindex, string stageName, string pluginId, object pluginMetadata, HashSet<string> tags, ChangeKind? change, NodeRelation relation)
         {
+            this.BatchIndex = batchindex;
             this.StageName = stageName;
             this.PluginId = pluginId;
             this.PluginMetadata = pluginMetadata;
@@ -19,6 +20,8 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                 relation.ParentRecord = this;
             }
         }
+
+        public int BatchIndex { get; private set; }
 
         public string StageName { get; private set; }
 
