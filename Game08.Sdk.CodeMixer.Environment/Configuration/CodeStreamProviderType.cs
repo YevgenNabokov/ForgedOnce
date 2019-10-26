@@ -7,6 +7,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
     public enum CodeStreamProviderType
     {
         FileSystem,
-        Project
+        Project,
+        CreateNew
     }
 }

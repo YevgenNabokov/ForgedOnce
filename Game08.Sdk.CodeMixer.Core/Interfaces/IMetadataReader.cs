@@ -7,7 +7,7 @@ using System.Text;
 namespace Game08.Sdk.CodeMixer.Core.Interfaces
 {
     public interface IMetadataReader
-    {
-        bool SymbolIsGeneratedBy(ISemanticSymbol symbol, ActivityFrame activityFrame);
+    {        
+        bool SymbolIsGeneratedBy(ISemanticSymbol symbol, ActivityFrame activityFrame, out NodeRecord recordMatch);
     }
 }

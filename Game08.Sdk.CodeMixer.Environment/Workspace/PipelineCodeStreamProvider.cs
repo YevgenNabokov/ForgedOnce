@@ -7,9 +7,9 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace
 {
     public class PipelineCodeStreamProvider : ICodeStreamProvider
     {
-        private readonly IEnumerable<WorkspaceCodeStreamProvider> codeStreamProviders;
+        private readonly IEnumerable<ICodeStreamProvider> codeStreamProviders;
 
-        public PipelineCodeStreamProvider(IEnumerable<WorkspaceCodeStreamProvider> codeStreamProviders)
+        public PipelineCodeStreamProvider(IEnumerable<ICodeStreamProvider> codeStreamProviders)
         {
             this.codeStreamProviders = codeStreamProviders;
         }
@@ -20,7 +20,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace
 
             foreach (var provider in this.codeStreamProviders)
             {
-                result.Add(provider.RetrieveCodeStream());
+                result.AddRange(provider.RetrieveCodeStreams());
             }
 
             return result;

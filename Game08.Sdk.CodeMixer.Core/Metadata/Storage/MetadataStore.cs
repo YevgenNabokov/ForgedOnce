@@ -102,8 +102,9 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             }
         }
 
-        public bool SymbolIsGeneratedBy(ISemanticSymbol symbol, ActivityFrame activityFrame)
-        {            
+        public bool SymbolIsGeneratedBy(ISemanticSymbol symbol, ActivityFrame activityFrame, out NodeRecord recordMatch)
+        {
+            NodeRecord resultRecord = null;
             var node = this.GetExactNode(symbol, true);
             if (node != null)
             {
@@ -118,6 +119,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                             && (activityFrame.StageName == null || activityFrame.StageName == record.StageName)
                             && (activityFrame.BatchIndex == null || activityFrame.BatchIndex == record.BatchIndex))
                         {
+                            resultRecord = record;
                             return true;
                         }
                         else
@@ -133,9 +135,12 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                 new HashSet<RelationKind>() { RelationKind.SourcingFrom }
                 );
 
-                return this.Verify(node, request);
+                var result = this.Verify(node, request);
+                recordMatch = resultRecord;
+                return result;
             }
 
+            recordMatch = resultRecord;
             return false;
         }
 

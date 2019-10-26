@@ -27,11 +27,17 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
 
             var symbol = new SemanticSymbol(path);
 
-            subject.Write(new Generated(symbol, 0, "stage1", "plugin1", null, new HashSet<string>()));
+            var testTag = "TEST_TAG";
+            subject.Write(new Generated(symbol, 0, "stage1", "plugin1", null, new HashSet<string>() { testTag }));
 
-            var result = subject.SymbolIsGeneratedBy(symbol, new ActivityFrame(null, "plugin1"));
+            NodeRecord record;
+            var result = subject.SymbolIsGeneratedBy(symbol, new ActivityFrame(null, "plugin1"), out record);
 
             result.Should().BeTrue();
+            record.Should().NotBeNull();
+            record.Tags.Should().NotBeNull();
+            record.Tags.Count.Should().Be(1);
+            record.Tags.Should().Contain(testTag);
         }
 
         [Test]
@@ -65,12 +71,19 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
 
             var symbol3 = new SemanticSymbol(path2);
 
-            subject.Write(new Generated(symbol1, 0, "stage1", "plugin1", null, new HashSet<string>()));
-            subject.Write(new SourcingFrom(symbol1, symbol2, 1, "stage2", "plugin2", null, new HashSet<string>()));
+            var testTag = "TEST_TAG";
+            subject.Write(new Generated(symbol1, 0, "stage1", "plugin1", null, new HashSet<string>() { testTag }));
+            var testTag2 = "TEST_TAG2";
+            subject.Write(new SourcingFrom(symbol1, symbol2, 1, "stage2", "plugin2", null, new HashSet<string>() { testTag2 }));
 
-            var result = subject.SymbolIsGeneratedBy(symbol3, new ActivityFrame(null, "plugin1"));
+            NodeRecord record;
+            var result = subject.SymbolIsGeneratedBy(symbol3, new ActivityFrame(null, "plugin1"), out record);
 
             result.Should().BeTrue();
+            record.Should().NotBeNull();
+            record.Tags.Should().NotBeNull();
+            record.Tags.Count.Should().Be(1);
+            record.Tags.Should().Contain(testTag);
         }
 
         [Test]
@@ -80,7 +93,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
 
             var path0 = new SemanticPath("Lang1", new PathLevel[]
             {
-                new PathLevel("Level1", "Type1"),                
+                new PathLevel("Level1", "Type1"),
             });
 
             var symbol01 = new SemanticSymbol(path0);
@@ -118,14 +131,21 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
 
             var symbol3 = new SemanticSymbol(path2);
 
-            subject.Write(new Generated(symbol1, 0, "stage1", "plugin1", null, new HashSet<string>()));
-            subject.Write(new SourcingFrom(symbol02, symbol01, 1, "stage2", "plugin2", null, new HashSet<string>()));
+            var testTag = "TEST_TAG";
+            subject.Write(new Generated(symbol1, 0, "stage1", "plugin1", null, new HashSet<string>() { testTag }));
+            var testTag2 = "TEST_TAG2";
+            subject.Write(new SourcingFrom(symbol02, symbol01, 1, "stage2", "plugin2", null, new HashSet<string>() { testTag2 }));
 
             subject.Refine(symbol2);
 
-            var result = subject.SymbolIsGeneratedBy(symbol3, new ActivityFrame(null, "plugin1"));
+            NodeRecord record;
+            var result = subject.SymbolIsGeneratedBy(symbol3, new ActivityFrame(null, "plugin1"), out record);
 
             result.Should().BeTrue();
+            record.Should().NotBeNull();
+            record.Tags.Should().NotBeNull();
+            record.Tags.Count.Should().Be(1);
+            record.Tags.Should().Contain(testTag);
         }
 
         [Test]
@@ -163,9 +183,11 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
             subject.Write(new SourcingFrom(symbol1, symbol2, 1, "stage2", "plugin2", null, new HashSet<string>()));
             subject.Write(new Generated(symbol3, 1, "stage3", "plugin3", null, new HashSet<string>()));
 
-            var result = subject.SymbolIsGeneratedBy(symbol3, new ActivityFrame(null, "plugin1"));
+            NodeRecord record;
+            var result = subject.SymbolIsGeneratedBy(symbol3, new ActivityFrame(null, "plugin1"), out record);
 
             result.Should().BeFalse();
+            record.Should().BeNull();
         }
 
         [Test]
@@ -199,7 +221,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
             {
                 new PathLevel("Level11", "Type1"),
                 new PathLevel("Level2", "Type2"),
-                new PathLevel("Level3", "Type3")                
+                new PathLevel("Level3", "Type3")
             });
 
             var path21 = new SemanticPath("Lang1", new PathLevel[]
@@ -240,9 +262,11 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
             var symbol23 = new SemanticSymbol(path23);
             var symbol24 = new SemanticSymbol(path24);
 
-            subject.Write(new Generated(symbol02, 0, "stage1", "plugin1", null, new HashSet<string>()));
+            var testTag = "TEST_TAG";
+            subject.Write(new Generated(symbol02, 0, "stage1", "plugin1", null, new HashSet<string>() { testTag }));
             subject.Write(new SourcingFrom(symbol01, symbol11, 1, "stage2", "plugin2", null, new HashSet<string>()));
-            subject.Write(new Generated(symbol13, 1, "stage3", "plugin3", null, new HashSet<string>()));
+            var testTag2 = "TEST_TAG2";
+            subject.Write(new Generated(symbol13, 1, "stage3", "plugin3", null, new HashSet<string>() { testTag2 }));
 
             subject.Refine(symbol12);
             subject.Refine(symbol13);
@@ -251,15 +275,29 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
 
             subject.Refine(symbol22);
             subject.Refine(symbol23);
-            subject.Refine(symbol24);            
+            subject.Refine(symbol24);
 
-            var result1 = subject.SymbolIsGeneratedBy(symbol23, new ActivityFrame(null, "plugin3"));
-            var result2 = subject.SymbolIsGeneratedBy(symbol24, new ActivityFrame(null, "plugin3"));
-            var negResult3 = subject.SymbolIsGeneratedBy(symbol23, new ActivityFrame(null, "plugin1"));
+            NodeRecord record1;
+            var result1 = subject.SymbolIsGeneratedBy(symbol23, new ActivityFrame(null, "plugin3"), out record1);
+            NodeRecord record2;
+            var result2 = subject.SymbolIsGeneratedBy(symbol24, new ActivityFrame(null, "plugin3"), out record2);
+            NodeRecord record3;
+            var negResult3 = subject.SymbolIsGeneratedBy(symbol23, new ActivityFrame(null, "plugin1"), out record3);
 
             result1.Should().BeTrue();
+            record1.Should().NotBeNull();
+            record1.Tags.Should().NotBeNull();
+            record1.Tags.Count.Should().Be(1);
+            record1.Tags.Should().Contain(testTag2);
+
             result2.Should().BeTrue();
+            record2.Should().NotBeNull();
+            record2.Tags.Should().NotBeNull();
+            record2.Tags.Count.Should().Be(1);
+            record2.Tags.Should().Contain(testTag2);
+
             negResult3.Should().BeFalse();
+            record3.Should().BeNull();
         }
     }
 }

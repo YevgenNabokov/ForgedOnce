@@ -12,19 +12,19 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
 {
     public class CodeStreamProviderBuilder : IBuilder<ICodeStreamProvider>
     {
-        private readonly ICodeFileResolver codeFileResolver;
+        private readonly IPipelineEnvironment pipelineEnvironment;
         private readonly IWorkspaceManagerBase workspaceManager;
         private readonly IFileSystem fileSystem;
         private readonly string basePath;
 
         public string Name => "GenericCodeStreamProvider";
 
-        public CodeStreamProviderBuilder(ICodeFileResolver codeFileResolver,
+        public CodeStreamProviderBuilder(IPipelineEnvironment pipelineEnvironment,
             IWorkspaceManagerBase workspaceManager,
             IFileSystem fileSystem,
             string basePath)
         {
-            this.codeFileResolver = codeFileResolver;
+            this.pipelineEnvironment = pipelineEnvironment;
             this.workspaceManager = workspaceManager;
             this.fileSystem = fileSystem;
             this.basePath = basePath;
@@ -32,7 +32,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
 
         public ICodeStreamProvider Build(JObject configuration)
         {
-            List<WorkspaceCodeStreamProvider> providers = new List<WorkspaceCodeStreamProvider>();
+            List<ICodeStreamProvider> providers = new List<ICodeStreamProvider>();
             var configModel = new InputProviderConfiguration(configuration);
 
             foreach (var provider in configModel.ProviderRegistrations)
@@ -44,7 +44,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
                             providers.Add(new WorkspaceCodeStreamProvider(
                                 provider.Language,
                                 provider.Name,
-                                this.codeFileResolver,
+                                this.pipelineEnvironment,
                                 this.workspaceManager,
                                 this.fileSystem,
                                 this.basePath,
@@ -55,9 +55,17 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
                             providers.Add(new WorkspaceCodeStreamProvider(
                                 provider.Language,
                                 provider.Name,
-                                this.codeFileResolver,
+                                this.pipelineEnvironment,
                                 this.workspaceManager,
                                 new DocumentSelector(provider.Paths)));
+                        }; break;
+                    case CodeStreamProviderType.CreateNew:
+                        {
+                            providers.Add(new NewFileCodeStreamProvider(
+                                provider.Language,
+                                provider.Name,
+                                provider.Paths,
+                                this.pipelineEnvironment));
                         }; break;
                     default: throw new InvalidOperationException($"Code stream provider not supported {provider.Type}.");
                 }

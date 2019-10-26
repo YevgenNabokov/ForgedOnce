@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Environment.Workspace
 {
-    public class WorkspaceCodeStreamProvider
+    public class WorkspaceCodeStreamProvider : ICodeStreamProvider
     {
         private readonly string language;
         private readonly string name;
@@ -52,13 +52,13 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace
             this.documentSelector = documentSelector;
         }
 
-        public ICodeStream RetrieveCodeStream()
+        public IEnumerable<ICodeStream> RetrieveCodeStreams()
         {
             List<CodeFile> codeFiles = new List<CodeFile>();
             if (this.fileSelector != null)
             {
                 foreach (var filePath in this.fileSelector.GetFiles(this.fileSystem, this.basePath))
-                {                    
+                {
                     if (this.workspaceManager.DocumentExists(filePath))
                     {
                         codeFiles.Add(this.codeFileResolver.ResolveCodeFile(this.language, new CodeFileLocation() { FilePath = filePath }));
@@ -74,7 +74,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace
                 }
             }
 
-            return new CodeStream(this.language, this.name, codeFiles);
+            return new ICodeStream[] { new CodeStream(this.language, this.name, codeFiles) };
         }
     }
 }
