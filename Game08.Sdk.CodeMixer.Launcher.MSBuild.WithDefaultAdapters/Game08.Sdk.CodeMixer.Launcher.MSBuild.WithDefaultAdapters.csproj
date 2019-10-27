@@ -1,18 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp2.2;net472</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>netcoreapp2.2;net472</TargetFrameworks>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Game08.Sdk.GlslLanguageServices.Builder" Version="1.0.11" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="System.IO.Abstractions" Version="6.0.32" />
-  </ItemGroup>
 
   <PropertyGroup>
     <NoPackageAnalysis>true</NoPackageAnalysis>
-    <NuspecFile>Game08.Sdk.CodeMixer.Glsl.nuspec</NuspecFile>
+    <NuspecFile>Game08.Sdk.CodeMixer.Launcher.MSBuild.WithDefaultAdapters.nuspec</NuspecFile>
     <IntermediatePackDir>$(MSBuildProjectDirectory)/bin/$(Configuration)/publish/</IntermediatePackDir>
     <PublishDir>$(IntermediatePackDir)$(TargetFramework)/</PublishDir>
     <NuspecProperties>publishDir=$([MSBuild]::NormalizeDirectory($(IntermediatePackDir)))</NuspecProperties>
@@ -20,8 +15,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Game08.Sdk.CodeMixer.Core\Game08.Sdk.CodeMixer.Core.csproj" />
-    <ProjectReference Include="..\Game08.Sdk.CodeMixer.Environment\Game08.Sdk.CodeMixer.Environment.csproj" />
+    <PackageReference Include="System.IO.Abstractions" Version="7.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Game08.Sdk.CodeMixer.CSharp.MsBuild\Game08.Sdk.CodeMixer.CSharp.MsBuild.csproj" />
+    <ProjectReference Include="..\Game08.Sdk.CodeMixer.Glsl.MsBuild\Game08.Sdk.CodeMixer.Glsl.MsBuild.csproj" />
+    <ProjectReference Include="..\Game08.Sdk.CodeMixer.Launcher.MSBuild\Game08.Sdk.CodeMixer.Launcher.MSBuild.csproj" />
+    <ProjectReference Include="..\Game08.Sdk.CodeMixer.LimitedTypeScript.MsBuild\Game08.Sdk.CodeMixer.LimitedTypeScript.MsBuild.csproj" />
   </ItemGroup>
 
   <Target Name="PublishAll" BeforeTargets="GenerateNuspec">

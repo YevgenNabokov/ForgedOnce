@@ -28,7 +28,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
             var symbol = new SemanticSymbol(path);
 
             var testTag = "TEST_TAG";
-            subject.Write(new Generated(symbol, 0, "stage1", "plugin1", null, new HashSet<string>() { testTag }));
+            subject.Write(new Generated(symbol, 0, "stage1", "plugin1", null, new Dictionary<string, string>() { { testTag, string.Empty } }));
 
             NodeRecord record;
             var result = subject.SymbolIsGeneratedBy(symbol, new ActivityFrame(null, "plugin1"), out record);
@@ -37,7 +37,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
             record.Should().NotBeNull();
             record.Tags.Should().NotBeNull();
             record.Tags.Count.Should().Be(1);
-            record.Tags.Should().Contain(testTag);
+            record.Tags.Should().ContainKey(testTag);
         }
 
         [Test]
@@ -72,9 +72,9 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
             var symbol3 = new SemanticSymbol(path2);
 
             var testTag = "TEST_TAG";
-            subject.Write(new Generated(symbol1, 0, "stage1", "plugin1", null, new HashSet<string>() { testTag }));
+            subject.Write(new Generated(symbol1, 0, "stage1", "plugin1", null, new Dictionary<string, string>() { { testTag, string.Empty } }));
             var testTag2 = "TEST_TAG2";
-            subject.Write(new SourcingFrom(symbol1, symbol2, 1, "stage2", "plugin2", null, new HashSet<string>() { testTag2 }));
+            subject.Write(new SourcingFrom(symbol1, symbol2, 1, "stage2", "plugin2", null, new Dictionary<string, string>() { { testTag2, string.Empty } }));
 
             NodeRecord record;
             var result = subject.SymbolIsGeneratedBy(symbol3, new ActivityFrame(null, "plugin1"), out record);
@@ -83,7 +83,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
             record.Should().NotBeNull();
             record.Tags.Should().NotBeNull();
             record.Tags.Count.Should().Be(1);
-            record.Tags.Should().Contain(testTag);
+            record.Tags.Should().ContainKey(testTag);
         }
 
         [Test]
@@ -132,9 +132,9 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
             var symbol3 = new SemanticSymbol(path2);
 
             var testTag = "TEST_TAG";
-            subject.Write(new Generated(symbol1, 0, "stage1", "plugin1", null, new HashSet<string>() { testTag }));
+            subject.Write(new Generated(symbol1, 0, "stage1", "plugin1", null, new Dictionary<string, string>() { { testTag, string.Empty } }));
             var testTag2 = "TEST_TAG2";
-            subject.Write(new SourcingFrom(symbol02, symbol01, 1, "stage2", "plugin2", null, new HashSet<string>() { testTag2 }));
+            subject.Write(new SourcingFrom(symbol02, symbol01, 1, "stage2", "plugin2", null, new Dictionary<string, string>() { { testTag2, string.Empty } }));
 
             subject.Refine(symbol2);
 
@@ -145,7 +145,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
             record.Should().NotBeNull();
             record.Tags.Should().NotBeNull();
             record.Tags.Count.Should().Be(1);
-            record.Tags.Should().Contain(testTag);
+            record.Tags.Should().ContainKey(testTag);
         }
 
         [Test]
@@ -179,9 +179,9 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
 
             var symbol3 = new SemanticSymbol(path2);
 
-            subject.Write(new Generated(symbol1, 0, "stage1", "plugin1", null, new HashSet<string>()));
-            subject.Write(new SourcingFrom(symbol1, symbol2, 1, "stage2", "plugin2", null, new HashSet<string>()));
-            subject.Write(new Generated(symbol3, 1, "stage3", "plugin3", null, new HashSet<string>()));
+            subject.Write(new Generated(symbol1, 0, "stage1", "plugin1", null, new Dictionary<string, string>()));
+            subject.Write(new SourcingFrom(symbol1, symbol2, 1, "stage2", "plugin2", null, new Dictionary<string, string>()));
+            subject.Write(new Generated(symbol3, 1, "stage3", "plugin3", null, new Dictionary<string, string>()));
 
             NodeRecord record;
             var result = subject.SymbolIsGeneratedBy(symbol3, new ActivityFrame(null, "plugin1"), out record);
@@ -263,15 +263,15 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
             var symbol24 = new SemanticSymbol(path24);
 
             var testTag = "TEST_TAG";
-            subject.Write(new Generated(symbol02, 0, "stage1", "plugin1", null, new HashSet<string>() { testTag }));
-            subject.Write(new SourcingFrom(symbol01, symbol11, 1, "stage2", "plugin2", null, new HashSet<string>()));
+            subject.Write(new Generated(symbol02, 0, "stage1", "plugin1", null, new Dictionary<string, string>() { { testTag, string.Empty } }));
+            subject.Write(new SourcingFrom(symbol01, symbol11, 1, "stage2", "plugin2", null, new Dictionary<string, string>()));
             var testTag2 = "TEST_TAG2";
-            subject.Write(new Generated(symbol13, 1, "stage3", "plugin3", null, new HashSet<string>() { testTag2 }));
+            subject.Write(new Generated(symbol13, 1, "stage3", "plugin3", null, new Dictionary<string, string>() { { testTag2, string.Empty } }));
 
             subject.Refine(symbol12);
             subject.Refine(symbol13);
 
-            subject.Write(new SourcingFrom(symbol11, symbol21, 2, "stage4", "plugin4", null, new HashSet<string>()));
+            subject.Write(new SourcingFrom(symbol11, symbol21, 2, "stage4", "plugin4", null, new Dictionary<string, string>()));
 
             subject.Refine(symbol22);
             subject.Refine(symbol23);
@@ -288,13 +288,13 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Integration
             record1.Should().NotBeNull();
             record1.Tags.Should().NotBeNull();
             record1.Tags.Count.Should().Be(1);
-            record1.Tags.Should().Contain(testTag2);
+            record1.Tags.Should().ContainKey(testTag2);
 
             result2.Should().BeTrue();
             record2.Should().NotBeNull();
             record2.Tags.Should().NotBeNull();
             record2.Tags.Count.Should().Be(1);
-            record2.Tags.Should().Contain(testTag2);
+            record2.Tags.Should().ContainKey(testTag2);
 
             negResult3.Should().BeFalse();
             record3.Should().BeNull();

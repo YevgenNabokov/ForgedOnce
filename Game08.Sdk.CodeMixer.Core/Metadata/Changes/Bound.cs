@@ -7,7 +7,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Changes
 {
     public class Bound : RecordBase
     {
-        public Bound(ISemanticSymbol item1, ISemanticSymbol item2, int batchindex, string stageName, string pluginId, object pluginMetadata, HashSet<string> tags)
+        public Bound(ISemanticSymbol item1, ISemanticSymbol item2, int batchindex, string stageName, string pluginId, object pluginMetadata, IDictionary<string, string> tags)
             :base(batchindex, stageName, pluginId, pluginMetadata, tags)
         {
             this.Names.Add(item1);

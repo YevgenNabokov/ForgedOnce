@@ -26,7 +26,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
             TNode1 node1,
             ISemanticInfoProvider<TNode2> semanticInfoProvider2,
             TNode2 node2,
-            HashSet<string> tags,
+            IDictionary<string, string> tags,
             object pluginMetadata = null)
         {
             var symbol1 = semanticInfoProvider1.GetImmediateUpstreamSymbol(node1);
@@ -41,7 +41,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
         public void SymbolGenerated<TSubject>(
             ISemanticInfoProvider<TSubject> semanticInfoProvider1,
             TSubject subject,
-            HashSet<string> tags,
+            IDictionary<string, string> tags,
             object pluginMetadata = null)
         {
             var symbols = semanticInfoProvider1.GetImmediateDownstreamSymbols(subject).ToArray();
@@ -52,7 +52,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
 
             if (symbols.Length == 0)
             {
-                this.SymbolModified<TSubject>(semanticInfoProvider1, subject, new HashSet<string>());
+                this.SymbolModified<TSubject>(semanticInfoProvider1, subject, new Dictionary<string, string>());
             }
         }
 
@@ -61,7 +61,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
             TSubject subject,
             ISemanticInfoProvider<TFrom> semanticInfoProvider2,
             TFrom from,
-            HashSet<string> tags,
+            IDictionary<string, string> tags,
             object pluginMetadata = null)
         {
             var fromSymbol = semanticInfoProvider2.GetImmediateUpstreamSymbol(from);
@@ -73,14 +73,14 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
 
             if (symbols.Length == 0)
             {
-                this.SymbolModified<TSubject>(semanticInfoProvider1, subject, new HashSet<string>());
+                this.SymbolModified<TSubject>(semanticInfoProvider1, subject, new Dictionary<string, string>());
             }
         }
 
         public void SymbolModified<TTarget>(
             ISemanticInfoProvider<TTarget> semanticInfoProvider1,
             TTarget target,
-            HashSet<string> tags,
+            IDictionary<string, string> tags,
             object pluginMetadata = null)
         {
             var symbol = semanticInfoProvider1.GetImmediateUpstreamSymbol(target);
@@ -93,14 +93,15 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
         public void SymbolSourcingFrom<TNode>(
             ISemanticInfoProvider<TNode> semanticInfoProvider1,
             TNode from,
+            ISemanticInfoProvider<TNode> semanticInfoProvider2,
             TNode subject,
-            HashSet<string> tags,
+            IDictionary<string, string> tags,
             object pluginMetadata = null)
         {
             var fromSymbol = semanticInfoProvider1.GetImmediateUpstreamSymbol(from);
             if (fromSymbol != null)
             {
-                foreach (var symbol in semanticInfoProvider1.GetImmediateDownstreamSymbols(subject))
+                foreach (var symbol in semanticInfoProvider2.GetImmediateDownstreamSymbols(subject))
                 {
                     this.metadataWriter.Write(
                     new SourcingFrom(

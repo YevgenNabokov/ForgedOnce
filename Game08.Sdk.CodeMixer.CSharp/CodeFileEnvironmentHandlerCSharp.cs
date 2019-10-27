@@ -3,6 +3,7 @@ using Game08.Sdk.CodeMixer.Core.Interfaces;
 using Game08.Sdk.CodeMixer.Environment;
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Game08.Sdk.CodeMixer.CSharp
 {

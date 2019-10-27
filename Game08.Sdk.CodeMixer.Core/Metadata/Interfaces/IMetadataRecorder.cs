@@ -11,14 +11,14 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Interfaces
             TNode1 node1,
             ISemanticInfoProvider<TNode2> semanticInfoProvider2,
             TNode2 node2,
-            HashSet<string> tags,
+            IDictionary<string, string> tags,
             object pluginMetadata = null
             );
 
         void SymbolGenerated<TSubject>(
             ISemanticInfoProvider<TSubject> semanticInfoProvider1,
             TSubject subject,
-            HashSet<string> tags,
+            IDictionary<string, string> tags,
             object pluginMetadata = null);
 
         void SymbolGenerated<TSubject, TFrom>(
@@ -26,20 +26,21 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Interfaces
             TSubject subject,
             ISemanticInfoProvider<TFrom> semanticInfoProvider2,
             TFrom from,
-            HashSet<string> tags,
+            IDictionary<string, string> tags,
             object pluginMetadata = null);
 
         void SymbolModified<TTarget>(
             ISemanticInfoProvider<TTarget> semanticInfoProvider1,
             TTarget target,
-            HashSet<string> tags,
+            IDictionary<string, string> tags,
             object pluginMetadata = null);
 
         void SymbolSourcingFrom<TNode>(
             ISemanticInfoProvider<TNode> semanticInfoProvider1,
             TNode from,
-            TNode to,
-            HashSet<string> tags,
+            ISemanticInfoProvider<TNode> semanticInfoProvider2,
+            TNode subject,
+            IDictionary<string, string> tags,
             object pluginMetadata = null);
     }
 }

@@ -7,7 +7,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Changes
 {
     public class SourcingFrom : RecordBase
     {
-        public SourcingFrom(ISemanticSymbol from, ISemanticSymbol subject, int batchindex, string stageName, string pluginId, object pluginMetadata, HashSet<string> tags)
+        public SourcingFrom(ISemanticSymbol from, ISemanticSymbol subject, int batchindex, string stageName, string pluginId, object pluginMetadata, IDictionary<string, string> tags)
             : base(batchindex, stageName, pluginId, pluginMetadata, tags)
         {
             this.Names.Add(from);

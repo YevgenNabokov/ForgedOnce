@@ -7,7 +7,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Changes
 {
     public class Generated : RecordBase
     {
-        public Generated(ISemanticSymbol subject, int batchindex, string stageName, string pluginId, object pluginMetadata, HashSet<string> tags, ISemanticSymbol from = null)
+        public Generated(ISemanticSymbol subject, int batchindex, string stageName, string pluginId, object pluginMetadata, IDictionary<string, string> tags, ISemanticSymbol from = null)
             : base(batchindex, stageName, pluginId, pluginMetadata, tags)
         {
             this.Names.Add(subject);
