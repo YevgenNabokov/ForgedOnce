@@ -1,6 +1,7 @@
 ﻿using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using Game08.Sdk.GlslLanguageServices.Builder;
 using Game08.Sdk.GlslLanguageServices.Builder.SyntaxTools;
+using Game08.Sdk.GlslLanguageServices.LanguageModels.Ast;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,6 +28,22 @@ namespace Game08.Sdk.CodeMixer.Glsl
                     metadataRecorder.SymbolSourcingFrom(source.SemanticInfoProvider, declaration, target.SemanticInfoProvider, targetNode, new Dictionary<string, string>());
                 }
             }
-        }        
+        }
+
+        public static int IndexAfterVariablesBeforeFunctions(IEnumerable<Declaration> declarations)
+        {
+            int i = 0;
+            foreach (var declaration in declarations)
+            {
+                if (declaration is FunctionDeclaration)
+                {
+                    return i;
+                }
+
+                i++;
+            }
+
+            return i;
+        }
     }
 }
