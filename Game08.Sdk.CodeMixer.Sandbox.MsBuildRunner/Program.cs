@@ -10,8 +10,8 @@ namespace Game08.Sdk.CodeMixer.Sandbox.MsBuildRunner
         {
             ////TestProject1.Run();
             ////TestProject2_Lts.Run();
-            ////TestProject3_Glsl.Run();
-            TestProject4_Metadata.Run();
+            TestProject3_Glsl.Run();
+            ////TestProject4_Metadata.Run();
         }
     }
 }

@@ -12,7 +12,8 @@ namespace GlslPlugin
 {
     public class GlslTestPluginFactory : ICodeGenerationPluginFactory<GlslTestPluginSettings, GlslTestPluginMetadata, CodeFileCSharp>
     {
-        public CodeGenerationPlugin<GlslTestPluginSettings, GlslTestPluginMetadata, CodeFileCSharp> CreatePlugin(JObject configuration, IPluginPreprocessor<GlslTestPluginMetadata> pluginPreprocessor = null)
+
+        ICodeGenerationPlugin ICodeGenerationPluginFactory<GlslTestPluginSettings, GlslTestPluginMetadata, CodeFileCSharp>.CreatePlugin(JObject configuration, IPluginPreprocessor<CodeFileCSharp, GlslTestPluginMetadata> pluginPreprocessor)
         {
             return new GlslTestPluginImplementation()
             {

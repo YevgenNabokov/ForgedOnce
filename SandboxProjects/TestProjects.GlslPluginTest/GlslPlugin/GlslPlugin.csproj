@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Game08.Sdk.CodeMixer.CSharp" Version="1.0.5" />
-    <PackageReference Include="Game08.Sdk.CodeMixer.Glsl" Version="1.0.5" />
+    <PackageReference Include="Game08.Sdk.CodeMixer.CSharp" Version="1.0.6" />
+    <PackageReference Include="Game08.Sdk.CodeMixer.Glsl" Version="1.0.16" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="3.2.1" />
   </ItemGroup>
 
