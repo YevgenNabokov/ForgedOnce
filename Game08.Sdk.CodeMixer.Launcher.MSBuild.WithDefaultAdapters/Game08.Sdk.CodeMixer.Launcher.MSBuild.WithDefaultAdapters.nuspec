@@ -1,7 +1,7 @@
 ﻿<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Game08.Sdk.CodeMixer.Launcher.MSBuild.WithDefaultAdapters</id>
-    <version>1.0.10</version>
+    <version>1.0.14</version>
     <authors>Yevgen Nabokov</authors>
     <description>Configurable pipeline for code generation with adapters for C#, GLSL and Limited TypeScript files.</description>
     <dependencies>

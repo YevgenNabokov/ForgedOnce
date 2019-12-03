@@ -55,7 +55,7 @@ namespace Game08.Sdk.CodeMixer.Environment
             trackingTypeLoader.AttachAssemblyResolveHandler();
 
             var processWorkspaceManager = codeAnalysisWorkspaceManager.CreateAdHocClone();
-            var basePath = this.fileSystem.Path.GetDirectoryName(pipelineConfigurationFilePath);
+            var basePath = this.fileSystem.Path.GetDirectoryName(this.fileSystem.Path.GetFullPath(pipelineConfigurationFilePath));
             var builderProvider = this.GetBuilderProvider(initialWorkspaceManager);
 
             var pipelineBuilder = new PipelineBuilder(
