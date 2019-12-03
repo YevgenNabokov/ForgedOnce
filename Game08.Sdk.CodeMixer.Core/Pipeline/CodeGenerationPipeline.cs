@@ -66,17 +66,38 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
                 var codeStreamFactory = new CodeStreamFactory(this.PipelineEnvironment, stage.CodeFileLocationProviders);
                 var outputs = stage.Stage.Execute(stage.InputSelector.Select(inputs), this.MetadataStore, this.MetadataStore, codeStreamFactory, this.pipelineExecutionInfo);
-                result.AddRange(outputs);
                 if (stage.FinalOutputSelector != null)
                 {
                     storableOutputs.AddRange(stage.FinalOutputSelector.Select(outputs));
                 }
+
+                foreach (var o in outputs)
+                {
+                    var outputName = stage.OutputCodeStreamRenames.ContainsKey(o.Name) ? stage.OutputCodeStreamRenames[o.Name] : o.Name;
+                    result.Add(new CodeStream(o.Language, outputName, o.Files));
+                }
             }
 
-            this.PipelineEnvironment.CodeStreamsDiscarded(inputs);
+            List<ICodeStream> persistentInputs = new List<ICodeStream>();
+            List<ICodeStream> inputsToDiscard = new List<ICodeStream>();
+            foreach (var i in inputs)
+            {
+                if (batch.PersistInputCodeStreams != null && batch.PersistInputCodeStreams.Contains(i.Name))
+                {
+                    persistentInputs.Add(i);
+                }
+                else
+                {
+                    inputsToDiscard.Add(i);
+                }
+            }
+
+            this.PipelineEnvironment.CodeStreamsDiscarded(inputsToDiscard);
             this.PipelineEnvironment.CodeStreamsCompleted(result);
             this.PipelineEnvironment.StoreForOutput(storableOutputs);
             this.RefineMetadata(result);
+
+            result.AddRange(persistentInputs);
 
             return result;
         }

@@ -23,7 +23,7 @@ namespace Game08.Sdk.CodeMixer.Environment
         public static string GetAbsolutePathMask(string relativePathMask, string basePath, IFileSystem fileSystem)
         {
             var startDirectory = basePath;
-            var parts = relativePathMask.Split(fileSystem.Path.PathSeparator);
+            var parts = relativePathMask.Split(fileSystem.Path.DirectorySeparatorChar);
             int levelUpParts = 0;
             foreach (var part in parts)
             {
@@ -38,7 +38,7 @@ namespace Game08.Sdk.CodeMixer.Environment
                 }
             }
 
-            return fileSystem.Path.Combine(startDirectory, string.Join(fileSystem.Path.PathSeparator.ToString(), parts.Skip(levelUpParts)));
+            return fileSystem.Path.Combine(startDirectory, string.Join(fileSystem.Path.DirectorySeparatorChar.ToString(), parts.Skip(levelUpParts)));
         }
 
         public static string GetRelativePath(string absoluteRootPath, string absolutePath, IFileSystem fileSystem)
@@ -58,8 +58,8 @@ namespace Game08.Sdk.CodeMixer.Environment
         public static string GetCommonRootPath(string path1, string path2, IFileSystem fileSystem)
         {
             string result = string.Empty;
-            var parts1 = fileSystem.Path.GetDirectoryName(path1).Split(fileSystem.Path.PathSeparator);
-            var parts2 = fileSystem.Path.GetDirectoryName(path2).Split(fileSystem.Path.PathSeparator);
+            var parts1 = fileSystem.Path.GetDirectoryName(path1).Split(fileSystem.Path.DirectorySeparatorChar);
+            var parts2 = fileSystem.Path.GetDirectoryName(path2).Split(fileSystem.Path.DirectorySeparatorChar);
             var b1 = new StringBuilder();
             var b2 = new StringBuilder();
 
@@ -67,7 +67,7 @@ namespace Game08.Sdk.CodeMixer.Environment
             {
                 if(i > 0)
                 {
-                    b1.Append(fileSystem.Path.PathSeparator);
+                    b1.Append(fileSystem.Path.DirectorySeparatorChar);
                 }
 
                 b1.Append(parts1[i]);
@@ -76,7 +76,7 @@ namespace Game08.Sdk.CodeMixer.Environment
                 {
                     if (i > 0)
                     {
-                        b2.Append(fileSystem.Path.PathSeparator);
+                        b2.Append(fileSystem.Path.DirectorySeparatorChar);
                     }
 
                     b2.Append(parts2[i]);

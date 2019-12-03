@@ -78,6 +78,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
                 {
                     Index = index,
                     Name = config.Name,
+                    PersistInputCodeStreams = new List<string>(config.PersistCodeInputStreams),
                     Stages = stages
                 });
                 index++;

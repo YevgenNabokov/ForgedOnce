@@ -41,6 +41,8 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
                 mappers.Add(mapper.Key, this.builderProvider.Resolve<ICodeFileLocationProvider>(mapper.Value.BuilderName).Build(mapper.Value.Configuration));
             }
 
+            result.OutputCodeStreamRenames = stageConfiguration.OutputCodeStreamRenames;
+
             result.CodeFileLocationProviders = mappers;
 
             result.Stage = this.BuildPluginStage(stageConfiguration.Plugin, stageConfiguration.Name);

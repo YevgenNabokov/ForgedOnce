@@ -2,13 +2,20 @@
 using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Glsl
 {
     public class CodeFileStorageHandlerGlsl : ICodeFileStorageHandler
     {
+        private readonly IFileSystem fileSystem;
         private List<CodeFile> codeFiles = new List<CodeFile>();
+
+        public CodeFileStorageHandlerGlsl(IFileSystem fileSystem)
+        {
+            this.fileSystem = fileSystem;
+        }
 
         public void Add(CodeFile codeFile)
         {
@@ -28,12 +35,20 @@ namespace Game08.Sdk.CodeMixer.Glsl
 
         public void ResolveCodeFile(CodeFile codeFile, bool resolveSourceCodeText = true, bool resolveLocation = true)
         {
-            throw new NotSupportedException();
+            if (this.fileSystem.File.Exists(codeFile.Location.FilePath))
+            {
+                codeFile.SourceCodeText = this.fileSystem.File.ReadAllText(codeFile.Location.FilePath);
+            }            
         }
 
         public string ResolveCodeFileName(CodeFileLocation location)
         {
-            throw new NotSupportedException();
+            if (this.fileSystem.File.Exists(location.FilePath))
+            {
+                return this.fileSystem.Path.GetFileName(location.FilePath);
+            }
+
+            return null;
         }
     }
 }

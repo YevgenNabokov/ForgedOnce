@@ -130,7 +130,7 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
 
         public void Save()
         {
-            foreach(var proj in this.solution.Projects)
+            foreach(var proj in this.Solution.Projects)
             {
                 proj.Value.Save();
             }

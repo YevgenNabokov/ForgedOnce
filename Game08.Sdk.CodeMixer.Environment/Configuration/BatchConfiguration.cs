@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Environment.Configuration
@@ -10,6 +11,8 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
         public const string NameKey = "name";
 
         public const string StagesKey = "stages";
+
+        public const string PersistCodeInputStreamsKey = "persistInputCodeStreams";
 
         private readonly JObject configuration;
 
@@ -28,6 +31,19 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
                 }
 
                 return null;
+            }
+        }
+
+        public string[] PersistCodeInputStreams
+        {
+            get
+            {
+                if (configuration.ContainsKey(PersistCodeInputStreamsKey))
+                {
+                    return configuration[PersistCodeInputStreamsKey].Values<string>().ToArray();
+                }
+
+                return Array.Empty<string>();
             }
         }
 

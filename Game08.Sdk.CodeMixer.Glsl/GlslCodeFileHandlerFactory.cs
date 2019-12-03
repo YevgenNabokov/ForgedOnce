@@ -13,7 +13,7 @@ namespace Game08.Sdk.CodeMixer.Glsl
     {
         public ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, JObject configuration = null)
         {
-            return new CodeFileEnvironmentHandlerGlsl(pipelineExecutionInfo);
+            return new CodeFileEnvironmentHandlerGlsl(pipelineExecutionInfo, fileSystem);
         }
     }
 }

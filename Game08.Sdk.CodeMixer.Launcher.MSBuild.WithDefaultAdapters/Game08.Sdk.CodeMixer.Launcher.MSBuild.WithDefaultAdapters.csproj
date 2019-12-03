@@ -7,11 +7,13 @@
 
   <PropertyGroup>
     <NoPackageAnalysis>true</NoPackageAnalysis>
+    <PackageType>DotnetCliTool</PackageType>
     <NuspecFile>Game08.Sdk.CodeMixer.Launcher.MSBuild.WithDefaultAdapters.nuspec</NuspecFile>
     <IntermediatePackDir>$(MSBuildProjectDirectory)/bin/$(Configuration)/publish/</IntermediatePackDir>
     <PublishDir>$(IntermediatePackDir)$(TargetFramework)/</PublishDir>
     <NuspecProperties>publishDir=$([MSBuild]::NormalizeDirectory($(IntermediatePackDir)))</NuspecProperties>
     <PackageOutputPath>$(SolutionDir)/NugetOutputs</PackageOutputPath>
+    <AssemblyName>dotnet-game08-cg-msbuild</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

@@ -13,6 +13,8 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
 
         public const string CodeStreamMappingsKey = "mappings";
 
+        public const string OutputStreamRenamesKey = "outputStreamRenames";
+
         public const string PluginKey = "plugin";
 
         public const string NameKey = "name";
@@ -67,6 +69,24 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
                 }
 
                 throw new InvalidOperationException($"Stage configuration should contain {CodeStreamMappingsKey}.");
+            }
+        }
+
+        public Dictionary<string, string> OutputCodeStreamRenames
+        {
+            get
+            {
+                Dictionary<string, string> result = new Dictionary<string, string>();
+
+                if (this.configuration.ContainsKey(OutputStreamRenamesKey))
+                {
+                    foreach (var mapper in this.configuration[OutputStreamRenamesKey].Value<JObject>())
+                    {
+                        result.Add(mapper.Key, mapper.Value.Value<string>());
+                    }
+                }
+
+                return result;
             }
         }
 

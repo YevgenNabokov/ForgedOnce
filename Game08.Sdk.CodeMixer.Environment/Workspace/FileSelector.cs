@@ -23,7 +23,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace
             foreach (var mask in this.filePaths)
             {
                 var startDirectory = basePath;                        
-                foreach (var part in mask.Split(fileSystem.Path.PathSeparator))
+                foreach (var part in mask.Split(fileSystem.Path.DirectorySeparatorChar))
                 {
                     if (part == "..")
                     {

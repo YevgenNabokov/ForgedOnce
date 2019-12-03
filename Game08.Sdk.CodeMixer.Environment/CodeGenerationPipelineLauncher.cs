@@ -50,6 +50,10 @@ namespace Game08.Sdk.CodeMixer.Environment
                 typeLoader.AddResolver(this.additionalTypeLoader);
             }
 
+            var trackingTypeLoader = new TrackingTypeLoaderWrapper(typeLoader, this.fileSystem);
+
+            trackingTypeLoader.AttachAssemblyResolveHandler();
+
             var processWorkspaceManager = codeAnalysisWorkspaceManager.CreateAdHocClone();
             var basePath = this.fileSystem.Path.GetDirectoryName(pipelineConfigurationFilePath);
             var builderProvider = this.GetBuilderProvider(initialWorkspaceManager);
@@ -60,7 +64,7 @@ namespace Game08.Sdk.CodeMixer.Environment
                 this.initialWorkspaceManager,
                 basePath,
                 this.fileSystem,
-                typeLoader);
+                trackingTypeLoader);
 
             var pipeline = pipelineBuilder.Build(JObject.Parse(this.fileSystem.File.ReadAllText(pipelineConfigurationFilePath)));
 

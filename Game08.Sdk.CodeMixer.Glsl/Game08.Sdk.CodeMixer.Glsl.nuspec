@@ -1,7 +1,7 @@
 ﻿<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Game08.Sdk.CodeMixer.Glsl</id>
-    <version>1.0.24</version>
+    <version>1.0.28</version>
     <authors>Yevgen Nabokov</authors>
     <description>GLSL library for the code generation pipeline.</description>
     <dependencies>

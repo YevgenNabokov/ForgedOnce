@@ -14,5 +14,7 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
         public ICodeFileSelector FinalOutputSelector;
 
         public Dictionary<string, ICodeFileLocationProvider> CodeFileLocationProviders;
+
+        public Dictionary<string, string> OutputCodeStreamRenames;
     }
 }

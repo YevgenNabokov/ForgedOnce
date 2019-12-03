@@ -11,5 +11,7 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
         public string Name;
 
         public List<StageContainer> Stages = new List<StageContainer>();
+
+        public List<string> PersistInputCodeStreams;
     }
 }
