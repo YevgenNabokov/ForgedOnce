@@ -19,6 +19,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Environment.Integration
         public void CanConstructPipeine()
         {
             var fileSystem = new Mock<IFileSystem>(MockBehavior.Strict).Object;
+            var logger = new Mock<ILogger>(MockBehavior.Loose).Object;
 
             var basePath = "z:\\fakepath";
 
@@ -29,7 +30,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Environment.Integration
 
             var config = JObject.Parse(Resources.IntegrationTestConfig01);
 
-            var subject = new PipelineBuilder(builders, workspaceManager, workspaceManager, basePath, fileSystem, new DefaultTypeLoader());
+            var subject = new PipelineBuilder(builders, workspaceManager, workspaceManager, basePath, fileSystem, new DefaultTypeLoader(), logger);
 
             var result = subject.Build(config);
 

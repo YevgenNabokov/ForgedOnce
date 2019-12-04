@@ -13,7 +13,7 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
 
         public IFileGroupAggregator<TCodeFile> InputAggregator;
 
-        public override void Execute(IEnumerable<CodeFile> input, IMetadataRecorder metadataRecorder, IMetadataReader metadataReader)
+        public override void Execute(IEnumerable<CodeFile> input, IMetadataRecorder metadataRecorder, IMetadataReader metadataReader, ILogger logger)
         {
             if (input.Any(file => !(file is TCodeFile)))
             {
@@ -50,14 +50,14 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
 
                 foreach (var file in group.Files)
                 {
-                    var metadata = this.Preprocessor.GenerateMetadata(file.Key, metadataReader, group);
+                    var metadata = this.Preprocessor.GenerateMetadata(file.Key, metadataReader, logger, group);
                     inputGroup.Files.Add(file.Key, new GroupItemDetailsParametrized<TInputParameters>(metadata, file.Value.GroupingTags));
                 }
 
-                this.Implementation(inputGroup, metadataRecorder);
+                this.Implementation(inputGroup, metadataRecorder, logger);
             }
         }
 
-        protected abstract void Implementation(FileGroup<TCodeFile, GroupItemDetailsParametrized<TInputParameters>> group, IMetadataRecorder metadataRecorder);
+        protected abstract void Implementation(FileGroup<TCodeFile, GroupItemDetailsParametrized<TInputParameters>> group, IMetadataRecorder metadataRecorder, ILogger logger);
     }
 }

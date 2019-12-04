@@ -1,4 +1,5 @@
 ﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
+using Game08.Sdk.CodeMixer.Core.Logging;
 using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using Game08.Sdk.CodeMixer.Core.Pipeline;
 using Game08.Sdk.CodeMixer.Environment.Configuration;
@@ -22,6 +23,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
         private readonly string basePath;
         private readonly IFileSystem fileSystem;
         private readonly ITypeLoader typeLoader;
+        private readonly ILogger logger;
 
         public string Name => "GenericPipelineBuilder";
 
@@ -31,7 +33,8 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
             IWorkspaceManagerBase initialWorkspaceManager,
             string basePath,
             IFileSystem fileSystem,
-            ITypeLoader typeLoader)
+            ITypeLoader typeLoader,
+            ILogger logger)
         {
             this.builderProvider = builderProvider;
             this.workspaceManager = workspaceManager;
@@ -39,30 +42,41 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
             this.basePath = basePath;
             this.fileSystem = fileSystem;
             this.typeLoader = typeLoader;
+            this.logger = logger;
         }
 
         public ICodeGenerationPipeline Build(JObject configuration)
         {
-            var reader = new PipelineConfiguration(configuration);
-            var result = new CodeGenerationPipeline();
-            result.PipelineEnvironment = this.CreatePipelineEnvironment(result.PipelineExecutionInfo, reader);
+            this.logger.Write(new StageTopLevelInfoRecord("Building code generation pipeline."));
 
-            var inputConfig = reader.InputCodeStreamProviderConfiguration;
-            if (inputConfig != null)
+            try
             {
-                var inputBuilder = new CodeStreamProviderBuilder(result.PipelineEnvironment, this.initialWorkspaceManager, this.fileSystem, this.basePath);
-                result.InputCodeStreamProvider = inputBuilder.Build(inputConfig);
+                var reader = new PipelineConfiguration(configuration);
+                var result = new CodeGenerationPipeline(this.logger);
+                result.PipelineEnvironment = this.CreatePipelineEnvironment(result.PipelineExecutionInfo, reader);
+
+                var inputConfig = reader.InputCodeStreamProviderConfiguration;
+                if (inputConfig != null)
+                {
+                    var inputBuilder = new CodeStreamProviderBuilder(result.PipelineEnvironment, this.initialWorkspaceManager, this.fileSystem, this.basePath);
+                    result.InputCodeStreamProvider = inputBuilder.Build(inputConfig);
+                }
+
+                result.Batches = this.BuildBatches(reader.BatchConfigurations);
+
+                return result;
             }
-
-            result.Batches = this.BuildBatches(reader.BatchConfigurations);            
-
-            return result;
+            catch (Exception ex)
+            {
+                this.logger.Write(new ErrorLogRecord("Error occurred while building code generation pipeline.", ex));
+                throw;
+            }
         }
 
         private List<Batch> BuildBatches(IEnumerable<BatchConfiguration> batchConfigurations)
         {
             List<Batch> result = new List<Batch>();
-            var stageBuilder = new StageBuilder(this.builderProvider, this.typeLoader);
+            var stageBuilder = new StageBuilder(this.builderProvider, this.typeLoader, this.logger);
 
             int index = 0;
             foreach (var config in batchConfigurations)

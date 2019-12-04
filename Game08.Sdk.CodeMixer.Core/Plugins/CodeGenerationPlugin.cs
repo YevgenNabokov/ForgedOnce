@@ -8,7 +8,7 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
 {
     public abstract class CodeGenerationPlugin<TSettings, TInputParameters, TCodeFile> : CodeGenerationPluginBase<TSettings, TInputParameters, TCodeFile>, ICodeGenerationPlugin where TCodeFile : CodeFile
     {
-        public override void Execute(IEnumerable<CodeFile> input, IMetadataRecorder metadataRecorder, IMetadataReader metadataReader)
+        public override void Execute(IEnumerable<CodeFile> input, IMetadataRecorder metadataRecorder, IMetadataReader metadataReader, ILogger logger)
         {
             foreach (var file in input)
             {
@@ -19,12 +19,12 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
 
                 var codeFile = (TCodeFile)file;
 
-                var metadata = this.Preprocessor.GenerateMetadata(codeFile, metadataReader);
+                var metadata = this.Preprocessor.GenerateMetadata(codeFile, metadataReader, logger);
 
-                this.Implementation(codeFile, metadata, metadataRecorder);
+                this.Implementation(codeFile, metadata, metadataRecorder, logger);
             }
         }
 
-        protected abstract void Implementation(TCodeFile input, TInputParameters inputParameters, IMetadataRecorder metadataRecorder);
+        protected abstract void Implementation(TCodeFile input, TInputParameters inputParameters, IMetadataRecorder metadataRecorder, ILogger logger);
     }
 }

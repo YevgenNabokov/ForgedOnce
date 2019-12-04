@@ -27,7 +27,7 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
             return outputs;
         }
 
-        public abstract void Execute(IEnumerable<CodeFile> input, IMetadataRecorder metadataRecorder, IMetadataReader metadataReader);
+        public abstract void Execute(IEnumerable<CodeFile> input, IMetadataRecorder metadataRecorder, IMetadataReader metadataReader, ILogger logger);
 
         protected abstract List<ICodeStream> CreateOutputs(ICodeStreamFactory codeStreamFactory);
     }

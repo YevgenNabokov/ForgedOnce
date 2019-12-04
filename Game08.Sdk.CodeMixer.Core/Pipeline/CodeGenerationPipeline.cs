@@ -1,5 +1,7 @@
 ﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
+using Game08.Sdk.CodeMixer.Core.Logging;
 using Game08.Sdk.CodeMixer.Core.Metadata.Storage;
+using System;
 using System.Collections.Generic;
 
 namespace Game08.Sdk.CodeMixer.Core.Pipeline
@@ -16,10 +18,13 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
         public MetadataStore MetadataStore;
 
-        public CodeGenerationPipeline()
+        private readonly ILogger logger;
+
+        public CodeGenerationPipeline(ILogger logger)
         {
             this.MetadataStore = new MetadataStore();
             this.pipelineExecutionInfo = new PipelineExecutionInfo();
+            this.logger = logger;
         }
 
         public IPipelineExecutionInfo PipelineExecutionInfo
@@ -37,9 +42,19 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
         public void Execute()
         {
-            var inputs = this.InputCodeStreamProvider.RetrieveCodeStreams();
+            this.logger.Write(new StageTopLevelInfoRecord("Starting pipeline execution."));
 
-            this.ExecuteAllBatches(this.Batches, inputs);
+            try
+            {
+                var inputs = this.InputCodeStreamProvider.RetrieveCodeStreams();
+
+                this.ExecuteAllBatches(this.Batches, inputs);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Write(new ErrorLogRecord("Error occurred during pipeline execution.", ex));
+                throw;
+            }
         }
 
         private void ExecuteAllBatches(IEnumerable<Batch> batches, IEnumerable<ICodeStream> inputs)
@@ -54,6 +69,8 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
         private IEnumerable<ICodeStream> ExecuteBatch(Batch batch, IEnumerable<ICodeStream> inputs)
         {
+            this.logger.Write(new StageSubLevelInfoRecord($"Starting batch {batch.Name}."));
+
             this.pipelineExecutionInfo.CurrentBatchIndex = batch.Index;
             this.PipelineEnvironment.RefreshAndRecompile();
 

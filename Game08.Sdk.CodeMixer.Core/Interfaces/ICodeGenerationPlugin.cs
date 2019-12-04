@@ -12,6 +12,6 @@ namespace Game08.Sdk.CodeMixer.Core.Interfaces
 
         List<ICodeStream> InitializeOutputs(ICodeStreamFactory codeStreamFactory);
 
-        void Execute(IEnumerable<CodeFile> input, IMetadataRecorder metadataRecorder, IMetadataReader metadataReader);
+        void Execute(IEnumerable<CodeFile> input, IMetadataRecorder metadataRecorder, IMetadataReader metadataReader, ILogger logger);
     }
 }

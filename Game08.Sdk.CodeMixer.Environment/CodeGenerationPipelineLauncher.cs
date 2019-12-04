@@ -19,19 +19,22 @@ namespace Game08.Sdk.CodeMixer.Environment
         private readonly IFileSystem fileSystem;
         private readonly ITypeLoader additionalTypeLoader;
         private readonly ICodeFileStorageHandler outputStorageHandler;
+        private readonly ILogger logger;
 
         public CodeGenerationPipelineLauncher(
             IWorkspaceManager codeAnalysisWorkspaceManager,
             IWorkspaceManagerBase initialWorkspaceManager,
             IFileSystem fileSystem,
             ITypeLoader additionalTypeLoader = null,
-            ICodeFileStorageHandler outputStorageHandler = null)
+            ICodeFileStorageHandler outputStorageHandler = null,
+            ILogger logger = null)
         {
             this.codeAnalysisWorkspaceManager = codeAnalysisWorkspaceManager;
             this.initialWorkspaceManager = initialWorkspaceManager;
             this.fileSystem = fileSystem;
             this.additionalTypeLoader = additionalTypeLoader;
             this.outputStorageHandler = outputStorageHandler;
+            this.logger = logger ?? new TextLogger(this.fileSystem);
         }
 
         public void Launch(string pipelineConfigurationFilePath)
@@ -64,7 +67,8 @@ namespace Game08.Sdk.CodeMixer.Environment
                 this.initialWorkspaceManager,
                 basePath,
                 this.fileSystem,
-                trackingTypeLoader);
+                trackingTypeLoader,
+                this.logger);
 
             var pipeline = pipelineBuilder.Build(JObject.Parse(this.fileSystem.File.ReadAllText(pipelineConfigurationFilePath)));
 

@@ -1,4 +1,5 @@
-﻿using Game08.Sdk.CodeMixer.Environment;
+﻿using Game08.Sdk.CodeMixer.Core.Interfaces;
+using Game08.Sdk.CodeMixer.Environment;
 using Game08.Sdk.CodeMixer.Environment.Workspace;
 using Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis;
 using Game08.Sdk.CodeMixer.Launcher.MSBuild.Interfaces;
@@ -15,12 +16,13 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild
     public class CodeGenerationPipelineLauncherMsBuild
     {
         private readonly IFileSystem fileSystem;
-
+        private readonly ILogger logger;
         private readonly IEnumerable<IMsBuildCodeFileStoreAdapter> msBuildStoreAdapters;
 
-        public CodeGenerationPipelineLauncherMsBuild(IFileSystem fileSystem, IEnumerable<IMsBuildCodeFileStoreAdapter> msBuildStoreAdapters = null)
+        public CodeGenerationPipelineLauncherMsBuild(IFileSystem fileSystem, ILogger logger, IEnumerable<IMsBuildCodeFileStoreAdapter> msBuildStoreAdapters = null)
         {
             this.fileSystem = fileSystem;
+            this.logger = logger;
             this.msBuildStoreAdapters = msBuildStoreAdapters ?? new List<IMsBuildCodeFileStoreAdapter>() { new DefaultItemStoreAdapter(fileSystem) };
         }
 
@@ -32,7 +34,7 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild
 
             var solutionManager = new MsBuildSolutionStorage(this.fileSystem.Path.GetFullPath(solutionPath), this.msBuildStoreAdapters);
 
-            var launcher = new CodeGenerationPipelineLauncher(new WorkspaceManager(workspace), solutionManager, this.fileSystem, null, solutionManager);
+            var launcher = new CodeGenerationPipelineLauncher(new WorkspaceManager(workspace), solutionManager, this.fileSystem, null, solutionManager, this.logger);
             launcher.Launch(pipelineConfigurationPath);
 
             solutionManager.Save();

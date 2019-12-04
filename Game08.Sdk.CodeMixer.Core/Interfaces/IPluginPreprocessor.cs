@@ -7,6 +7,6 @@ namespace Game08.Sdk.CodeMixer.Core.Interfaces
 {
     public interface IPluginPreprocessor<TCodeFile, TInputParameters> where TCodeFile : CodeFile
     {
-        TInputParameters GenerateMetadata(TCodeFile input, IMetadataReader metadataReader, IFileGroup<TCodeFile, GroupItemDetails> fileGroup = null);
+        TInputParameters GenerateMetadata(TCodeFile input, IMetadataReader metadataReader, ILogger logger, IFileGroup<TCodeFile, GroupItemDetails> fileGroup = null);
     }
 }

@@ -15,13 +15,15 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
     {
         private readonly IBuilderProvider builderProvider;
         private readonly ITypeLoader typeLoader;
+        private readonly ILogger logger;
 
         public string Name => "DefaultStageBuilder";
 
-        public StageBuilder(IBuilderProvider builderProvider, ITypeLoader typeLoader)
+        public StageBuilder(IBuilderProvider builderProvider, ITypeLoader typeLoader, ILogger logger)
         {
             this.builderProvider = builderProvider;
             this.typeLoader = typeLoader;
+            this.logger = logger;
         }
 
         public StageContainer Build(JObject configuration)
@@ -86,7 +88,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
 
             var pluginInstance = method.Invoke(pluginFactory, parameters);
 
-            return new Stage()
+            return new Stage(this.logger)
             {
                 Plugin = pluginInstance as ICodeGenerationPlugin,
                 StageName = name
