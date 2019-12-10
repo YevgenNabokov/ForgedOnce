@@ -21,6 +21,7 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
         {
             this.TypeRepository = ltsTypeRepository;
             this.SemanticInfoProvider = new SemanticInfoProvider(this);
+            this.Model = new FileRoot();
         }
 
         public bool IsDefinition;

@@ -90,6 +90,12 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
             var launcher = new Launcher(outputRoot, root);
             var output = launcher.Execute(task);
 
+            if (output.Errors.Count > 0)
+            {
+                var errorsText = string.Join("/r/n", output.Errors.Select(e => e.Message));
+                throw new InvalidOperationException($"Errors occurred during TypeScript generation from intermediate model: \r\n{errorsText}");
+            }
+
             List<CodeFileLtsText> result = new List<CodeFileLtsText>();
             foreach (var map in fileNameMappings)
             {
