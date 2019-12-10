@@ -5,8 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Game08.Sdk.LTS.Builder" Version="1.0.19" />
-    <PackageReference Include="Game08.Sdk.LTS.ModelToCode.Generator" Version="1.0.7" />
+    <PackageReference Include="Game08.Sdk.LTS.Builder" Version="1.0.20" />
+    <PackageReference Include="Game08.Sdk.LTS.ModelToCode.Generator" Version="1.0.8">
+      <GeneratePathProperty>true</GeneratePathProperty>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="System.IO.Abstractions" Version="6.0.32" />
   </ItemGroup>
@@ -25,7 +27,17 @@
     <ProjectReference Include="..\Game08.Sdk.CodeMixer.Environment\Game08.Sdk.CodeMixer.Environment.csproj" />
   </ItemGroup>
 
-<Target Name="PublishAll" BeforeTargets="GenerateNuspec">
+  <ItemGroup>
+    <NodeRedist Include="$(PkgGame08_Sdk_LTS_ModelToCode_Generator)\lib\$(TargetFramework)\NodeRedist\**\*.*" />
+    <CodeGeneratorJs Include="$(PkgGame08_Sdk_LTS_ModelToCode_Generator)\lib\$(TargetFramework)\CodeGeneratorJs\**\*.*" />
+  </ItemGroup>
+
+  <Target Name="CopyRedist" BeforeTargets="Publish">
+    <Copy SourceFiles="@(NodeRedist)" DestinationFolder="$(PublishDir)\NodeRedist\%(RecursiveDir)" />
+    <Copy SourceFiles="@(CodeGeneratorJs)" DestinationFolder="$(PublishDir)\CodeGeneratorJs\%(RecursiveDir)" />
+  </Target>
+
+  <Target Name="PublishAll" BeforeTargets="GenerateNuspec">
     <ItemGroup>
       <_TargetFramework Include="$(TargetFrameworks)" />
     </ItemGroup>

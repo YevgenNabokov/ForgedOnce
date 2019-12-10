@@ -1,10 +1,10 @@
 ﻿<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Game08.Sdk.CodeMixer.Launcher.MSBuild.WithDefaultAdapters</id>
-    <version>1.0.31</version>
+    <version>1.0.34</version>
     <authors>Yevgen Nabokov</authors>
     <description>Configurable pipeline for code generation with adapters for C#, GLSL and Limited TypeScript files.</description>
-    <dependencies>
+    <dependencies>      
     </dependencies>
     <packageTypes>
       <packageType name="DotnetCliTool" />
