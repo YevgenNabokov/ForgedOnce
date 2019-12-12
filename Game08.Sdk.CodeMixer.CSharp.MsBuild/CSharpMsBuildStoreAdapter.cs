@@ -9,10 +9,10 @@ namespace Game08.Sdk.CodeMixer.CSharp.MsBuild
 {
     public class CSharpMsBuildStoreAdapter : DefaultItemStoreAdapter
     {
-        public const string TypeScriptCompileItemName = "TypeScriptCompile";
+        public const string CompileItemName = "Compile";
 
         public CSharpMsBuildStoreAdapter(IFileSystem fileSystem)
-            : base(fileSystem, TypeScriptCompileItemName)
+            : base(fileSystem, CompileItemName)
         {
         }
 
