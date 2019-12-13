@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Game08.Sdk.LTS.ModelToCode.Generator" Version="1.0.9">
+    <PackageReference Include="Game08.Sdk.LTS.ModelToCode.Generator" Version="1.0.12">
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
     <PackageReference Include="System.IO.Abstractions" Version="7.0.7" />
