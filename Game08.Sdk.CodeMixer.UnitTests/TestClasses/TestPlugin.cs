@@ -22,7 +22,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.TestClasses
             return result;
         }
 
-        protected override void Implementation(CodeFileCSharp input, TestPluginMetadata metadata, IMetadataRecorder metadataRecorder)
+        protected override void Implementation(CodeFileCSharp input, TestPluginMetadata metadata, IMetadataRecorder metadataRecorder, ILogger logger)
         {
             var code = this.Outputs[outputStreamName].CreateCodeFile("Output.cs") as CodeFileCSharp;
 
