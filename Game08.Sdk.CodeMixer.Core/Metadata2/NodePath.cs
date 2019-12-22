@@ -20,7 +20,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata2
         public override string ToString()
         {
             return PartsToString(this.Language, this.Levels);
-        }
+        }        
 
         public static NodePath FromString(string pathString)
         {
@@ -42,22 +42,62 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata2
             return string.Join("/", levels.Select(l => l.ToString()));
         }
 
+        public override bool Equals(object obj)
+        {
+            var path = obj as NodePath;
+            if (path != null)
+            {
+                return path.Language == this.Language && path.Levels.SequenceEqual(this.Levels);
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + (this.Language != null ? this.Language.GetHashCode() : 0);
+                foreach (var l in this.Levels)
+                {
+                    hash = hash * 23 + l.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+
+        public bool StartsWith(NodePath other)
+        {
+            ValidateOtherPathArgument(other, nameof(other));
+
+            if (other.Levels.Count > this.Levels.Count)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < other.Levels.Count; i++)
+            {
+                if (!other.Levels[i].Equals(this.Levels[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public NodePath Concat(NodePath other)
         {
-            if (other.Language != this.Language)
-            {
-                throw new ArgumentException($"Provided path should have the same {nameof(Language)}.", nameof(other));
-            }
+            ValidateOtherPathArgument(other, nameof(other));
 
             return new NodePath(this.Language, this.Levels.Concat(other.Levels));
         }
 
         public NodePath RelativeTo(NodePath other)
         {
-            if (other.Language != this.Language)
-            {
-                throw new ArgumentException($"Provided path should have the same {nameof(Language)}.", nameof(other));
-            }
+            ValidateOtherPathArgument(other, nameof(other));
 
             if (other.Levels.Count > this.Levels.Count)
             {
@@ -85,10 +125,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata2
 
         public NodePath CommonRoot(NodePath other)
         {
-            if (other.Language != this.Language)
-            {
-                throw new ArgumentException($"Provided path should have the same {nameof(Language)}.", nameof(other));
-            }
+            ValidateOtherPathArgument(other, nameof(other));
 
             List<NodePathLevel> nodePathLevels = new List<NodePathLevel>();
             for (var i = 0; i < Math.Min(this.Levels.Count, other.Levels.Count); i++)
@@ -104,6 +141,14 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata2
             }
 
             return new NodePath(this.Language, nodePathLevels);
+        }
+
+        protected void ValidateOtherPathArgument(NodePath other, string parameterName)
+        {
+            if (other.Language != this.Language)
+            {
+                throw new ArgumentException($"Provided path should have the same {nameof(Language)}.", parameterName);
+            }
         }
     }
 }

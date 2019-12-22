@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.CSharp.Metadata2
 {
-    public class PathHelperVisitorMapBranchInfo
+    public class SyntaxTreeMapBranchInfo
     {
-        public PathHelperVisitorMapBranchInfo(PropertyInfo property, Type itemType, bool isToken, bool isCollection)
+        public SyntaxTreeMapBranchInfo(PropertyInfo property, Type itemType, bool isToken, bool isCollection)
         {
             this.Property = property;
             this.IsCollection = isCollection;

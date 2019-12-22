@@ -9,10 +9,10 @@ namespace Game08.Sdk.CodeMixer.CSharp.Metadata2
     {
         public SyntaxTreeMappedVisitorContext(
             NodePathLevel[] startLevels = null,
-            IReadOnlyDictionary<Type, IReadOnlyDictionary<string, PathHelperVisitorMapBranchInfo>> map = null)
+            IReadOnlyDictionary<Type, IReadOnlyDictionary<string, SyntaxTreeMapBranchInfo>> map = null)
         {
             this.CurrentPath = new Stack<NodePathLevel>();
-            this.Map = map ?? PathHelperVisitorMap.Map;
+            this.Map = map ?? SyntaxTreeMapper.Map;
             if (startLevels != null)
             {
                 foreach (var level in startLevels)
@@ -24,6 +24,6 @@ namespace Game08.Sdk.CodeMixer.CSharp.Metadata2
 
         public Stack<NodePathLevel> CurrentPath { get; private set; }
 
-        public IReadOnlyDictionary<Type, IReadOnlyDictionary<string, PathHelperVisitorMapBranchInfo>> Map { get; private set; }
+        public IReadOnlyDictionary<Type, IReadOnlyDictionary<string, SyntaxTreeMapBranchInfo>> Map { get; private set; }
     }
 }

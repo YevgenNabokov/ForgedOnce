@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Metadata2.Interfaces
 {
-    public interface ISubTreeScope : IScope
+    public interface ISingleNodeSnapshot : ISnapshot
     {
-        MetadataRoot[] ResolveRoots();
+        MetadataRoot ResolveRoot();
     }
 }

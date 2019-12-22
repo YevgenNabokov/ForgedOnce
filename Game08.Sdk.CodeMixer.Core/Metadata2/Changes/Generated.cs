@@ -7,7 +7,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata2.Changes
 {
     public class Generated : RecordBase
     {
-        public Generated(ISubTreeScope subject, int batchindex, string stageName, string pluginId, object pluginMetadata, IDictionary<string, string> tags, ISingleNodeScope from = null)
+        public Generated(ISubTreeSnapshot subject, int batchindex, string stageName, string pluginId, object pluginMetadata, IDictionary<string, string> tags, ISingleNodeSnapshot from = null)
             : base(batchindex, stageName, pluginId, pluginMetadata, tags)
         {
             this.Scopes.Add(subject);
@@ -20,8 +20,8 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata2.Changes
             this.From = from;
         }
 
-        public ISingleNodeScope From { get; private set; }
+        public ISingleNodeSnapshot From { get; private set; }
 
-        public ISubTreeScope Subject { get; private set; }
+        public ISubTreeSnapshot Subject { get; private set; }
     }
 }

@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Metadata2.Interfaces
 {
-    public interface IScopeProvider<TAstNode>
+    public interface INodePathService<TAstNode>
     {
-        ISubTreeScope GetSubTreeScope(TAstNode astNode);
+        ISubTreeSnapshot GetSubTreeSnapshot(TAstNode astNode);
 
-        ISingleNodeScope GetSingleNodeScope(TAstNode astNode);
+        ISingleNodeSnapshot GetSingleNodeSnapshot(TAstNode astNode);
 
         NodePath GetNodePath(TAstNode astNode);
 

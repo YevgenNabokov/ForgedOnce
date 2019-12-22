@@ -70,7 +70,7 @@ namespace Game08.Sdk.CodeMixer.CSharp.Metadata2
         }
 
         private SyntaxNode VisitBranch(
-            PathHelperVisitorMapBranchInfo branch,
+            SyntaxTreeMapBranchInfo branch,
             SyntaxNode node,
             TContext context,
             Func<SyntaxNode, TContext, bool> onNodeEntry,

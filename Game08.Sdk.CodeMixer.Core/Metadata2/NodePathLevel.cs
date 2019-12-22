@@ -39,7 +39,8 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata2
             var level = obj as NodePathLevel;
             if (level != null)
             {
-                return level.Index == this.Index && level.Name == this.Name;
+                return ((!level.Index.HasValue && !this.Index.HasValue) || (level.Index == this.Index))
+                    && ((level.Name is null && this.Name is null) || level.Name == this.Name);
             }
 
             return false;

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Metadata2.Interfaces
 {
-    public interface IScope
+    public interface ISnapshot
     {
         string AnnotationId { get; }
     }
