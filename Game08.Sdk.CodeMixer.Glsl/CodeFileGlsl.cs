@@ -12,14 +12,20 @@ namespace Game08.Sdk.CodeMixer.Glsl
 {
     public class CodeFileGlsl : CodeFile
     {
-        public override string Language => Languages.Glsl;
+        private ShaderFile shaderFile;
 
-        public ShaderFile ShaderFile;
+        public override string Language => Languages.Glsl;
 
         public CodeFileGlsl(string id, string name)
             : base(id, name)
         {
             this.SemanticInfoProvider = new SemanticInfoProvider(this);
+        }
+
+        public ShaderFile ShaderFile
+        {
+            get => shaderFile;
+            set { this.EnsureFileIsEditable(); shaderFile = value; }
         }
 
         public SemanticInfoProvider SemanticInfoProvider

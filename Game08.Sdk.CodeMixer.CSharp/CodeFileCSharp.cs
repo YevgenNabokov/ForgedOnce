@@ -11,16 +11,27 @@ namespace Game08.Sdk.CodeMixer.CSharp
 {
     public class CodeFileCSharp : CodeFile
     {
-        public override string Language => Languages.CSharp;        
+        private SyntaxTree syntaxTree;
+        private SemanticModel semanticModel;
 
-        public SyntaxTree SyntaxTree;
-
-        public SemanticModel SemanticModel;
+        public override string Language => Languages.CSharp;
 
         public CodeFileCSharp(string id, string name)
-            :base(id, name)
+            : base(id, name)
         {
             this.SemanticInfoProvider = new SemanticInfoProvider(this);
+        }
+
+        public SyntaxTree SyntaxTree
+        {
+            get => this.syntaxTree;
+            set { this.EnsureFileIsEditable(); this.syntaxTree = value; }
+        }
+
+        public SemanticModel SemanticModel
+        {
+            get => this.semanticModel;
+            set { this.EnsureFileIsEditable(); this.semanticModel = value; }
         }
 
         public SemanticInfoProvider SemanticInfoProvider
@@ -36,7 +47,7 @@ namespace Game08.Sdk.CodeMixer.CSharp
             get
             {
                 if (this.SyntaxTree != null)
-                {                    
+                {
                     foreach (var node in this.SyntaxTree.GetRoot().DescendantNodes().Where(n => this.SemanticInfoProvider.CanGetSymbolFor(n)))
                     {
                         yield return this.SemanticInfoProvider.GetSymbolFor(node);

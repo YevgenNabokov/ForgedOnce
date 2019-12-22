@@ -10,6 +10,7 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
     public class CodeFileLtsText : CodeFile
     {
         private DummySemanticInfoResolver dummySemanticInfoResolver = new DummySemanticInfoResolver();
+        private string text;
 
         public override string Language => Languages.LimitedTypeScript;
 
@@ -22,7 +23,11 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
         {
         }
 
-        public string Text;
+        public string Text
+        {
+            get => text;
+            set { this.EnsureFileIsEditable(); text = value; }
+        }
 
         protected override string GetSourceCodeText()
         {

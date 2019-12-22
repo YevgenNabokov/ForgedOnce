@@ -17,6 +17,31 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata2
 
         public IReadOnlyList<NodePathLevel> Levels { get; private set; }
 
+        public override string ToString()
+        {
+            return PartsToString(this.Language, this.Levels);
+        }
+
+        public static NodePath FromString(string pathString)
+        {
+            var parts = pathString.Split(':');
+            return new NodePath(
+                parts[0],
+                parts.Length > 1
+                ? parts[1].Split('/').Select(p => NodePathLevel.FromString(p))
+                : Enumerable.Empty<NodePathLevel>());
+        }
+
+        public static string PartsToString(string language, IEnumerable<NodePathLevel> levels)
+        {
+            return $"{language}:{LevelsToString(levels)}";
+        }
+
+        public static string LevelsToString(IEnumerable<NodePathLevel> levels)
+        {
+            return string.Join("/", levels.Select(l => l.ToString()));
+        }
+
         public NodePath Concat(NodePath other)
         {
             if (other.Language != this.Language)

@@ -31,7 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.CSharp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.Glsl.MsBuild", "Game08.Sdk.CodeMixer.Glsl.MsBuild\Game08.Sdk.CodeMixer.Glsl.MsBuild.csproj", "{E8D7400F-3B32-4FD0-9C2E-959862B28035}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game08.Sdk.CodeMixer.Launcher.MSBuild.WithDefaultAdapters", "Game08.Sdk.CodeMixer.Launcher.MSBuild.WithDefaultAdapters\Game08.Sdk.CodeMixer.Launcher.MSBuild.WithDefaultAdapters.csproj", "{BA4119DE-9800-4A9E-A47F-395E730B51B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game08.Sdk.CodeMixer.Launcher.MSBuild.WithDefaultAdapters", "Game08.Sdk.CodeMixer.Launcher.MSBuild.WithDefaultAdapters\Game08.Sdk.CodeMixer.Launcher.MSBuild.WithDefaultAdapters.csproj", "{BA4119DE-9800-4A9E-A47F-395E730B51B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game08.Sdk.CodeMixer.CSharp.UnitTests", "Game08.Sdk.CodeMixer.CSharp.UnitTests\Game08.Sdk.CodeMixer.CSharp.UnitTests.csproj", "{9FCFDD01-3B49-4637-9976-027FB98A91B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,10 @@ Global
 		{BA4119DE-9800-4A9E-A47F-395E730B51B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA4119DE-9800-4A9E-A47F-395E730B51B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA4119DE-9800-4A9E-A47F-395E730B51B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FCFDD01-3B49-4637-9976-027FB98A91B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FCFDD01-3B49-4637-9976-027FB98A91B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FCFDD01-3B49-4637-9976-027FB98A91B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FCFDD01-3B49-4637-9976-027FB98A91B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +105,7 @@ Global
 		{FA295F84-9D2F-46DB-B963-CE8DBF9E9508} = {DCFA4EAE-D23E-4834-9156-9F4BB5E08BBC}
 		{18C65073-5F1C-4C66-9D72-C55AA9E3B553} = {656CE996-AC8A-4125-AB2E-9CBB8405A591}
 		{E8D7400F-3B32-4FD0-9C2E-959862B28035} = {51A4EC07-6E01-4151-88B9-8C9AAD385B6B}
+		{9FCFDD01-3B49-4637-9976-027FB98A91B7} = {656CE996-AC8A-4125-AB2E-9CBB8405A591}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {843F4242-074C-4FEE-BECB-2735D8E71695}

@@ -13,7 +13,10 @@ using System.Text;
 namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 {
     public class CodeFileLtsModel : CodeFile
-    {        
+    {
+        private bool isDefinition;
+        private FileRoot model;
+
         public override string Language => Languages.LimitedTypeScript;
 
         public CodeFileLtsModel(string id, string name, ILtsTypeRepository ltsTypeRepository)
@@ -24,9 +27,17 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
             this.Model = new FileRoot();
         }
 
-        public bool IsDefinition;
+        public bool IsDefinition
+        {
+            get => isDefinition;
+            set { this.EnsureFileIsEditable(); isDefinition = value; }
+        }
 
-        public FileRoot Model;
+        public FileRoot Model
+        {
+            get => model;
+            set { this.EnsureFileIsEditable(); model = value; }
+        }
 
         public SemanticInfoProvider SemanticInfoProvider
         {

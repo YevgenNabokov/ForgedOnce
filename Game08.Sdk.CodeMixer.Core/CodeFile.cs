@@ -8,6 +8,7 @@ namespace Game08.Sdk.CodeMixer.Core
     public abstract class CodeFile
     {
         private string sourceCodeText;
+        private CodeFileLocation location;
 
         public CodeFile(string id, string name)
         {
@@ -15,13 +16,23 @@ namespace Game08.Sdk.CodeMixer.Core
             this.Name = name;
         }
 
+        public bool IsReadOnly { get; private set; }
+
         public string Id { get; private set; }
 
         public string Name { get; private set; }
 
         public abstract string Language { get; }
 
-        public CodeFileLocation Location { get; set; }
+        public CodeFileLocation Location
+        {
+            get => location;
+            set 
+            {
+                this.EnsureFileIsEditable();
+                location = value;
+            }
+        }
 
         public string SourceCodeText
         {
@@ -38,6 +49,7 @@ namespace Game08.Sdk.CodeMixer.Core
 
             set
             {
+                this.EnsureFileIsEditable();
                 this.sourceCodeText = value;
                 this.SourceCodeTextUpdated(value);
             }
@@ -47,8 +59,21 @@ namespace Game08.Sdk.CodeMixer.Core
 
         public abstract IEnumerable<ISemanticSymbol> SemanticSymbols { get; }
 
+        public virtual void MakeReadOnly()
+        {
+            this.IsReadOnly = true;
+        }
+
         protected abstract string GetSourceCodeText();
 
         protected abstract void SourceCodeTextUpdated(string newSourceCode);
+
+        protected void EnsureFileIsEditable()
+        {
+            if (this.IsReadOnly)
+            {
+                throw new InvalidOperationException($"Attempt to modify readonly {nameof(CodeFile)}.");
+            }
+        }
     }
 }
