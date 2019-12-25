@@ -1,12 +1,11 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Linq;
+using Game08.Sdk.LTS.Builder.DefinitionTree;
 
-namespace Game08.Sdk.CodeMixer.CSharp.Metadata2
+namespace Game08.Sdk.CodeMixer.LimitedTypeScript.Metadata2
 {
     public static class SyntaxTreeMapper
     {
@@ -34,10 +33,10 @@ namespace Game08.Sdk.CodeMixer.CSharp.Metadata2
 
         private static IReadOnlyDictionary<Type, IReadOnlyDictionary<string, SyntaxTreeMapBranchInfo>> BuildMap()
         {
-            var cSharpSyntaxNamespace = string.Join(".", nameof(Microsoft), nameof(Microsoft.CodeAnalysis), nameof(Microsoft.CodeAnalysis.CSharp), nameof(Microsoft.CodeAnalysis.CSharp.Syntax));
+            var cSharpSyntaxNamespace = string.Join(".", nameof(Game08), nameof(Game08.Sdk), nameof(Game08.Sdk.LTS), nameof(Game08.Sdk.LTS.Builder), nameof(Game08.Sdk.LTS.Builder.DefinitionTree));
             Dictionary<Type, IReadOnlyDictionary<string, SyntaxTreeMapBranchInfo>> result = new Dictionary<Type, IReadOnlyDictionary<string, SyntaxTreeMapBranchInfo>>();
 
-            foreach (var type in typeof(ClassDeclarationSyntax).Assembly.GetTypes())
+            foreach (var type in typeof(Node).Assembly.GetTypes())
             {
                 if (type.Namespace == cSharpSyntaxNamespace)
                 {
@@ -56,15 +55,9 @@ namespace Game08.Sdk.CodeMixer.CSharp.Metadata2
                                 itemType = collectionType.GetGenericArguments().First();
                             }
 
-                            if (typeof(SyntaxNode).IsAssignableFrom(itemType))
+                            if (typeof(Node).IsAssignableFrom(itemType))
                             {
-                                typeInfo.Add(p.Name, new SyntaxTreeMapBranchInfo(p, itemType, false, isCollection));
-                                continue;
-                            }
-
-                            if (typeof(SyntaxToken).IsAssignableFrom(itemType))
-                            {
-                                typeInfo.Add(p.Name, new SyntaxTreeMapBranchInfo(p, itemType, true, isCollection));
+                                typeInfo.Add(p.Name, new SyntaxTreeMapBranchInfo(p, itemType, isCollection));
                                 continue;
                             }
                         }
