@@ -1,37 +1,37 @@
-﻿using Game08.Sdk.CodeMixer.Core.Metadata2;
+﻿using Game08.Sdk.CodeMixer.Core;
+using Game08.Sdk.CodeMixer.Core.Metadata2;
 using Game08.Sdk.CodeMixer.Core.Metadata2.Interfaces;
+using Game08.Sdk.GlslLanguageServices.LanguageModels.Ast;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Game08.Sdk.LTS.Builder.DefinitionTree;
-using Game08.Sdk.CodeMixer.Core;
 using System.Linq;
+using System.Text;
 
-namespace Game08.Sdk.CodeMixer.LimitedTypeScript.Metadata2
+namespace Game08.Sdk.CodeMixer.Glsl.Metadata2
 {
     public class SubTreeSnapshot : SnapshotBase, ISubTreeSnapshot
     {
         public SubTreeSnapshot(
-            CodeFileLtsModel codeFileLts,
+            CodeFileGlsl codeFileGlsl,
             SyntaxTreeMappedVisitor<SyntaxTreeMappedVisitorContext> mappedVisitor)
-            : base(codeFileLts, mappedVisitor)
+            : base(codeFileGlsl, mappedVisitor)
         {
         }
 
-        protected override NodePath GetInitialRootPath(Node astNode, bool annotate = true)
+        protected override NodePath GetInitialRootPath(AstNode astNode, bool annotate = true)
         {
             this.annotationId = Guid.NewGuid().ToString();
 
             NodePath nodePath = null;
             bool leftRootNode = false;
             this.mappedVisitor.Start(
-                this.codeFileLts.Model,
-                new SyntaxTreeMappedVisitorContext(new[] { new NodePathLevel(this.codeFileLts.Id, null) }),
+                this.codeFileGlsl.ShaderFile.SyntaxTree,
+                new SyntaxTreeMappedVisitorContext(new[] { new NodePathLevel(this.codeFileGlsl.Id, null) }),
                 (n, c) =>
                 {
                     if (n == astNode)
                     {
-                        nodePath = new NodePath(Languages.LimitedTypeScript, c.CurrentPath.Reverse());
+                        nodePath = new NodePath(Languages.Glsl, c.CurrentPath.Reverse());
                     }
 
                     return nodePath == null || (annotate && !leftRootNode);
@@ -40,7 +40,7 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.Metadata2
                 {
                     if (annotate && nodePath != null && c.CurrentPath.Count >= nodePath.Levels.Count)
                     {
-                        var path = NodePath.PartsToString(Languages.LimitedTypeScript, c.CurrentPath.Reverse());
+                        var path = NodePath.PartsToString(Languages.Glsl, c.CurrentPath.Reverse());
                         if (nodePath.Levels.Count == c.CurrentPath.Count)
                         {
                             leftRootNode = true;
@@ -53,7 +53,7 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.Metadata2
                         }
                     }
                 });
-            
+
             return nodePath;
         }
 
@@ -66,12 +66,12 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.Metadata2
 
             var originalPathAnnotationKey = this.GetOriginalPathAnnotationKey();
 
-            Dictionary<Node, MetadataRoot> result = new Dictionary<Node, MetadataRoot>();
-            Stack<Node> rootsStack = new Stack<Node>();
+            Dictionary<AstNode, MetadataRoot> result = new Dictionary<AstNode, MetadataRoot>();
+            Stack<AstNode> rootsStack = new Stack<AstNode>();
 
             this.mappedVisitor.Start(
-                this.codeFileLts.Model,
-                new SyntaxTreeMappedVisitorContext(new[] { new NodePathLevel(this.codeFileLts.Id, null) }),
+                this.codeFileGlsl.ShaderFile.SyntaxTree,
+                new SyntaxTreeMappedVisitorContext(new[] { new NodePathLevel(this.codeFileGlsl.Id, null) }),
                 (n, c) =>
                 {
                     if (n.HasAnnotation(originalPathAnnotationKey))
@@ -80,17 +80,17 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.Metadata2
                         if (rootsStack.Count == 0)
                         {
                             rootsStack.Push(n);
-                            result.Add(n, new MetadataRoot(originalPath, new NodePath(Languages.LimitedTypeScript, c.CurrentPath.Reverse())));
+                            result.Add(n, new MetadataRoot(originalPath, new NodePath(Languages.Glsl, c.CurrentPath.Reverse())));
                         }
                         else
                         {
                             var lastRoot = result[rootsStack.Peek()];
-                            var currentPath = new NodePath(Languages.LimitedTypeScript, c.CurrentPath.Reverse());
+                            var currentPath = new NodePath(Languages.Glsl, c.CurrentPath.Reverse());
                             if (!originalPath.StartsWith(lastRoot.OriginalPath)
                             || !currentPath.RelativeTo(lastRoot.CurrentPath).Equals(originalPath.RelativeTo(lastRoot.OriginalPath)))
                             {
                                 rootsStack.Push(n);
-                                result.Add(n, new MetadataRoot(originalPath, new NodePath(Languages.LimitedTypeScript, c.CurrentPath.Reverse())));
+                                result.Add(n, new MetadataRoot(originalPath, new NodePath(Languages.Glsl, c.CurrentPath.Reverse())));
                             }
                         }
                     }
