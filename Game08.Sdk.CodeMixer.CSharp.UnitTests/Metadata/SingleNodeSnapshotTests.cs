@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Game08.Sdk.CodeMixer.Core;
-using Game08.Sdk.CodeMixer.CSharp.Metadata2;
+using Game08.Sdk.CodeMixer.CSharp.Metadata;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

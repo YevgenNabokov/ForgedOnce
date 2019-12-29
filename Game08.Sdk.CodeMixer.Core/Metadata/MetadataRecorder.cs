@@ -3,7 +3,6 @@ using Game08.Sdk.CodeMixer.Core.Metadata.Changes;
 using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Metadata
@@ -22,98 +21,75 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
         }
 
         public void SymbolsBound<TNode1, TNode2>(
-            ISemanticInfoProvider<TNode1> semanticInfoProvider1,
+            INodePathService<TNode1> nodePathService1,
             TNode1 node1,
-            ISemanticInfoProvider<TNode2> semanticInfoProvider2,
+            INodePathService<TNode2> nodePathService2,
             TNode2 node2,
             IDictionary<string, string> tags,
             object pluginMetadata = null)
         {
-            var symbol1 = semanticInfoProvider1.GetImmediateUpstreamSymbol(node1);
-            var symbol2 = semanticInfoProvider2.GetImmediateUpstreamSymbol(node2);
+            var snapshot1 = nodePathService1.GetSingleNodeSnapshot(node1);
+            var snapshot2 = nodePathService2.GetSingleNodeSnapshot(node2);
 
-            if (symbol1 != null && symbol2 != null)
+            if (snapshot1 != null && snapshot2 != null)
             {
-                this.metadataWriter.Write(new Bound(symbol1, symbol2, this.pipelineExecutionInfo.CurrentBatchIndex, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags));
+                this.metadataWriter.Write(new Bound(snapshot1, snapshot2, this.pipelineExecutionInfo.CurrentBatchIndex, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags));
             }
         }
 
         public void SymbolGenerated<TSubject>(
-            ISemanticInfoProvider<TSubject> semanticInfoProvider1,
+            INodePathService<TSubject> nodePathService1,
             TSubject subject,
             IDictionary<string, string> tags,
             object pluginMetadata = null)
         {
-            var symbols = semanticInfoProvider1.GetImmediateDownstreamSymbols(subject).ToArray();
-            foreach (var symbol in symbols)
-            {
-                this.metadataWriter.Write(new Generated(symbol, this.pipelineExecutionInfo.CurrentBatchIndex, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags));
-            }
-
-            if (symbols.Length == 0)
-            {
-                this.SymbolModified<TSubject>(semanticInfoProvider1, subject, new Dictionary<string, string>());
-            }
+            var symbol = nodePathService1.GetSubTreeSnapshot(subject);
+            this.metadataWriter.Write(new Generated(symbol, this.pipelineExecutionInfo.CurrentBatchIndex, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags));
         }
 
         public void SymbolGenerated<TSubject, TFrom>(
-            ISemanticInfoProvider<TSubject> semanticInfoProvider1,
+            INodePathService<TSubject> nodePathService1,
             TSubject subject,
-            ISemanticInfoProvider<TFrom> semanticInfoProvider2,
+            INodePathService<TFrom> nodePathService2,
             TFrom from,
             IDictionary<string, string> tags,
             object pluginMetadata = null)
         {
-            var fromSymbol = semanticInfoProvider2.GetImmediateUpstreamSymbol(from);
-            var symbols = semanticInfoProvider1.GetImmediateDownstreamSymbols(subject).ToArray();
-            foreach (var symbol in symbols)
-            {                
-                this.metadataWriter.Write(new Generated(symbol, this.pipelineExecutionInfo.CurrentBatchIndex, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags, fromSymbol));
-            }
-
-            if (symbols.Length == 0)
-            {
-                this.SymbolModified<TSubject>(semanticInfoProvider1, subject, new Dictionary<string, string>());
-            }
+            var snapshotFrom = nodePathService2.GetSingleNodeSnapshot(from);
+            var snapshotSubject = nodePathService1.GetSubTreeSnapshot(subject);
+            this.metadataWriter.Write(new Generated(snapshotSubject, this.pipelineExecutionInfo.CurrentBatchIndex, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags, snapshotFrom));
         }
 
         public void SymbolModified<TTarget>(
-            ISemanticInfoProvider<TTarget> semanticInfoProvider1,
+            INodePathService<TTarget> nodePathService1,
             TTarget target,
             IDictionary<string, string> tags,
             object pluginMetadata = null)
         {
-            var symbol = semanticInfoProvider1.GetImmediateUpstreamSymbol(target);
-            if (symbol != null)
-            {
-                this.metadataWriter.Write(new Modified(symbol,this.pipelineExecutionInfo.CurrentBatchIndex, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags));
-            }
+            var snapshotTarget = nodePathService1.GetSingleNodeSnapshot(target);
+            this.metadataWriter.Write(new Modified(snapshotTarget, this.pipelineExecutionInfo.CurrentBatchIndex, this.pipelineExecutionInfo.CurrentStageName, this.pluginId, pluginMetadata, tags));
         }
 
         public void SymbolSourcingFrom<TNode>(
-            ISemanticInfoProvider<TNode> semanticInfoProvider1,
+            INodePathService<TNode> nodePathService1,
             TNode from,
-            ISemanticInfoProvider<TNode> semanticInfoProvider2,
+            INodePathService<TNode> nodePathService2,
             TNode subject,
             IDictionary<string, string> tags,
             object pluginMetadata = null)
         {
-            var fromSymbol = semanticInfoProvider1.GetImmediateUpstreamSymbol(from);
-            if (fromSymbol != null)
-            {
-                foreach (var symbol in semanticInfoProvider2.GetImmediateDownstreamSymbols(subject))
-                {
-                    this.metadataWriter.Write(
+            var snapshotFrom = nodePathService1.GetSingleNodeSnapshot(from);
+            var snapshotSubject = nodePathService2.GetSubTreeSnapshot(subject);
+
+            this.metadataWriter.Write(
                     new SourcingFrom(
-                        fromSymbol,
-                        symbol,
+                        snapshotFrom,
+                        snapshotSubject,
                         this.pipelineExecutionInfo.CurrentBatchIndex,
                         this.pipelineExecutionInfo.CurrentStageName,
                         this.pluginId,
                         pluginMetadata,
                         tags));
-                }
-            }
         }
     }
 }

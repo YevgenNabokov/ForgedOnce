@@ -10,7 +10,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
         public RecordBase(int batchindex, string stageName, string pluginId, object pluginMetadata, IDictionary<string, string> tags)
         {
             this.BatchIndex = batchindex;
-            this.Names = new List<ISemanticSymbol>();
+            this.Scopes = new List<ISnapshot>();
             this.StageName = stageName;
             this.PluginId = pluginId;
             this.PluginMetadata = pluginMetadata;
@@ -27,6 +27,6 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata
 
         public IDictionary<string, string> Tags { get; private set; }
 
-        public List<ISemanticSymbol> Names { get; private set; }
+        public List<ISnapshot> Scopes { get; private set; }
     }
 }

@@ -16,10 +16,10 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         {
             var subject = new MetadataIndex();
 
-            var path = new SemanticPath("Lang1", new PathLevel[]
+            var path = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level2", "Type2"),
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level2", null),
             });
 
             var result = subject.AllocateNode(path);
@@ -29,8 +29,8 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
             result.Children.Count.Should().Be(0);
             result.RootIndex.Should().Be(subject);
             result.PathLevels.Count.Should().Be(2);
-            result.PathLevels[0].Should().Be(path.Parts[0]);
-            result.PathLevels[1].Should().Be(path.Parts[1]);
+            result.PathLevels[0].Should().Be(path.Levels[0]);
+            result.PathLevels[1].Should().Be(path.Levels[1]);
         }
 
         [Test]
@@ -38,34 +38,34 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         {
             var subject = new MetadataIndex();
 
-            var path = new SemanticPath("Lang1", new PathLevel[]
+            var path = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level2", "Type2"),
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level2", null),
             });
 
             var result1 = subject.AllocateNode(path);
 
-            var path2 = new SemanticPath("Lang1", new PathLevel[]
+            var path2 = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level3", "Type3"),
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level3", null),
             });
 
             var result = subject.AllocateNode(path2);
 
             result.PathLevels.Count.Should().Be(1);
-            result.PathLevels[0].Should().Be(path2.Parts[1]);
+            result.PathLevels[0].Should().Be(path2.Levels[1]);
 
             result.Parent.Should().NotBeNull();
             var l1 = result.Parent;
             l1.Children.Count.Should().Be(2);
             l1.PathLevels.Count.Should().Be(1);
-            l1.PathLevels[0].Should().Be(path.Parts[0]);
+            l1.PathLevels[0].Should().Be(path.Levels[0]);
 
-            l1.Children.ContainsKey(path.Parts[1]).Should().BeTrue();
-            l1.Children[path.Parts[1]].PathLevels.Count.Should().Be(1);
-            l1.Children[path.Parts[1]].PathLevels[0].Should().Be(path.Parts[1]);
+            l1.Children.ContainsKey(path.Levels[1]).Should().BeTrue();
+            l1.Children[path.Levels[1]].PathLevels.Count.Should().Be(1);
+            l1.Children[path.Levels[1]].PathLevels[0].Should().Be(path.Levels[1]);
         }
 
         [Test]
@@ -73,31 +73,31 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         {
             var subject = new MetadataIndex();
 
-            var path = new SemanticPath("Lang1", new PathLevel[]
+            var path = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level2", "Type2"),
-                new PathLevel("Level3", "Type3")
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level2", null),
+                new NodePathLevel("Level3", null)
             });
 
             var result1 = subject.AllocateNode(path);
 
-            var path2 = new SemanticPath("Lang1", new PathLevel[]
+            var path2 = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level2", "Type2")
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level2", null)
             });
 
             var result = subject.AllocateNode(path2);
 
             result.PathLevels.Count.Should().Be(2);
-            result.PathLevels[0].Should().Be(path.Parts[0]);
-            result.PathLevels[1].Should().Be(path.Parts[1]);
+            result.PathLevels[0].Should().Be(path.Levels[0]);
+            result.PathLevels[1].Should().Be(path.Levels[1]);
             result.Parent.Should().BeNull();
             result.Children.Count.Should().Be(1);
-            result.Children[path.Parts[2]].PathLevels.Count.Should().Be(1);
-            result.Children[path.Parts[2]].PathLevels[0].Should().Be(path.Parts[2]);
-            result.Children[path.Parts[2]].Children.Count.Should().Be(0);
+            result.Children[path.Levels[2]].PathLevels.Count.Should().Be(1);
+            result.Children[path.Levels[2]].PathLevels[0].Should().Be(path.Levels[2]);
+            result.Children[path.Levels[2]].Children.Count.Should().Be(0);
         }
 
         [Test]
@@ -105,29 +105,29 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         {
             var subject = new MetadataIndex();
 
-            var path = new SemanticPath("Lang1", new PathLevel[]
+            var path = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level2", "Type2")
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level2", null)
             });
 
             var result1 = subject.AllocateNode(path);
 
-            var path2 = new SemanticPath("Lang1", new PathLevel[]
+            var path2 = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level2", "Type2"),
-                new PathLevel("Level3", "Type3")
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level2", null),
+                new NodePathLevel("Level3", null)
             });
 
             var result = subject.AllocateNode(path2);
 
             result.PathLevels.Count.Should().Be(1);
-            result.PathLevels[0].Should().Be(path2.Parts[2]);
+            result.PathLevels[0].Should().Be(path2.Levels[2]);
             result.Parent.Should().NotBeNull();
             result.Parent.PathLevels.Count.Should().Be(2);
-            result.Parent.PathLevels[0].Should().Be(path.Parts[0]);
-            result.Parent.PathLevels[1].Should().Be(path.Parts[1]);
+            result.Parent.PathLevels[0].Should().Be(path.Levels[0]);
+            result.Parent.PathLevels[1].Should().Be(path.Levels[1]);
         }
 
         [Test]
@@ -135,48 +135,48 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         {
             var subject = new MetadataIndex();
 
-            var path = new SemanticPath("Lang1", new PathLevel[]
+            var path = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level2", "Type2")
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level2", null)
             });
 
             var result1 = subject.AllocateNode(path);
 
-            var path2 = new SemanticPath("Lang1", new PathLevel[]
+            var path2 = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level2", "Type2"),
-                new PathLevel("Level3", "Type3"),
-                new PathLevel("Level4", "Type4")
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level2", null),
+                new NodePathLevel("Level3", null),
+                new NodePathLevel("Level4", null)
 
             });
 
             var result2 = subject.AllocateNode(path2);
 
-            var path3 = new SemanticPath("Lang1", new PathLevel[]
+            var path3 = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level2", "Type2"),
-                new PathLevel("Level3", "Type3"),
-                new PathLevel("Level4", "Type4"),
-                new PathLevel("Level5", "Type5"),
-                new PathLevel("Level6", "Type6")
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level2", null),
+                new NodePathLevel("Level3", null),
+                new NodePathLevel("Level4", null),
+                new NodePathLevel("Level5", null),
+                new NodePathLevel("Level6", null)
             });
 
             var result = subject.AllocateNode(path3);
 
             result.PathLevels.Count.Should().Be(2);
-            result.PathLevels[0].Should().Be(path3.Parts[4]);
-            result.PathLevels[1].Should().Be(path3.Parts[5]);
+            result.PathLevels[0].Should().Be(path3.Levels[4]);
+            result.PathLevels[1].Should().Be(path3.Levels[5]);
             result.Parent.Should().NotBeNull();
             result.Parent.PathLevels.Count.Should().Be(2);
-            result.Parent.PathLevels[0].Should().Be(path3.Parts[2]);
-            result.Parent.PathLevels[1].Should().Be(path3.Parts[3]);
+            result.Parent.PathLevels[0].Should().Be(path3.Levels[2]);
+            result.Parent.PathLevels[1].Should().Be(path3.Levels[3]);
             result.Parent.Parent.Should().NotBeNull();
             result.Parent.Parent.PathLevels.Count.Should().Be(2);
-            result.Parent.Parent.PathLevels[0].Should().Be(path3.Parts[0]);
-            result.Parent.Parent.PathLevels[1].Should().Be(path3.Parts[1]);
+            result.Parent.Parent.PathLevels[0].Should().Be(path3.Levels[0]);
+            result.Parent.Parent.PathLevels[1].Should().Be(path3.Levels[1]);
         }
 
         [Test]
@@ -184,10 +184,10 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         {
             var subject = new MetadataIndex();
 
-            var path = new SemanticPath("Lang1", new PathLevel[]
+            var path = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level2", "Type2")
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level2", null)
             });
 
             var result1 = subject.AllocateNode(path);
@@ -204,29 +204,29 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         {
             var subject = new MetadataIndex();
 
-            var path = new SemanticPath("Lang1", new PathLevel[]
+            var path = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level2", "Type2"),                
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level2", null),                
             });
 
             var result1 = subject.AllocateNode(path);
 
-            var path2 = new SemanticPath("Lang1", new PathLevel[]
+            var path2 = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level2", "Type2"),
-                new PathLevel("Level3", "Type3"),
-                new PathLevel("Level4", "Type4"),
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level2", null),
+                new NodePathLevel("Level3", null),
+                new NodePathLevel("Level4", null),
             });
 
             var result2 = subject.AllocateNode(path2);
 
-            var path3 = new SemanticPath("Lang1", new PathLevel[]
+            var path3 = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level2", "Type2"),
-                new PathLevel("Level3", "Type3"),                
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level2", null),
+                new NodePathLevel("Level3", null),                
             });
 
             var result = subject.GetExactNode(path3, orParent);
@@ -246,20 +246,20 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Metadata.Storage
         {
             var subject = new MetadataIndex();
 
-            var path = new SemanticPath("Lang1", new PathLevel[]
+            var path = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level2", "Type2"),
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level2", null),
             });
 
             var result1 = subject.AllocateNode(path);
 
-            var path2 = new SemanticPath("Lang1", new PathLevel[]
+            var path2 = new NodePath("Lang1", new NodePathLevel[]
             {
-                new PathLevel("Level1", "Type1"),
-                new PathLevel("Level2", "Type2"),
-                new PathLevel("Level3", "Type3"),
-                new PathLevel("Level4", "Type4"),
+                new NodePathLevel("Level1", null),
+                new NodePathLevel("Level2", null),
+                new NodePathLevel("Level3", null),
+                new NodePathLevel("Level4", null),
             });
 
             var result2 = subject.AllocateNode(path2);            

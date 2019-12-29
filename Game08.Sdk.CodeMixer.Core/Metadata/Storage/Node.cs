@@ -9,15 +9,15 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
     {
         private List<NodeRecord> records = new List<NodeRecord>();
 
-        private Dictionary<PathLevel, Node> children = new Dictionary<PathLevel, Node>();
+        private Dictionary<NodePathLevel, Node> children = new Dictionary<NodePathLevel, Node>();
 
         private Dictionary<RelationKind, List<NodeRelation>> relations = new Dictionary<RelationKind, List<NodeRelation>>();
 
-        private List<PathLevel> pathLevels = new List<PathLevel>();
+        private List<NodePathLevel> pathLevels = new List<NodePathLevel>();
 
-        public Node(Node parent, string language, MetadataIndex rootIndex, IEnumerable<PathLevel> pathLevels)
+        public Node(Node parent, string language, MetadataIndex rootIndex, IEnumerable<NodePathLevel> pathLevels)
         {
-            this.pathLevels = new List<PathLevel>(pathLevels);
+            this.pathLevels = new List<NodePathLevel>(pathLevels);
 
             if (this.pathLevels.Count == 0)
             {
@@ -38,7 +38,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
 
         public string Language { get; private set; }
 
-        public IReadOnlyDictionary<PathLevel, Node> Children
+        public IReadOnlyDictionary<NodePathLevel, Node> Children
         {
             get
             {
@@ -46,7 +46,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             }
         }
 
-        public IReadOnlyList<PathLevel> PathLevels
+        public IReadOnlyList<NodePathLevel> PathLevels
         {
             get
             {
@@ -90,9 +90,12 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
 
         public void AddRecord(NodeRecord record)
         {
-            if (record.Relation != null)
+            if (record.Relations != null)
             {
-                this.AddRelation(record.Relation);
+                foreach (var relation in record.Relations)
+                {
+                    this.AddRelation(relation);
+                }
             }
 
             this.records.Add(record);
@@ -121,7 +124,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                 this.RootIndex.ReplaceNode(this, result);
             }
 
-            this.pathLevels = new List<PathLevel>(this.pathLevels.Skip(pathLevelIndex + 1));
+            this.pathLevels = new List<NodePathLevel>(this.pathLevels.Skip(pathLevelIndex + 1));
 
             result.children.Add(this.pathLevels[0], this);
             this.Parent = result;
@@ -129,12 +132,12 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             return result;
         }
 
-        public IEnumerable<PathLevel> GetPathLevelsFromRoot()
+        public IEnumerable<NodePathLevel> GetPathLevelsFromRoot()
         {
             return this.Parent != null ? this.Parent.GetPathLevelsFromRoot().Concat(this.PathLevels) : this.PathLevels;
         }
 
-        public IEnumerable<PathLevel> GetPathLevelsFrom(Node node)
+        public IEnumerable<NodePathLevel> GetPathLevelsFrom(Node node)
         {
             return this.Parent != null && this.Parent != node ? this.Parent.GetPathLevelsFrom(node).Concat(this.PathLevels) : this.PathLevels;
         }

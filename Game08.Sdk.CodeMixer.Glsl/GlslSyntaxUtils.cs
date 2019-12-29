@@ -25,7 +25,7 @@ namespace Game08.Sdk.CodeMixer.Glsl
                 {
                     var targetNode = cloner.CloneNode(declaration);
                     target.ShaderFile.SyntaxTree.Declarations.Add(targetNode);
-                    metadataRecorder.SymbolSourcingFrom(source.SemanticInfoProvider, declaration, target.SemanticInfoProvider, targetNode, new Dictionary<string, string>());
+                    metadataRecorder.SymbolSourcingFrom(source.NodePathService, declaration, target.NodePathService, targetNode, new Dictionary<string, string>());
                 }
             }
         }

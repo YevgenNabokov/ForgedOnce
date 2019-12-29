@@ -1,4 +1,4 @@
-﻿using Game08.Sdk.CodeMixer.CSharp.Metadata2;
+﻿using Game08.Sdk.CodeMixer.CSharp.Metadata;
 using NUnit.Framework;
 using System;
 

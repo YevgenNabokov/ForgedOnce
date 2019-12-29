@@ -55,10 +55,6 @@ namespace Game08.Sdk.CodeMixer.Core
             }
         }
 
-        public abstract ISemanticInfoResolver SemanticInfoResolver { get; }
-
-        public abstract IEnumerable<ISemanticSymbol> SemanticSymbols { get; }
-
         public virtual void MakeReadOnly()
         {
             this.IsReadOnly = true;

@@ -36,7 +36,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders
                             string.Compare(referenceFileName, $"{assemblyName.Name}.exe", true) == 0)
                         {
                             var strippedTypeName = typeName.Substring(0, typeName.IndexOf(","));
-                            var referenceAssembly = Assembly.LoadFrom(reference.FilePath);
+                            var referenceAssembly = Assembly.Load(this.fileSystem.File.ReadAllBytes(reference.FilePath));
                             var result = referenceAssembly.GetType(strippedTypeName, false, false);
                             if (result == null)
                             {

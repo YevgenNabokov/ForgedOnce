@@ -23,7 +23,7 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
             : base(id, name)
         {
             this.TypeRepository = ltsTypeRepository;
-            this.SemanticInfoProvider = new SemanticInfoProvider(this);
+            this.NodePathService = new LtsNodePathService(this);
             this.Model = new FileRoot();
         }
 
@@ -39,33 +39,16 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
             set { this.EnsureFileIsEditable(); model = value; }
         }
 
-        public SemanticInfoProvider SemanticInfoProvider
+        public INodePathService<Node> NodePathService
         {
             get;
             private set;
         }
-
-        public override ISemanticInfoResolver SemanticInfoResolver => this.SemanticInfoProvider;
 
         public ILtsTypeRepository TypeRepository
         {
             get;
             private set;
-        }
-
-        public override IEnumerable<ISemanticSymbol> SemanticSymbols
-        {
-            get
-            {
-                if (this.Model != null)
-                {
-                    var visitor = new SearchVisitor();
-                    foreach (var node in visitor.FindNodes<Node>(this.Model, (n) => this.SemanticInfoProvider.CanGetSymbolFor(n)))
-                    {
-                        yield return this.SemanticInfoProvider.GetSymbolFor(node);
-                    }
-                }
-            }
         }
 
         public string GetPath()

@@ -1,4 +1,4 @@
-﻿using Game08.Sdk.CodeMixer.Glsl.Metadata2;
+﻿using Game08.Sdk.CodeMixer.Glsl.Metadata;
 using NUnit.Framework;
 using System;
 

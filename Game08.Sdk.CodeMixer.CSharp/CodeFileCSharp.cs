@@ -19,7 +19,7 @@ namespace Game08.Sdk.CodeMixer.CSharp
         public CodeFileCSharp(string id, string name)
             : base(id, name)
         {
-            this.SemanticInfoProvider = new SemanticInfoProvider(this);
+            this.NodePathService = new CSharpNodePathService(this);
         }
 
         public SyntaxTree SyntaxTree
@@ -34,26 +34,10 @@ namespace Game08.Sdk.CodeMixer.CSharp
             set { this.EnsureFileIsEditable(); this.semanticModel = value; }
         }
 
-        public SemanticInfoProvider SemanticInfoProvider
+        public INodePathService<SyntaxNode> NodePathService
         {
             get;
             private set;
-        }
-
-        public override ISemanticInfoResolver SemanticInfoResolver => this.SemanticInfoProvider;
-
-        public override IEnumerable<ISemanticSymbol> SemanticSymbols
-        {
-            get
-            {
-                if (this.SyntaxTree != null)
-                {
-                    foreach (var node in this.SyntaxTree.GetRoot().DescendantNodes().Where(n => this.SemanticInfoProvider.CanGetSymbolFor(n)))
-                    {
-                        yield return this.SemanticInfoProvider.GetSymbolFor(node);
-                    }
-                }
-            }
         }
 
         protected override string GetSourceCodeText()

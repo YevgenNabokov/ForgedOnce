@@ -7,7 +7,7 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
 {
     public class MetadataIndex
     {
-        private readonly Dictionary<string, Dictionary<PathLevel, Node>> roots = new Dictionary<string, Dictionary<PathLevel, Node>>();
+        private readonly Dictionary<string, Dictionary<NodePathLevel, Node>> roots = new Dictionary<string, Dictionary<NodePathLevel, Node>>();
 
         public MetadataIndex()
         {
@@ -34,23 +34,23 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             lang[subject.PathLevels.First()] = replacement;
         }
 
-        public Node GetExactNode(SemanticPath path, bool orParent = false)
+        public Node GetExactNode(NodePath path, bool orParent = false)
         {
-            if (path.Parts.Count == 0 || !this.roots.ContainsKey(path.Language))
+            if (path.Levels.Count == 0 || !this.roots.ContainsKey(path.Language))
             {
                 return null;
             }
 
             var language = this.roots[path.Language];
-            if (language.ContainsKey(path.Parts[0]))
+            if (language.ContainsKey(path.Levels[0]))
             {
-                var node = language[path.Parts[0]];
+                var node = language[path.Levels[0]];
                 var i = 0;
-                for (var p = 0; p < path.Parts.Count; p++)
+                for (var p = 0; p < path.Levels.Count; p++)
                 {
-                    if (node.PathLevels[i].Equals(path.Parts[p]))
+                    if (node.PathLevels[i].Equals(path.Levels[p]))
                     {
-                        if (p == path.Parts.Count - 1)
+                        if (p == path.Levels.Count - 1)
                         {
                             if (i == node.PathLevels.Count - 1)
                             {
@@ -70,9 +70,9 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                         {
                             if (i == node.PathLevels.Count - 1)
                             {
-                                if (node.Children.ContainsKey(path.Parts[p + 1]))
+                                if (node.Children.ContainsKey(path.Levels[p + 1]))
                                 {
-                                    node = node.Children[path.Parts[p + 1]];
+                                    node = node.Children[path.Levels[p + 1]];
                                     i = -1;
                                 }
                                 else
@@ -106,43 +106,43 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
             return null;
         }
 
-        public Node AllocateNode(SemanticPath path)
+        public Node AllocateNode(string languageKey, IReadOnlyList<NodePathLevel> levels)
         {
-            if (!this.roots.ContainsKey(path.Language))
+            if (!this.roots.ContainsKey(languageKey))
             {
-                this.roots.Add(path.Language, new Dictionary<PathLevel, Node>());
+                this.roots.Add(languageKey, new Dictionary<NodePathLevel, Node>());
             }
 
-            if (path.Parts == null || path.Parts.Count == 0)
+            if (levels == null || levels.Count == 0)
             {
                 throw new InvalidOperationException("Cannot allocate node for empty path.");
             }
 
-            var language = this.roots[path.Language];
+            var language = this.roots[languageKey];
             Node result = null;
 
-            if (!language.ContainsKey(path.Parts[0]))
+            if (!language.ContainsKey(levels[0]))
             {
-                result = new Node(null, path.Language, this, path.Parts);
-                language.Add(path.Parts[0], result);
+                result = new Node(null, languageKey, this, levels);
+                language.Add(levels[0], result);
                 return result;
             }
             else
             {
-                var node = language[path.Parts[0]];
+                var node = language[levels[0]];
                 var l = 0;
                 var nl = 0;
-                while (l < path.Parts.Count)
+                while (l < levels.Count)
                 {
-                    if (!path.Parts[l].Equals(node.PathLevels[nl]))
+                    if (!levels[l].Equals(node.PathLevels[nl]))
                     {
                         var fork = node.Split(nl - 1);
-                        result = new Node(fork, path.Language, this, path.Parts.Skip(l));
+                        result = new Node(fork, languageKey, this, levels.Skip(l));
                         break;
                     }
                     else
                     {
-                        if (l == path.Parts.Count - 1)
+                        if (l == levels.Count - 1)
                         {
                             if (nl == node.PathLevels.Count - 1)
                             {
@@ -159,14 +159,14 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
                         {
                             if (nl == node.PathLevels.Count - 1)
                             {
-                                if (node.Children.ContainsKey(path.Parts[l + 1]))
+                                if (node.Children.ContainsKey(levels[l + 1]))
                                 {
-                                    node = node.Children[path.Parts[l + 1]];
+                                    node = node.Children[levels[l + 1]];
                                     nl = -1;
                                 }
                                 else
                                 {
-                                    result = new Node(node, node.Language, node.RootIndex, path.Parts.Skip(l + 1));
+                                    result = new Node(node, node.Language, node.RootIndex, levels.Skip(l + 1));
                                     break;
                                 }
                             }
@@ -179,6 +179,11 @@ namespace Game08.Sdk.CodeMixer.Core.Metadata.Storage
 
                 return result;
             }
+        }
+
+        public Node AllocateNode(NodePath path)
+        {
+            return this.AllocateNode(path.Language, path.Levels);
         }
     }
 }

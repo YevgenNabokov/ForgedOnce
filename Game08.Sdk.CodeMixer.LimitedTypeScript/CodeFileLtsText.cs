@@ -9,14 +9,9 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 {
     public class CodeFileLtsText : CodeFile
     {
-        private DummySemanticInfoResolver dummySemanticInfoResolver = new DummySemanticInfoResolver();
         private string text;
 
         public override string Language => Languages.LimitedTypeScript;
-
-        public override ISemanticInfoResolver SemanticInfoResolver => this.dummySemanticInfoResolver;
-
-        public override IEnumerable<ISemanticSymbol> SemanticSymbols => new ISemanticSymbol[0];
 
         public CodeFileLtsText(string id, string name)
             : base(id, name)

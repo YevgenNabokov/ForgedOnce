@@ -1,4 +1,4 @@
-﻿using Game08.Sdk.CodeMixer.LimitedTypeScript.Metadata2;
+﻿using Game08.Sdk.CodeMixer.LimitedTypeScript.Metadata;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
