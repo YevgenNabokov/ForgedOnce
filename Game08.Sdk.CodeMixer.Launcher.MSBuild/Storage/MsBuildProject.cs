@@ -16,7 +16,7 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
         {
             this.Project = project;
 
-            foreach (var item in project.Items)
+            foreach (var item in project.ItemsIgnoringCondition)
             {
                 this.items.Add(new MsBuildItem(item, this));
             }

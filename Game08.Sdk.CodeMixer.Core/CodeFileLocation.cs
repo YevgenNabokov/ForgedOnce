@@ -13,5 +13,26 @@ namespace Game08.Sdk.CodeMixer.Core
         {
             return Path.GetFileName(this.FilePath);
         }
+
+        public override bool Equals(object obj)
+        {
+            var location = obj as CodeFileLocation;
+            if (location == null)
+            {
+                return false;
+            }
+
+            return this.FilePath == location.FilePath;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + (this.FilePath != null ? this.FilePath.GetHashCode() : 0);
+                return hash;
+            }
+        }
     }
 }

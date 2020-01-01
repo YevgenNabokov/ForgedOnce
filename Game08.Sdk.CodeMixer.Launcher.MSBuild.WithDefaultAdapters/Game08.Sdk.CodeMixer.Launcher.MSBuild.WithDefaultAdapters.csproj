@@ -20,7 +20,7 @@
     <PackageReference Include="Game08.Sdk.LTS.ModelToCode.Generator" Version="1.0.16">
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
-    <PackageReference Include="System.IO.Abstractions" Version="7.0.7" />
+    <PackageReference Include="System.IO.Abstractions" Version="7.1.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -18,8 +18,10 @@ namespace Game08.Sdk.CodeMixer.Sandbox.MsBuildRunner
             var logger = new CollectionLogger();
             var adapters = new IMsBuildCodeFileStoreAdapter[] { new TypeScriptMsBuildStoreAdapter(fileSystem), new CSharpMsBuildStoreAdapter(fileSystem) };
             CodeGenerationPipelineLauncherMsBuild launcher = new CodeGenerationPipelineLauncherMsBuild(fileSystem, logger, adapters);
-            var testSolutionPath = "..\\..\\..\\..\\SandboxProjects\\TestProjects.SimplePluginTest\\TestProjects.SimplePluginTest.sln";
-            var testConfig = "..\\..\\..\\..\\SandboxProjects\\TestProjects.SimplePluginTest\\TestProjects.SubjectProj\\CGPipeline.json";
+            ////var testSolutionPath = "..\\..\\..\\..\\SandboxProjects\\TestProjects.SimplePluginTest\\TestProjects.SimplePluginTest.sln";
+            ////var testConfig = "..\\..\\..\\..\\SandboxProjects\\TestProjects.SimplePluginTest\\TestProjects.SubjectProj\\CGPipeline.json";
+            var testSolutionPath = @"g:\Projects\Game08\Src\Sdk\Game08.Sdk.CSToTS\Game08.Sdk.CSToTS.SyntaxTrees.sln";
+            var testConfig = @"g:\Projects\Game08\Src\Sdk\Game08.Sdk.CSToTS\Game08.Sdk.CodeGeneration\CGPipeline.json";
             launcher.Execute(testSolutionPath, testConfig);
         }
     }

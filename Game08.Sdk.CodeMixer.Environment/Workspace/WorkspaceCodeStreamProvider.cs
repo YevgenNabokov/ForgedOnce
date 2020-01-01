@@ -54,14 +54,18 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace
 
         public IEnumerable<ICodeStream> RetrieveCodeStreams()
         {
-            List<CodeFile> codeFiles = new List<CodeFile>();
+            Dictionary<CodeFileLocation, CodeFile> codeFiles = new Dictionary<CodeFileLocation, CodeFile>();
             if (this.fileSelector != null)
             {
                 foreach (var filePath in this.fileSelector.GetFiles(this.fileSystem, this.basePath))
                 {
                     if (this.workspaceManager.DocumentExists(filePath))
                     {
-                        codeFiles.Add(this.codeFileResolver.ResolveCodeFile(this.language, new CodeFileLocation() { FilePath = filePath }));
+                        var location = new CodeFileLocation() { FilePath = filePath };
+                        if (!codeFiles.ContainsKey(location))
+                        {
+                            codeFiles.Add(location, this.codeFileResolver.ResolveCodeFile(this.language, location));
+                        }
                     }
                 }
             }
@@ -70,11 +74,14 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace
             {
                 foreach (var doc in this.documentSelector.GetDocuments(this.workspaceManager))
                 {
-                    codeFiles.Add(this.codeFileResolver.ResolveCodeFile(this.language, doc));
+                    if (!codeFiles.ContainsKey(doc))
+                    {
+                        codeFiles.Add(doc, this.codeFileResolver.ResolveCodeFile(this.language, doc));
+                    }
                 }
             }
 
-            return new ICodeStream[] { new CodeStream(this.language, this.name, codeFiles) };
+            return new ICodeStream[] { new CodeStream(this.language, this.name, codeFiles.Values) };
         }
     }
 }
