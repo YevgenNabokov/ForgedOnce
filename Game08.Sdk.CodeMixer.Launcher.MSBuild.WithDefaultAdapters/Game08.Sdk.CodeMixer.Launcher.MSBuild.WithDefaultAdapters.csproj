@@ -3,17 +3,25 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>netcoreapp2.2;net472</TargetFrameworks>
+    <Configurations>Debug;Release;Debug-cli-tools</Configurations>
   </PropertyGroup>
 
   <PropertyGroup>
     <NoPackageAnalysis>true</NoPackageAnalysis>
-    <PackageType>DotnetCliTool</PackageType>
-    <NuspecFile>Game08.Sdk.CodeMixer.Launcher.MSBuild.WithDefaultAdapters.nuspec</NuspecFile>
     <IntermediatePackDir>$(MSBuildProjectDirectory)/bin/$(Configuration)/publish/</IntermediatePackDir>
     <PublishDir>$(IntermediatePackDir)$(TargetFramework)/</PublishDir>
     <NuspecProperties>publishDir=$([MSBuild]::NormalizeDirectory($(IntermediatePackDir)))</NuspecProperties>
     <PackageOutputPath>$(SolutionDir)/NugetOutputs</PackageOutputPath>
     <AssemblyName>dotnet-game08-cg-msbuild</AssemblyName>
+  </PropertyGroup>
+    
+  <PropertyGroup Condition="$(Configuration.Contains('cli-tools'))">
+    <PackageType>DotnetCliTool</PackageType>
+    <NuspecFile>Game08.Sdk.CodeMixer.Launcher.MSBuild.WithDefaultAdapters.CliTool.nuspec</NuspecFile>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="!$(Configuration.Contains('cli-tools'))">    
+    <NuspecFile>Game08.Sdk.CodeMixer.Launcher.MSBuild.WithDefaultAdapters.nuspec</NuspecFile>
   </PropertyGroup>
 
   <ItemGroup>

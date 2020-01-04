@@ -18,16 +18,8 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.WithDefaultAdapters
 
             try
             {
-                CodeGenerationPipelineLauncherMsBuild launcher = new CodeGenerationPipelineLauncherMsBuild(
-                    fileSystem,
-                    collectionLogger,
-                    new IMsBuildCodeFileStoreAdapter[]
-                    {
-                    new CSharpMsBuildStoreAdapter(fileSystem),
-                    new GlslMsBuildStoreAdapter(fileSystem),
-                    new TypeScriptMsBuildStoreAdapter(fileSystem)
-                    });
-                launcher.Execute(args[0], args[1]);
+                var launcher = new Launcher(fileSystem, collectionLogger);
+                launcher.Launch(args[0], args[1]);
             }
             catch (Exception ex)
             {

@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>netcoreapp2.2;net472</TargetFrameworks>
+    <Configurations>Debug;Release;Debug-cli-tools</Configurations>
   </PropertyGroup>
 
   <PropertyGroup>
