@@ -11,9 +11,9 @@ namespace Game08.Sdk.CodeMixer.Glsl
 {
     public class GlslCodeFileHandlerFactory : ICodeFileHandlerFactory
     {
-        public ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, JObject configuration = null)
+        public ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger, JObject configuration = null)
         {
-            return new CodeFileEnvironmentHandlerGlsl(pipelineExecutionInfo, fileSystem);
+            return new CodeFileEnvironmentHandlerGlsl(pipelineExecutionInfo, fileSystem, logger);
         }
     }
 }

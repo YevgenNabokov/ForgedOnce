@@ -10,11 +10,13 @@ namespace Game08.Sdk.CodeMixer.Glsl
     public class CodeFileCompilationHandlerGlsl : ICodeFileCompilationHandler
     {
         private readonly IPipelineExecutionInfo pipelineExecutionInfo;
+        private readonly ILogger logger;
         private List<CodeFileGlsl> codeFiles = new List<CodeFileGlsl>();
 
-        public CodeFileCompilationHandlerGlsl(IPipelineExecutionInfo pipelineExecutionInfo)
+        public CodeFileCompilationHandlerGlsl(IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger)
         {
             this.pipelineExecutionInfo = pipelineExecutionInfo;
+            this.logger = logger;
         }
 
         public void RefreshAndRecompile()

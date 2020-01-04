@@ -11,9 +11,9 @@ namespace Game08.Sdk.CodeMixer.CSharp
 {
     public class CSharpCodeFileHandlerFactory : ICodeFileHandlerFactory
     {
-        public ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, JObject configuration = null)
+        public ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger, JObject configuration = null)
         {
-            return new CodeFileEnvironmentHandlerCSharp(workspaceManager, pipelineExecutionInfo);
+            return new CodeFileEnvironmentHandlerCSharp(workspaceManager, pipelineExecutionInfo, logger);
         }
     }
 }

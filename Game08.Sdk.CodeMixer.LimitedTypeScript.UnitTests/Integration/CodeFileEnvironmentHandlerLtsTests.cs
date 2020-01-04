@@ -11,6 +11,7 @@ using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
 using System.Text;
 using Game08.Sdk.CodeMixer.Core.Pipeline;
+using Game08.Sdk.CodeMixer.Environment;
 
 namespace Game08.Sdk.CodeMixer.LimitedTypeScript.UnitTests.Integration
 {
@@ -20,12 +21,13 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript.UnitTests.Integration
         [Test]
         public void CanTransformOutputs()
         {
+            var logger = new CollectionLogger();
             var fileSystem = new FileSystem();
             var path = fileSystem.Path.GetTempPath();
             var tempDir = fileSystem.Directory.CreateDirectory(fileSystem.Path.Combine(path, Guid.NewGuid().ToString()));
             var fileSystemMock = this.SetupRestrictedFileSystem(tempDir.FullName);
 
-            CodeFileEnvironmentHandlerLts subject = new CodeFileEnvironmentHandlerLts(fileSystemMock, new PipelineExecutionInfo());
+            CodeFileEnvironmentHandlerLts subject = new CodeFileEnvironmentHandlerLts(fileSystemMock, new PipelineExecutionInfo(), logger);
 
             var codeFile = subject.CreateCodeFile("Test.ts") as CodeFileLtsModel;
             codeFile.Location = new Core.CodeFileLocation()

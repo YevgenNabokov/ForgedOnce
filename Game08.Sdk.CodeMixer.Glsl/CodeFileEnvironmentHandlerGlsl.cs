@@ -12,8 +12,8 @@ namespace Game08.Sdk.CodeMixer.Glsl
 {
     public class CodeFileEnvironmentHandlerGlsl : CodeFileEnvironmentHandler
     {
-        public CodeFileEnvironmentHandlerGlsl(IPipelineExecutionInfo pipelineExecutionInfo, IFileSystem fileSystem)
-            : this(new CodeFileStorageHandlerGlsl(fileSystem), new CodeFileCompilationHandlerGlsl(pipelineExecutionInfo))
+        public CodeFileEnvironmentHandlerGlsl(IPipelineExecutionInfo pipelineExecutionInfo, IFileSystem fileSystem, ILogger logger)
+            : this(new CodeFileStorageHandlerGlsl(fileSystem), new CodeFileCompilationHandlerGlsl(pipelineExecutionInfo, logger))
         {
         }
 

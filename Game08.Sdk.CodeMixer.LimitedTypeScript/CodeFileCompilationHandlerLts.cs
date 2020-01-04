@@ -13,15 +13,17 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
     public class CodeFileCompilationHandlerLts : ICodeFileCompilationHandler
     {
         private readonly IPipelineExecutionInfo pipelineExecutionInfo;
+        private readonly ILogger logger;
         private SearchVisitor search = new SearchVisitor();
 
         private UpdateTypeReferencesVisitor referenceUpdater = new UpdateTypeReferencesVisitor();
 
         private List<CodeFileLtsModel> codeFiles = new List<CodeFileLtsModel>();
 
-        public CodeFileCompilationHandlerLts(IPipelineExecutionInfo pipelineExecutionInfo)
+        public CodeFileCompilationHandlerLts(IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger)
         {
             this.pipelineExecutionInfo = pipelineExecutionInfo;
+            this.logger = logger;
         }
 
         public void RefreshAndRecompile()

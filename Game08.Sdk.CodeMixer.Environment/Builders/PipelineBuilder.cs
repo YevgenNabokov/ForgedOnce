@@ -119,7 +119,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
                     throw new InvalidOperationException($"CodeFileHandler type {handlerRegistration.Type} should implement {typeof(ICodeFileHandlerFactory)} interface.");
                 }
 
-                var handler = codeFileHandlerFactory.Create(this.workspaceManager, this.fileSystem, pipelineExecutionInfo, handlerRegistration.Configuration);
+                var handler = codeFileHandlerFactory.Create(this.workspaceManager, this.fileSystem, pipelineExecutionInfo, this.logger, handlerRegistration.Configuration);
                 result.Handlers.Add(handler);
             }
 

@@ -22,8 +22,8 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 
         private LtsTypeRepository typeRepository;
 
-        public CodeFileEnvironmentHandlerLts(IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo)
-            : this(fileSystem, new CodeFileStorageHandlerLts(), new CodeFileCompilationHandlerLts(pipelineExecutionInfo))
+        public CodeFileEnvironmentHandlerLts(IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger)
+            : this(fileSystem, new CodeFileStorageHandlerLts(), new CodeFileCompilationHandlerLts(pipelineExecutionInfo, logger))
         {            
         }
 

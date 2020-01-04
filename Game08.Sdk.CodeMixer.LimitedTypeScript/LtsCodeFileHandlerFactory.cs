@@ -11,9 +11,9 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 {
     public class LtsCodeFileHandlerFactory : ICodeFileHandlerFactory
     {
-        public ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, JObject configuration = null)
+        public ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger, JObject configuration = null)
         {
-            return new CodeFileEnvironmentHandlerLts(fileSystem, pipelineExecutionInfo);
+            return new CodeFileEnvironmentHandlerLts(fileSystem, pipelineExecutionInfo, logger);
         }
     }
 }

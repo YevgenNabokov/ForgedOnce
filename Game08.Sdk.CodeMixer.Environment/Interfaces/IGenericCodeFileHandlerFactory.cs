@@ -10,6 +10,6 @@ namespace Game08.Sdk.CodeMixer.Environment.Interfaces
 {
     public interface ICodeFileHandlerFactory
     {
-        ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, JObject configuration = null);
+        ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger, JObject configuration = null);
     }
 }

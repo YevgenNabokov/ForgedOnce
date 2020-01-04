@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Text;
 using Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis;
 using Game08.Sdk.CodeMixer.Core.Interfaces;
+using System.Linq;
+using Game08.Sdk.CodeMixer.Core.Logging;
 
 namespace Game08.Sdk.CodeMixer.CSharp
 {
@@ -14,14 +16,16 @@ namespace Game08.Sdk.CodeMixer.CSharp
     {
         private IWorkspaceManager workspaceManager;
         private readonly IPipelineExecutionInfo pipelineExecutionInfo;
+        private readonly ILogger logger;
         private WorkspaceCompilationHandler compilationHandler;
 
         private List<CodeFileCSharp> codeFiles = new List<CodeFileCSharp>();
 
-        public CodeFileCompilationHandlerCSharp(IWorkspaceManager workspaceManager, IPipelineExecutionInfo pipelineExecutionInfo)
+        public CodeFileCompilationHandlerCSharp(IWorkspaceManager workspaceManager, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger)
         {
             this.workspaceManager = workspaceManager;
             this.pipelineExecutionInfo = pipelineExecutionInfo;
+            this.logger = logger;
             this.compilationHandler = new WorkspaceCompilationHandler(workspaceManager);
         }
 
@@ -40,6 +44,8 @@ namespace Game08.Sdk.CodeMixer.CSharp
             }
 
             Dictionary<string, Compilation> compilations = this.compilationHandler.CompileProjects(projectsToRebuild);
+
+            this.AssertCompilationResults(compilations);
 
             foreach (var file in this.codeFiles)
             {
@@ -79,6 +85,41 @@ namespace Game08.Sdk.CodeMixer.CSharp
                 }
 
                 this.codeFiles.Remove(codeFile as CodeFileCSharp);
+            }
+        }
+
+        private void AssertCompilationResults(Dictionary<string, Compilation> compilations)
+        {
+            StringBuilder logMessage = new StringBuilder();
+            StringBuilder exceptionMessage = new StringBuilder();
+            foreach(var c in compilations)
+            {
+                var projectHadErrors = false;
+                var diagnostics = c.Value.GetDiagnostics();
+                if (diagnostics.Any(d => d.Severity == DiagnosticSeverity.Error))
+                {
+                    exceptionMessage.Append($"{c.Key} ({diagnostics.Count(d => d.Severity == DiagnosticSeverity.Error)});");
+                }
+
+                foreach (var d in diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error))
+                {
+                    if (!projectHadErrors)
+                    {
+                        logMessage.Append($"Project {c.Key} had compilation errors:\r\n");
+                        projectHadErrors = true;
+                    }
+
+                    logMessage.Append($"\t{d.GetMessage()}\r\n");
+                }
+            }
+
+            if (logMessage.Length > 0)
+            {
+                this.logger.Write(new LogRecord(MessageSeverity.Warning, logMessage.ToString()));
+
+                exceptionMessage.Insert(0, "CSharp projects have compilation errors: ");
+
+                throw new InvalidOperationException(exceptionMessage.ToString());
             }
         }
     }
