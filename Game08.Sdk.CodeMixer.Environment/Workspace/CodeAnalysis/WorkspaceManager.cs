@@ -208,7 +208,8 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis
                     proj.AssemblyName,
                     proj.Language,
                     projectReferences: proj.ProjectReferences,
-                    metadataReferences: proj.MetadataReferences));
+                    metadataReferences: proj.MetadataReferences,
+                    compilationOptions: proj.CompilationOptions));
 
                 foreach (var doc in proj.Documents)
                 {
