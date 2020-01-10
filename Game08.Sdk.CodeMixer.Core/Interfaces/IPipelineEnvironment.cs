@@ -19,6 +19,6 @@ namespace Game08.Sdk.CodeMixer.Core.Interfaces
 
         void RefreshAndRecompile();
 
-        ICodeStream CreateCodeStream(string language, string name, ICodeFileLocationProvider codeFileLocationProvider = null);
+        ICodeStream CreateCodeStream(string language, string name, ICodeFileDestination codeFileLocationProvider = null);
     }
 }

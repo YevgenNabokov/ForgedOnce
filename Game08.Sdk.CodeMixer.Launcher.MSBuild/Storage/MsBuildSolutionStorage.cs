@@ -118,6 +118,33 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
             }
         }
 
+        public void RemoveCodeFile(DocumentPath documentPath)
+        {
+            MsBuildProject container = null;
+            MsBuildItem itemToRemove = null;
+
+            foreach (var proj in this.Solution.Projects)
+            {
+                if (proj.Value.Name == documentPath.ProjectName)
+                {
+                    foreach (var item in proj.Value.Items)
+                    {
+                        if (item.DocumentPath.Equals(documentPath) && this.msBuildStoreAdapters.Any(a => a.ItemSupported(item)))
+                        {
+                            container = proj.Value;
+                            itemToRemove = item;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (itemToRemove != null)
+            {
+                container.RemoveItem(itemToRemove);
+            }
+        }
+
         public void ResolveCodeFile(CodeFile codeFile, bool resolveSourceCodeText = true, bool resolveLocation = true)
         {
             throw new NotImplementedException();

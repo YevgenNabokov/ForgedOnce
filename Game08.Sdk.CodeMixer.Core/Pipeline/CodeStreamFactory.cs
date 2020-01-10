@@ -8,9 +8,9 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
     public class CodeStreamFactory : ICodeStreamFactory
     {
         private readonly IPipelineEnvironment pipelineEnvironment;
-        private readonly Dictionary<string, ICodeFileLocationProvider> codeFileLocationProviders;
+        private readonly Dictionary<string, ICodeFileDestination> codeFileLocationProviders;
 
-        public CodeStreamFactory(IPipelineEnvironment pipelineEnvironment, Dictionary<string, ICodeFileLocationProvider> codeFileLocationProviders)
+        public CodeStreamFactory(IPipelineEnvironment pipelineEnvironment, Dictionary<string, ICodeFileDestination> codeFileLocationProviders)
         {
             this.pipelineEnvironment = pipelineEnvironment;
             this.codeFileLocationProviders = codeFileLocationProviders;

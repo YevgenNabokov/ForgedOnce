@@ -88,7 +88,7 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
             }
         }
 
-        public ICodeStream CreateCodeStream(string language, string name, ICodeFileLocationProvider codeFileLocationProvider = null)
+        public ICodeStream CreateCodeStream(string language, string name, ICodeFileDestination codeFileLocationProvider = null)
         {
             return this.HandlerFor(language).CreateCodeStream(language, name, codeFileLocationProvider);
         }

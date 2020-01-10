@@ -67,7 +67,7 @@ namespace Game08.Sdk.CodeMixer.Environment
             return codeFile;
         }
 
-        public virtual ICodeStream CreateCodeStream(string language, string name, ICodeFileLocationProvider codeFileLocationProvider = null)
+        public virtual ICodeStream CreateCodeStream(string language, string name, ICodeFileDestination codeFileLocationProvider = null)
         {
             return new CodeStream(language, name, this, codeFileLocationProvider);
         }

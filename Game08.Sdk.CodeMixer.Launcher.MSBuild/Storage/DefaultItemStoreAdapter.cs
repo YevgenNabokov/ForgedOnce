@@ -41,6 +41,11 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
             return true;
         }
 
+        public virtual bool ItemSupported(MsBuildItem item)
+        {
+            return item.ItemType != null && item.ItemType != this.itemType;
+        }
+
         public virtual void Remove(CodeFile codeFile, MsBuildProject msBuildProject)
         {
             var relativeItemPath = this.GetProjectRelativePath(codeFile.Location, msBuildProject);

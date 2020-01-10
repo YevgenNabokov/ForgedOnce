@@ -96,7 +96,7 @@ namespace Game08.Sdk.CodeMixer.Environment
         {
             BuilderRegistry result = new BuilderRegistry();
 
-            result.Register<ICodeFileLocationProvider>(new WorkspaceCodeFileLocationProviderBuilder(workspaceManager));
+            result.Register<ICodeFileDestination>(new WorkspaceCodeFileLocationProviderBuilder(workspaceManager));
             result.Register<ICodeFileSelector>(new CodeFileSelectorBuilder());
 
             return result;

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Environment.Builders
 {
-    public class WorkspaceCodeFileLocationProviderBuilder : IBuilder<ICodeFileLocationProvider>
+    public class WorkspaceCodeFileLocationProviderBuilder : IBuilder<ICodeFileDestination>
     {
         public const string PathKey = "path";
 
@@ -21,7 +21,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
             this.workspaceManager = workspaceManager;
         }
 
-        public ICodeFileLocationProvider Build(JObject configuration)
+        public ICodeFileDestination Build(JObject configuration)
         {
             if (!configuration.ContainsKey(PathKey))
             {
@@ -30,7 +30,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
 
             var path = configuration[PathKey].Value<string>();
 
-            return new WorkspaceCodeFileLocationProvider(this.workspaceManager, path);
+            return new WorkspaceCodeFileDestination(this.workspaceManager, path);
         }
     }
 }

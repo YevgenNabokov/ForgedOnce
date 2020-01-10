@@ -1,0 +1,51 @@
+﻿using Game08.Sdk.CodeMixer.Core;
+using Game08.Sdk.CodeMixer.Core.Interfaces;
+using Game08.Sdk.CodeMixer.Environment.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Game08.Sdk.CodeMixer.Environment.Workspace
+{
+    public class WorkspaceCodeFileDestination : ICodeFileDestination
+    {
+        private readonly IWorkspaceManagerBase workspaceManager;
+        private readonly string path;
+        private readonly string projectName;
+        private readonly string[] pathParts;
+
+        public WorkspaceCodeFileDestination(IWorkspaceManagerBase workspaceManager, string path)
+        {
+            this.workspaceManager = workspaceManager;
+            this.path = path;
+            var parts = this.path.Split('/');
+            this.pathParts = parts.Skip(1).ToArray();
+            this.projectName = parts[0];
+        }
+
+        public CodeFileLocation GetLocation(string fileName)
+        {
+            if (!this.workspaceManager.ProjectExists(this.projectName))
+            {
+                throw new InvalidOperationException($"Cannot resolve project for path {this.path}");
+            }
+
+            return new WorkspaceCodeFileLocation()
+            {
+                DocumentPath = new DocumentPath(this.projectName, this.pathParts, fileName)
+            };
+        }
+
+        public void Clear()
+        {            
+            foreach (var path in this.workspaceManager.DocumentPaths)
+            {
+                if (path.ProjectName == this.projectName && path.ProjectFolders.SequenceEqual(this.pathParts))
+                {
+                    this.workspaceManager.RemoveCodeFile(path);
+                }
+            }
+        }
+    }
+}

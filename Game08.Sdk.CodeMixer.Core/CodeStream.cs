@@ -11,9 +11,9 @@ namespace Game08.Sdk.CodeMixer.Core
 
         private ICodeFileFactory codeFileFactory;
 
-        private readonly ICodeFileLocationProvider codeFileLocationProvider;
+        private readonly ICodeFileDestination codeFileLocationProvider;
 
-        public CodeStream(string language, string name, ICodeFileFactory codeFileFactory, ICodeFileLocationProvider codeFileLocationProvider = null)
+        public CodeStream(string language, string name, ICodeFileFactory codeFileFactory, ICodeFileDestination codeFileLocationProvider = null)
         {
             this.Language = language;
             this.Name = name;

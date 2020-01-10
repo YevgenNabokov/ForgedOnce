@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Core.Interfaces
 {
-    public interface ICodeFileLocationProvider
+    public interface ICodeFileDestination
     {
-        CodeFileLocation GetLocation(string name);
+        CodeFileLocation GetLocation(string fileName);
     }
 }

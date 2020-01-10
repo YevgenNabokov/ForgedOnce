@@ -17,5 +17,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Interfaces
         bool ProjectExists(string projectName);
 
         bool DocumentExists(string fullPath);
+
+        void RemoveCodeFile(DocumentPath documentPath);
     }
 }

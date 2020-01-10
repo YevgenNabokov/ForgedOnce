@@ -25,7 +25,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Environment.Integration
 
             var workspaceManager = new WorkspaceManager(TestWorkspaceFactory.GetWorkspace());
             BuilderRegistry builders = new BuilderRegistry();
-            builders.Register<ICodeFileLocationProvider>(new WorkspaceCodeFileLocationProviderBuilder(workspaceManager));
+            builders.Register<ICodeFileDestination>(new WorkspaceCodeFileLocationProviderBuilder(workspaceManager));
             builders.Register<ICodeFileSelector>(new CodeFileSelectorBuilder());
 
             var config = JObject.Parse(Resources.IntegrationTestConfig01);

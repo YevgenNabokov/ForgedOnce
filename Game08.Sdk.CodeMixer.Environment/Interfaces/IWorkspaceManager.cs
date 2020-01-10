@@ -28,8 +28,6 @@ namespace Game08.Sdk.CodeMixer.Environment.Interfaces
 
         void ReplaceDocumentText(Guid documentId, string newText);
 
-        void RemoveCodeFile(DocumentPath documentPath);
-
         IWorkspaceManager CreateAdHocClone();
     }
 }
