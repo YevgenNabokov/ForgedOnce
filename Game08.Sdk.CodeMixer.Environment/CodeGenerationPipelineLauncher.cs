@@ -46,14 +46,13 @@ namespace Game08.Sdk.CodeMixer.Environment
             }
 
             PipelineWorkspaceManagersWrapper workspaces = new PipelineWorkspaceManagersWrapper(
-                this.initialWorkspaceManager,
                 this.initialWorkspaceManager.CreateAdHocClone(),
                 this.outputWorkspaceManager);
 
             var typeLoader = new AggregateTypeLoader(
                 new DefaultTypeLoader(),
-                new ProjectReferenceTypeLoader(workspaces.InitialWorkspace, this.fileSystem),
-                new WorkspaceTypeLoader(workspaces.InitialWorkspace));
+                new ProjectReferenceTypeLoader(workspaces.ProcessingWorkspace, this.fileSystem),
+                new WorkspaceTypeLoader(workspaces.ProcessingWorkspace));
             if (this.additionalTypeLoader != null)
             {
                 typeLoader.AddResolver(this.additionalTypeLoader);

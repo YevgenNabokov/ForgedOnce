@@ -7,15 +7,12 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace
 {
     public class PipelineWorkspaceManagersWrapper : IPipelineWorkspaceManagers
     {
-        public PipelineWorkspaceManagersWrapper(IWorkspaceManager initialWorkspace, IWorkspaceManager processingWorkspace, IWorkspaceManagerBase outputWorkspace)
+        public PipelineWorkspaceManagersWrapper(IWorkspaceManager processingWorkspace, IWorkspaceManagerBase outputWorkspace)
         {
-            this.InitialWorkspace = initialWorkspace;
             this.ProcessingWorkspace = processingWorkspace;
             this.OutputWorkspace = outputWorkspace;
         }
-
-        public IWorkspaceManager InitialWorkspace { get; private set; }
-
+        
         public IWorkspaceManager ProcessingWorkspace { get; private set; }
 
         public IWorkspaceManagerBase OutputWorkspace { get; private set; }

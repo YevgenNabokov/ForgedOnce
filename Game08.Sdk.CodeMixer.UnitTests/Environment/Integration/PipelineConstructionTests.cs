@@ -25,7 +25,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.Environment.Integration
             var basePath = "z:\\fakepath";
 
             var workspaceManager = new WorkspaceManager(TestWorkspaceFactory.GetWorkspace());
-            PipelineWorkspaceManagersWrapper workspaces = new PipelineWorkspaceManagersWrapper(workspaceManager, workspaceManager, workspaceManager);
+            PipelineWorkspaceManagersWrapper workspaces = new PipelineWorkspaceManagersWrapper(workspaceManager, workspaceManager);
             BuilderRegistry builders = new BuilderRegistry();
             builders.Register<ICodeFileDestination>(new WorkspaceCodeFileDestinationBuilder(workspaces));
             builders.Register<ICodeFileSelector>(new CodeFileSelectorBuilder());

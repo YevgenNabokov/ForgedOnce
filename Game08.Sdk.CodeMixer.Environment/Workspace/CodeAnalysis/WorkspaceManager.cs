@@ -217,9 +217,10 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis
                 foreach (var doc in proj.Documents)
                 {
                     var cloneProj = solution.GetProject(proj.Id);
-                    var text = doc.GetTextAsync().Result.ToString();
-                    var newText = SourceText.From(text);
-                    var document = cloneProj.AddDocument(doc.Name, text, doc.Folders);
+                    var sourceText = doc.GetTextAsync().Result;
+                    var text = sourceText.ToString();
+                    var newText = SourceText.From(text, sourceText.Encoding);
+                    var document = cloneProj.AddDocument(doc.Name, newText, doc.Folders);
                     solution = document.Project.Solution;
                 }
             }
