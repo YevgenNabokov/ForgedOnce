@@ -16,9 +16,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
     {
         private readonly IBuilderProvider builderProvider;
 
-        private readonly IWorkspaceManager workspaceManager;
-
-        private readonly IWorkspaceManagerBase initialWorkspaceManager;
+        private readonly IPipelineWorkspaceManagers workspaceManagers;
 
         private readonly string basePath;
         private readonly IFileSystem fileSystem;
@@ -29,16 +27,14 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
 
         public PipelineBuilder(
             IBuilderProvider builderProvider,
-            IWorkspaceManager workspaceManager,
-            IWorkspaceManagerBase initialWorkspaceManager,
+            IPipelineWorkspaceManagers workspaceManagers,
             string basePath,
             IFileSystem fileSystem,
             ITypeLoader typeLoader,
             ILogger logger)
         {
             this.builderProvider = builderProvider;
-            this.workspaceManager = workspaceManager;
-            this.initialWorkspaceManager = initialWorkspaceManager;
+            this.workspaceManagers = workspaceManagers;
             this.basePath = basePath;
             this.fileSystem = fileSystem;
             this.typeLoader = typeLoader;
@@ -58,7 +54,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
                 var inputConfig = reader.InputCodeStreamProviderConfiguration;
                 if (inputConfig != null)
                 {
-                    var inputBuilder = new CodeStreamProviderBuilder(result.PipelineEnvironment, this.initialWorkspaceManager, this.fileSystem, this.basePath);
+                    var inputBuilder = new CodeStreamProviderBuilder(result.PipelineEnvironment, this.workspaceManagers.OutputWorkspace, this.fileSystem, this.basePath);
                     result.InputCodeStreamProvider = inputBuilder.Build(inputConfig);
                 }
 
@@ -113,13 +109,13 @@ namespace Game08.Sdk.CodeMixer.Environment.Builders
                     throw new InvalidOperationException($"Cannot resolve CodeFileHandler type {handlerRegistration.Type}.");
                 }
 
-                var codeFileHandlerFactory = Activator.CreateInstance(type) as ICodeFileHandlerFactory;
+                var codeFileHandlerFactory = Activator.CreateInstance(type) as ICodeFileEnvironmentHandlerFactory;
                 if (codeFileHandlerFactory == null)
                 {
-                    throw new InvalidOperationException($"CodeFileHandler type {handlerRegistration.Type} should implement {typeof(ICodeFileHandlerFactory)} interface.");
+                    throw new InvalidOperationException($"CodeFileHandler type {handlerRegistration.Type} should implement {typeof(ICodeFileEnvironmentHandlerFactory)} interface.");
                 }
 
-                var handler = codeFileHandlerFactory.Create(this.workspaceManager, this.fileSystem, pipelineExecutionInfo, this.logger, handlerRegistration.Configuration);
+                var handler = codeFileHandlerFactory.Create(this.workspaceManagers.ProcessingWorkspace, this.fileSystem, pipelineExecutionInfo, this.logger, handlerRegistration.Configuration);
                 result.Handlers.Add(handler);
             }
 

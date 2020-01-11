@@ -8,29 +8,29 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Environment.Builders
 {
-    public class WorkspaceCodeFileLocationProviderBuilder : IBuilder<ICodeFileDestination>
+    public class WorkspaceCodeFileDestinationBuilder : IBuilder<ICodeFileDestination>
     {
         public const string PathKey = "path";
 
-        private readonly IWorkspaceManagerBase workspaceManager;
+        private readonly IPipelineWorkspaceManagers workspaces;
 
         public string Name => null;
 
-        public WorkspaceCodeFileLocationProviderBuilder(IWorkspaceManagerBase workspaceManager)
+        public WorkspaceCodeFileDestinationBuilder(IPipelineWorkspaceManagers workspaces)
         {
-            this.workspaceManager = workspaceManager;
+            this.workspaces = workspaces;
         }
 
         public ICodeFileDestination Build(JObject configuration)
         {
             if (!configuration.ContainsKey(PathKey))
             {
-                throw new InvalidOperationException($"Settings for {nameof(WorkspaceCodeFileLocationProviderBuilder)} should contain {PathKey}.");
+                throw new InvalidOperationException($"Settings for {nameof(WorkspaceCodeFileDestinationBuilder)} should contain {PathKey}.");
             }
 
             var path = configuration[PathKey].Value<string>();
 
-            return new WorkspaceCodeFileDestination(this.workspaceManager, path);
+            return new WorkspaceCodeFileDestination(this.workspaces, path);
         }
     }
 }

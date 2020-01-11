@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.CSharp
 {
-    public class CSharpCodeFileHandlerFactory : ICodeFileHandlerFactory
+    public class CSharpCodeFileHandlerFactory : ICodeFileEnvironmentHandlerFactory
     {
         public ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger, JObject configuration = null)
         {

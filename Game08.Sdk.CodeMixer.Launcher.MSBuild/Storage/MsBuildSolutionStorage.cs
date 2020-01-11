@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
 {
-    public class MsBuildSolutionStorage : IWorkspaceManagerBase, ICodeFileStorageHandler
+    public class MsBuildSolutionStorage : IWorkspaceManagerBase
     {
         private readonly string solutionPath;
         private readonly IEnumerable<IMsBuildCodeFileStoreAdapter> msBuildStoreAdapters;

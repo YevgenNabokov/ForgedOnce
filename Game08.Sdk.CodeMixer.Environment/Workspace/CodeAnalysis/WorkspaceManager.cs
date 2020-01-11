@@ -14,9 +14,12 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis
     {
         private Microsoft.CodeAnalysis.Workspace workspace;
 
+        private WorkspaceFileStorageHandler workspaceFileStorageHandler;
+
         public WorkspaceManager(Microsoft.CodeAnalysis.Workspace workspace)
         {
             this.workspace = workspace;
+            this.workspaceFileStorageHandler = new WorkspaceFileStorageHandler(this);
         }        
 
         public IEnumerable<TReference> GetMetadataReferences<TReference>(Guid? projectId = null) where TReference : MetadataReference
@@ -260,6 +263,26 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis
         public bool DocumentExists(string fullPath)
         {
             return this.FindDocumentByFilePath(fullPath) != null;
+        }
+
+        public void Add(CodeFile codeFile)
+        {
+            this.workspaceFileStorageHandler.Add(codeFile);
+        }
+
+        public void Remove(CodeFile codeFile)
+        {
+            this.workspaceFileStorageHandler.Remove(codeFile);
+        }
+
+        public string ResolveCodeFileName(CodeFileLocation location)
+        {
+            return this.workspaceFileStorageHandler.ResolveCodeFileName(location);
+        }
+
+        public void ResolveCodeFile(CodeFile codeFile, bool resolveSourceCodeText = true, bool resolveLocation = true)
+        {
+            this.workspaceFileStorageHandler.ResolveCodeFile(codeFile, resolveSourceCodeText, resolveLocation);
         }
     }
 }

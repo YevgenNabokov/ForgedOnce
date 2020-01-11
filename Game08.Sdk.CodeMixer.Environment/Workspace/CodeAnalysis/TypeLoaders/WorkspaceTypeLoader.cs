@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
@@ -56,6 +57,12 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders
                     {
                         using (var stream = new MemoryStream())
                         {
+                            var errors = compilations[project.Name].GetDiagnostics().Where(d => d.Severity == DiagnosticSeverity.Error).ToArray();
+                            if (errors.Length > 0)
+                            {
+                                this.AlertBuildErrors(errors);
+                            }
+
                             Assembly assembly = null;
                             if (debuggingEnabled)
                             {
@@ -94,7 +101,9 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders
                         debugInformationFormat: DebugInformationFormat.PortablePdb,
                         pdbFilePath: pdbFileName);
 
-                    compilation.Emit(stream, symbolsStream, options: emitOptions);
+                    var emitResult = compilation.Emit(stream, symbolsStream, options: emitOptions);
+                    this.AssertEmitResult(emitResult);
+
                     stream.Seek(0, SeekOrigin.Begin);
                     symbolsStream?.Seek(0, SeekOrigin.Begin);
                     var assembly = AssemblyLoadContext.Default.LoadFromStream(stream, symbolsStream);
@@ -102,6 +111,22 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders
                 }
             }
         }
+
+        private void AlertBuildErrors(Diagnostic[] errors)
+        {
+            var diagnostics = string.Join(",", errors.Select(d => d.ToString()));
+            throw new InvalidOperationException($"Error occurred on build: {diagnostics}");
+        }
+
+        private void AssertEmitResult(EmitResult result)
+        {
+            if (!result.Success)
+            {
+                var diagnostics = string.Join(",", result.Diagnostics.Select(d => d.ToString()));
+                throw new InvalidOperationException($"Error occurred on assembly Emit: {diagnostics}");
+            }
+        }
+
         private Assembly EmitAndLoad(Compilation compilation)
         {
             using (var stream = new MemoryStream())

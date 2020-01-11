@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Glsl
 {
-    public class GlslCodeFileHandlerFactory : ICodeFileHandlerFactory
+    public class GlslCodeFileHandlerFactory : ICodeFileEnvironmentHandlerFactory
     {
         public ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger, JObject configuration = null)
         {

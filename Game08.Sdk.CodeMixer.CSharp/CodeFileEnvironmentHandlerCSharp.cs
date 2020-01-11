@@ -10,7 +10,7 @@ namespace Game08.Sdk.CodeMixer.CSharp
     public class CodeFileEnvironmentHandlerCSharp : CodeFileEnvironmentHandler
     {
         public CodeFileEnvironmentHandlerCSharp(IWorkspaceManager workspaceManager, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger)
-            : base(new WorkspaceFileStorageHandler(workspaceManager), new CodeFileCompilationHandlerCSharp(workspaceManager, pipelineExecutionInfo, logger))
+            : base(workspaceManager, new CodeFileCompilationHandlerCSharp(workspaceManager, pipelineExecutionInfo, logger))
         {
         }
 

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Environment.Interfaces
 {
-    public interface ICodeFileHandlerFactory
+    public interface ICodeFileEnvironmentHandlerFactory
     {
         ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger, JObject configuration = null);
     }

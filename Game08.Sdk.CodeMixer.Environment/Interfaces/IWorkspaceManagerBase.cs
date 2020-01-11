@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Environment.Interfaces
 {
-    public interface IWorkspaceManagerBase
+    public interface IWorkspaceManagerBase : ICodeFileStorageHandler
     {
         IEnumerable<DocumentPath> DocumentPaths
         {

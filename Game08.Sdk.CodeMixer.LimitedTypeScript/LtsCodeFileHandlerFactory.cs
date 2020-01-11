@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Game08.Sdk.CodeMixer.LimitedTypeScript
 {
-    public class LtsCodeFileHandlerFactory : ICodeFileHandlerFactory
+    public class LtsCodeFileHandlerFactory : ICodeFileEnvironmentHandlerFactory
     {
         public ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger, JObject configuration = null)
         {

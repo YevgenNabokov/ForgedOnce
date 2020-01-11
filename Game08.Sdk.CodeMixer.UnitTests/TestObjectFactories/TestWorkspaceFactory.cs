@@ -52,7 +52,7 @@ namespace #NAMESPACE
                 compilationOptions: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
             var newProject = workspace.AddProject(projectInfo);
-            var sourceText = SourceText.From(sampleClassText.Replace("#NAMESPACE", ns).Replace("#CLASS", className));
+            var sourceText = SourceText.From(sampleClassText.Replace("#NAMESPACE", ns).Replace("#CLASS", className), Encoding.Unicode);
             var newDocument = workspace.AddDocument(newProject.Id, "NewFile.cs", sourceText);
 
             return workspace;
