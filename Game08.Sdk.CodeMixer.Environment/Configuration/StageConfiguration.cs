@@ -11,13 +11,15 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
 
         public const string OutputsSelectorKey = "output";
 
-        public const string CodeStreamMappingsKey = "mappings";
+        public const string CodeStreamDestinationMappingsKey = "destinationMapping";
 
         public const string OutputStreamRenamesKey = "outputStreamRenames";
 
         public const string PluginKey = "plugin";
 
         public const string NameKey = "name";
+
+        public const string CleanDestinationsKey = "cleanDestinations";
 
         private readonly JObject configuration;
 
@@ -56,11 +58,11 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
         {
             get
             {
-                if (this.configuration.ContainsKey(CodeStreamMappingsKey))
+                if (this.configuration.ContainsKey(CodeStreamDestinationMappingsKey))
                 {
                     Dictionary<string, BuilderConfiguration> result = new Dictionary<string, BuilderConfiguration>();
 
-                    foreach (var mapper in this.configuration[CodeStreamMappingsKey].Value<JObject>())
+                    foreach (var mapper in this.configuration[CodeStreamDestinationMappingsKey].Value<JObject>())
                     {
                         result.Add(mapper.Key, new BuilderConfiguration(mapper.Value.Value<JObject>()));
                     }
@@ -68,7 +70,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
                     return result;
                 }
 
-                throw new InvalidOperationException($"Stage configuration should contain {CodeStreamMappingsKey}.");
+                throw new InvalidOperationException($"Stage configuration should contain {CodeStreamDestinationMappingsKey}.");
             }
         }
 
@@ -113,6 +115,19 @@ namespace Game08.Sdk.CodeMixer.Environment.Configuration
                 }
 
                 return null;
+            }
+        }
+
+        public bool CleanDestinations
+        {
+            get
+            {
+                if (this.configuration.ContainsKey(CleanDestinationsKey))
+                {
+                    return this.configuration[CleanDestinationsKey].Value<bool>();
+                }
+
+                return false;
             }
         }
     }

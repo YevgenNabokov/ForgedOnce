@@ -32,7 +32,7 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild
             var workspace = MSBuildWorkspace.Create();            
             var solution = workspace.OpenSolutionAsync(solutionPath).Result;
 
-            var solutionManager = new MsBuildSolutionStorage(this.fileSystem.Path.GetFullPath(solutionPath), this.msBuildStoreAdapters);
+            var solutionManager = new MsBuildSolutionStorage(this.fileSystem.Path.GetFullPath(solutionPath), this.msBuildStoreAdapters, this.fileSystem);
 
             var launcher = new CodeGenerationPipelineLauncher(new WorkspaceManager(workspace), solutionManager, this.fileSystem, null, solutionManager, this.logger);
             launcher.Launch(pipelineConfigurationPath);

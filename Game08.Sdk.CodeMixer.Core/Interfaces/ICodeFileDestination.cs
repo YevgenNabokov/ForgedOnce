@@ -7,5 +7,7 @@ namespace Game08.Sdk.CodeMixer.Core.Interfaces
     public interface ICodeFileDestination
     {
         CodeFileLocation GetLocation(string fileName);
+
+        void Clear();
     }
 }

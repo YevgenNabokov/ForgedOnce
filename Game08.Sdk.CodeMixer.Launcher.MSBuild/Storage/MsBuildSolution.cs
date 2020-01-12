@@ -11,13 +11,16 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
 {
     public class MsBuildSolution
     {
-        protected MsBuildSolution()
+        private readonly IFileSystem fileSystem;
+
+        protected MsBuildSolution(IFileSystem fileSystem)
         {
+            this.fileSystem = fileSystem;
         }
 
-        public static MsBuildSolution Load(string solutionPath)
+        public static MsBuildSolution Load(string solutionPath, IFileSystem fileSystem)
         {
-            MsBuildSolution result = new MsBuildSolution();
+            MsBuildSolution result = new MsBuildSolution(fileSystem);
             result.SolutionFile = SolutionFile.Parse(solutionPath);
             result.LoadProjects();
             return result;
@@ -48,7 +51,7 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
 
             foreach (var proj in this.SolutionFile.ProjectsInOrder)
             {
-                var loadedProj = new MsBuildProject(new Project(proj.AbsolutePath, null, null, projectCollection));
+                var loadedProj = new MsBuildProject(new Project(proj.AbsolutePath, null, null, projectCollection), this.fileSystem);
                 projects.Add(Guid.Parse(proj.ProjectGuid), loadedProj);
             }
 

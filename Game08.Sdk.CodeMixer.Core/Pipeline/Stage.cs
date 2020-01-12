@@ -13,7 +13,7 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
         public string StageName;
 
-        public ICodeGenerationPlugin Plugin;
+        public ICodeGenerationPlugin Plugin;        
 
         public Stage(ILogger logger)
         {

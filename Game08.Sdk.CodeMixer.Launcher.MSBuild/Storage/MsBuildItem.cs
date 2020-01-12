@@ -14,6 +14,8 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
 
         private readonly MsBuildProject project;
         private DocumentPath documentPath;
+        private readonly string fullPath = null;
+        private readonly string itemType = null;
 
         public MsBuildItem(ProjectItem projectItem, MsBuildProject project)
         {
@@ -21,7 +23,15 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
             this.project = project;
         }
 
-        public ProjectItem Item
+        public MsBuildItem(DocumentPath documentPath, string fullPath, string itemType, MsBuildProject project)
+        {
+            this.documentPath = documentPath;
+            this.fullPath = fullPath;
+            this.itemType = itemType;
+            this.project = project;
+        }
+
+        internal ProjectItem Item
         {
             get;
             private set;
@@ -31,7 +41,7 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
         {
             get
             {
-                return this.Item.ItemType;
+                return this.itemType ?? this.Item.ItemType;
             }
         }
 
@@ -39,9 +49,10 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
         {
             get
             {
-                return Path.IsPathRooted(this.Item.EvaluatedInclude) 
+                return this.fullPath ?? (
+                    Path.IsPathRooted(this.Item.EvaluatedInclude) 
                     ? Path.GetFullPath(this.Item.EvaluatedInclude) 
-                    : Path.GetFullPath(Path.Combine(Path.GetDirectoryName(this.Item.Project.FullPath), this.Item.EvaluatedInclude));
+                    : Path.GetFullPath(Path.Combine(Path.GetDirectoryName(this.Item.Project.FullPath), this.Item.EvaluatedInclude)));
             }
         }
 

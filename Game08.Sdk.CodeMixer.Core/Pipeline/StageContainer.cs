@@ -13,8 +13,10 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
 
         public ICodeFileSelector FinalOutputSelector;
 
-        public Dictionary<string, ICodeFileDestination> CodeFileLocationProviders;
+        public Dictionary<string, ICodeFileDestination> CodeFileDestinations;
 
         public Dictionary<string, string> OutputCodeStreamRenames;
+
+        public bool CleanDestinations;
     }
 }

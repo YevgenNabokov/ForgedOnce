@@ -48,12 +48,31 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
             {
                 var inputs = this.InputCodeStreamProvider.RetrieveCodeStreams();
 
+                this.Prepare(this.Batches);
+
                 this.ExecuteAllBatches(this.Batches, inputs);
             }
             catch (Exception ex)
             {
                 this.logger.Write(new ErrorLogRecord("Error occurred during pipeline execution.", ex));
                 throw;
+            }
+        }
+
+        private void Prepare(IEnumerable<Batch> batches)
+        {
+            foreach (var batch in batches)
+            {
+                foreach (var stage in batch.Stages)
+                {
+                    if (stage.CleanDestinations)
+                    {
+                        foreach (var destination in stage.CodeFileDestinations)
+                        {
+                            destination.Value.Clear();
+                        }
+                    }
+                }
             }
         }
 
@@ -81,7 +100,7 @@ namespace Game08.Sdk.CodeMixer.Core.Pipeline
             {
                 this.pipelineExecutionInfo.CurrentStageName = stage.Stage.StageName;
 
-                var codeStreamFactory = new CodeStreamFactory(this.PipelineEnvironment, stage.CodeFileLocationProviders);
+                var codeStreamFactory = new CodeStreamFactory(this.PipelineEnvironment, stage.CodeFileDestinations);
                 var outputs = stage.Stage.Execute(stage.InputSelector.Select(inputs), this.MetadataStore, this.MetadataStore, codeStreamFactory, this.pipelineExecutionInfo);
                 if (stage.FinalOutputSelector != null)
                 {

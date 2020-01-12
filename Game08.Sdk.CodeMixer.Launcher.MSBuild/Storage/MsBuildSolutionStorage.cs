@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO.Abstractions;
 
 namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
 {
@@ -13,12 +14,14 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
     {
         private readonly string solutionPath;
         private readonly IEnumerable<IMsBuildCodeFileStoreAdapter> msBuildStoreAdapters;
+        private readonly IFileSystem fileSystem;
         private MsBuildSolution solution;
 
-        public MsBuildSolutionStorage(string solutionPath, IEnumerable<IMsBuildCodeFileStoreAdapter> msBuildStoreAdapters)
+        public MsBuildSolutionStorage(string solutionPath, IEnumerable<IMsBuildCodeFileStoreAdapter> msBuildStoreAdapters, IFileSystem fileSystem)
         {
             this.solutionPath = solutionPath;
             this.msBuildStoreAdapters = msBuildStoreAdapters;
+            this.fileSystem = fileSystem;
         }
 
         public IEnumerable<DocumentPath> DocumentPaths
@@ -45,7 +48,7 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
             {
                 if (this.solution == null)
                 {
-                    this.solution = MsBuildSolution.Load(this.solutionPath);
+                    this.solution = MsBuildSolution.Load(this.solutionPath, this.fileSystem);
                 }
 
                 return this.solution;
