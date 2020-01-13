@@ -72,6 +72,17 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
 
                 throw new InvalidOperationException($"No MsBuild store adapter was found for {codeFile}.");
             }
+            else
+            {
+                if (!string.IsNullOrEmpty(codeFile.Location.FilePath)
+                    && codeFile.Location.FilePath.StartsWith(this.fileSystem.Path.GetDirectoryName(this.Solution.FullPath)))
+                {
+                    if (this.msBuildStoreAdapters.Any(a => a.CodeFileSupported(codeFile)))
+                    {
+                        this.fileSystem.File.WriteAllText(codeFile.Location.FilePath, codeFile.SourceCodeText);
+                    }
+                }
+            }
         }
 
         public bool DocumentExists(string fullPath)
@@ -116,6 +127,17 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
                     {
                         adapter.Remove(codeFile, targetProj);
                         return;
+                    }
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(codeFile.Location.FilePath)
+                    && codeFile.Location.FilePath.StartsWith(this.fileSystem.Path.GetDirectoryName(this.Solution.FullPath)))
+                {
+                    if (this.fileSystem.File.Exists(codeFile.Location.FilePath))
+                    {
+                        this.fileSystem.File.Delete(codeFile.Location.FilePath);
                     }
                 }
             }
@@ -175,8 +197,19 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
             }
             else
             {
-                throw new NotImplementedException();
+                if (!string.IsNullOrEmpty(location.FilePath))
+                {
+                    foreach (var project in this.Solution.Projects)
+                    {
+                        if (location.FilePath.StartsWith(this.fileSystem.Path.GetDirectoryName(project.Value.FullPath)))
+                        {
+                            return project.Value;
+                        }
+                    }
+                }                
             }
+
+            return null;
         }
     }
 }

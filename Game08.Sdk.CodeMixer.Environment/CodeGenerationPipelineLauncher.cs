@@ -63,7 +63,7 @@ namespace Game08.Sdk.CodeMixer.Environment
             trackingTypeLoader.AttachAssemblyResolveHandler();
             
             var basePath = this.fileSystem.Path.GetDirectoryName(this.fileSystem.Path.GetFullPath(pipelineConfigurationFilePath));
-            var builderProvider = this.GetBuilderProvider(workspaces);
+            var builderProvider = this.GetBuilderProvider(workspaces, basePath);
 
             var pipelineBuilder = new PipelineBuilder(
                 builderProvider,
@@ -93,11 +93,12 @@ namespace Game08.Sdk.CodeMixer.Environment
             }
         }
 
-        private IBuilderProvider GetBuilderProvider(IPipelineWorkspaceManagers workspaces)
+        private IBuilderProvider GetBuilderProvider(IPipelineWorkspaceManagers workspaces, string basePath)
         {
             BuilderRegistry result = new BuilderRegistry();
 
             result.Register<ICodeFileDestination>(new WorkspaceCodeFileDestinationBuilder(workspaces));
+            result.Register<ICodeFileDestination>(new FileSystemCodeFileDestinationBuilder(this.fileSystem, basePath), "fileSystem");
             result.Register<ICodeFileSelector>(new CodeFileSelectorBuilder());
 
             return result;

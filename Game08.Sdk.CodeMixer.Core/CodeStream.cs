@@ -11,14 +11,14 @@ namespace Game08.Sdk.CodeMixer.Core
 
         private ICodeFileFactory codeFileFactory;
 
-        private readonly ICodeFileDestination codeFileLocationProvider;
+        private readonly ICodeFileDestination codeFileDestination;
 
-        public CodeStream(string language, string name, ICodeFileFactory codeFileFactory, ICodeFileDestination codeFileLocationProvider = null)
+        public CodeStream(string language, string name, ICodeFileFactory codeFileFactory, ICodeFileDestination codeFileDestination = null)
         {
             this.Language = language;
             this.Name = name;
             this.codeFileFactory = codeFileFactory;
-            this.codeFileLocationProvider = codeFileLocationProvider;
+            this.codeFileDestination = codeFileDestination;
         }
 
         public CodeStream(string language, string name, IEnumerable<CodeFile> codeFiles)
@@ -56,9 +56,9 @@ namespace Game08.Sdk.CodeMixer.Core
             }
 
             var result = this.codeFileFactory.CreateCodeFile(name);
-            if (this.codeFileLocationProvider != null)
+            if (this.codeFileDestination != null)
             {
-                result.Location = this.codeFileLocationProvider.GetLocation(name);
+                result.Location = this.codeFileDestination.GetLocation(name);
             }
 
             this.codeFiles.Add(result);

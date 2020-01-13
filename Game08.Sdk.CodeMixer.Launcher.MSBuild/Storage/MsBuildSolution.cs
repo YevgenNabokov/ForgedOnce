@@ -22,11 +22,18 @@ namespace Game08.Sdk.CodeMixer.Launcher.MSBuild.Storage
         {
             MsBuildSolution result = new MsBuildSolution(fileSystem);
             result.SolutionFile = SolutionFile.Parse(solutionPath);
+            result.FullPath = solutionPath;
             result.LoadProjects();
             return result;
         }
 
         public SolutionFile SolutionFile
+        {
+            get;
+            private set;
+        }
+
+        public string FullPath
         {
             get;
             private set;
