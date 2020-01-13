@@ -67,7 +67,14 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace
         public override string ToString()
         {
             var joinedFolders = string.Join("/", this.ProjectFolders);
-            return $"{this.ProjectName}/{joinedFolders}/{this.DocumentName}";
+            if (!string.IsNullOrEmpty(joinedFolders))
+            {
+                return $"{this.ProjectName}/{joinedFolders}/{this.DocumentName}";
+            }
+            else
+            {
+                return $"{this.ProjectName}/{this.DocumentName}";
+            }
         }
     }
 }
