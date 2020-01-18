@@ -19,7 +19,7 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
 
                 var codeFile = (TCodeFile)file;
 
-                var metadata = this.Preprocessor.GenerateMetadata(codeFile, metadataReader, logger);
+                var metadata = this.Preprocessor.GenerateMetadata(codeFile, this.Settings, metadataReader, logger);
 
                 this.Implementation(codeFile, metadata, metadataRecorder, logger);
             }

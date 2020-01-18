@@ -8,7 +8,7 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
 {
     public abstract class CodeGenerationPluginBase<TSettings, TInputParameters, TCodeFile> : ICodeGenerationPlugin where TCodeFile : CodeFile
     {
-        public IPluginPreprocessor<TCodeFile, TInputParameters> Preprocessor;
+        public IPluginPreprocessor<TCodeFile, TInputParameters, TSettings> Preprocessor;
 
         public TSettings Settings;
 

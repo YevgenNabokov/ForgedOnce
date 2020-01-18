@@ -10,6 +10,6 @@ namespace Game08.Sdk.CodeMixer.Environment.Interfaces
 {
     public interface ICodeGenerationPluginFactory<TSettings, TMetadata, TCodeFile> where TCodeFile : CodeFile
     {
-        ICodeGenerationPlugin CreatePlugin(JObject configuration, IPluginPreprocessor<TCodeFile, TMetadata> pluginPreprocessor = null);
+        ICodeGenerationPlugin CreatePlugin(JObject configuration, IPluginPreprocessor<TCodeFile, TMetadata, TSettings> pluginPreprocessor = null);
     }
 }

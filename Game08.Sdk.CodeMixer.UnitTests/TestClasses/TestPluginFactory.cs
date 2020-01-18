@@ -11,7 +11,7 @@ namespace Game08.Sdk.CodeMixer.UnitTests.TestClasses
 {
     public class TestPluginFactory : ICodeGenerationPluginFactory<TestPluginSettings, TestPluginMetadata, CodeFileCSharp>
     {
-        public ICodeGenerationPlugin CreatePlugin(JObject configuration, IPluginPreprocessor<CodeFileCSharp, TestPluginMetadata> pluginPreprocessor = null)
+        public ICodeGenerationPlugin CreatePlugin(JObject configuration, IPluginPreprocessor<CodeFileCSharp, TestPluginMetadata, TestPluginSettings> pluginPreprocessor = null)
         {
             return new TestPlugin();
         }

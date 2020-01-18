@@ -7,18 +7,18 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.0" />
-    <PackageReference Include="Game08.Sdk.LTS.ModelToCode.Generator" Version="1.0.22">
+    <PackageReference Include="Game08.Sdk.LTS.ModelToCode.Generator" Version="1.0.24">
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
     <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="NUnit" Version="3.12.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.16.0">
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.IO.Abstractions" Version="7.1.3" />
-    <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="7.1.3" />
+    <PackageReference Include="System.IO.Abstractions" Version="7.1.10" />
+    <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="7.1.10" />
   </ItemGroup>
 
   <ItemGroup>

@@ -50,7 +50,7 @@ namespace Game08.Sdk.CodeMixer.Core.Plugins
 
                 foreach (var file in group.Files)
                 {
-                    var metadata = this.Preprocessor.GenerateMetadata(file.Key, metadataReader, logger, group);
+                    var metadata = this.Preprocessor.GenerateMetadata(file.Key, this.Settings, metadataReader, logger, group);
                     inputGroup.Files.Add(file.Key, new GroupItemDetailsParametrized<TInputParameters>(metadata, file.Value.GroupingTags));
                 }
 
