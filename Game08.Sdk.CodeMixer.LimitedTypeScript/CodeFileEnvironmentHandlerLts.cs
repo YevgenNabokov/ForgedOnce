@@ -69,7 +69,7 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
             }
 
             var root = this.fileSystem.Path.GetTempPath();
-            var outputRoot = this.fileSystem.Path.Combine(root, outputFolderName);
+            var outputRoot = this.fileSystem.Path.Combine(root, $"{outputFolderName}_{Guid.NewGuid()}");
             Dictionary<string, CodeFileLtsModel> fileNameMappings = new Dictionary<string, CodeFileLtsModel>();
             foreach (var file in models)
             {
