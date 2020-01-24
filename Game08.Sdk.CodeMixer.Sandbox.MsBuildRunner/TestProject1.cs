@@ -27,7 +27,7 @@ namespace Game08.Sdk.CodeMixer.Sandbox.MsBuildRunner
             ////var testConfig = @"g:\Projects\Game08\Src\Sdk\Game08.Sdk.CSToTS\Game08.Sdk.CodeGeneration\CGPipeline_IntermediateModel.json";
 
             var testSolutionPath = @"g:\Projects\Game08\Src\Framework\Sandbox\MvcApp\TestApp.All.sln";
-            var testConfig = @"g:\Projects\Game08\Src\Framework\Sandbox\MvcApp\TestApp.CodeGeneration\CGPipeline_pre.json";
+            var testConfig = @"g:\Projects\Game08\Src\Framework\Sandbox\MvcApp\TestApp.CodeGeneration\CGPipeline_post.json";
 
             launcher.Execute(testSolutionPath, testConfig);
         }
