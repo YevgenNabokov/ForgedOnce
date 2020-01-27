@@ -75,6 +75,12 @@ namespace Game08.Sdk.CodeMixer.LimitedTypeScript
             return this.Name;
         }
 
+        public override void MakeReadOnly()
+        {
+            base.MakeReadOnly();
+            this.Model?.MakeReadonly();
+        }
+
         protected override string GetSourceCodeText()
         {
             if (this.Model != null)

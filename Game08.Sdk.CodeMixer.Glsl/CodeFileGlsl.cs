@@ -35,6 +35,12 @@ namespace Game08.Sdk.CodeMixer.Glsl
             private set;
         }
 
+        public override void MakeReadOnly()
+        {
+            base.MakeReadOnly();
+            this.ShaderFile?.SyntaxTree?.MakeReadonly();
+        }
+
         protected override string GetSourceCodeText()
         {
             return this.ShaderFile.ToText();
