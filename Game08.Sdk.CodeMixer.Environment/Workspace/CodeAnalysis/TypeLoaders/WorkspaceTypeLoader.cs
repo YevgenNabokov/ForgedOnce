@@ -15,14 +15,16 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders
     public class WorkspaceTypeLoader : ITypeLoader
     {
         private readonly IWorkspaceManager workspaceManager;
+        private readonly AssemblyLoadContext assemblyLoadContext;
         private readonly bool debuggingEnabled;
         private readonly WorkspaceCompilationHandler compilationHandler;
 
         private readonly Dictionary<AssemblyName, Assembly> loadedAssemblies = new Dictionary<AssemblyName, Assembly>();
 
-        public WorkspaceTypeLoader(IWorkspaceManager workspaceManager, bool debuggingEnabled = true)
+        public WorkspaceTypeLoader(IWorkspaceManager workspaceManager, AssemblyLoadContext assemblyLoadContext, bool debuggingEnabled = true)
         {
             this.workspaceManager = workspaceManager;
+            this.assemblyLoadContext = assemblyLoadContext;
             this.debuggingEnabled = debuggingEnabled;
             this.compilationHandler = new WorkspaceCompilationHandler(workspaceManager);
         }
@@ -30,62 +32,19 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders
         public Type LoadType(string typeName, string nugetPackageName = null, string nugetPackageVersion = null)
         {
             AssemblyName assemblyName = this.GetAssemblyNameFromTypeName(typeName);
-            if (assemblyName != null)
+            var assembly = this.LoadAssembly(assemblyName);
+
+            if (assembly != null)
             {
                 var strippedTypeName = typeName.Substring(0, typeName.IndexOf(","));
 
-                foreach (var name in this.loadedAssemblies.Keys)
+                var loadedType = assembly.GetType(strippedTypeName, false, false);
+                if (loadedType == null)
                 {
-                    if (name.Name == assemblyName.Name)
-                    {
-                        var loadedType = this.loadedAssemblies[name].GetType(strippedTypeName, false, false);
-                        if (loadedType == null)
-                        {
-                            throw new InvalidOperationException($"Cannot resolve type {strippedTypeName} from compiled assembly {name}.");
-                        }
-
-                        return loadedType;
-                    }
+                    throw new InvalidOperationException($"Cannot resolve type {strippedTypeName} from compiled assembly {assemblyName}.");
                 }
 
-                var project = this.workspaceManager.FindProjectByAssemblyName(assemblyName.Name);
-
-                if (project != null)
-                {
-                    var compilations = this.compilationHandler.CompileProjects(new[] { project.Name });
-                    using (var symbolsStream = new MemoryStream())
-                    {
-                        using (var stream = new MemoryStream())
-                        {
-                            var errors = compilations[project.Name].GetDiagnostics().Where(d => d.Severity == DiagnosticSeverity.Error).ToArray();
-                            if (errors.Length > 0)
-                            {
-                                this.AlertBuildErrors(errors);
-                            }
-
-                            Assembly assembly = null;
-                            if (debuggingEnabled)
-                            {
-                                var pdbFileName = $"{assemblyName.Name}.pdb";
-                                assembly = this.EmitAndLoadWithPdb(compilations[project.Name], pdbFileName);
-                            }
-                            else
-                            {
-                                assembly = this.EmitAndLoad(compilations[project.Name]);
-                            }
-
-                            this.loadedAssemblies.Add(assembly.GetName(), assembly);
-
-                            var result = assembly.GetType(strippedTypeName, false, false);
-                            if (result == null)
-                            {
-                                throw new InvalidOperationException($"Cannot resolve type {strippedTypeName} from compiled solution project {project.Name}.");
-                            }
-
-                            return result;
-                        }
-                    }
-                }
+                return loadedType;
             }
 
             return null;
@@ -106,7 +65,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders
 
                     stream.Seek(0, SeekOrigin.Begin);
                     symbolsStream?.Seek(0, SeekOrigin.Begin);
-                    var assembly = AssemblyLoadContext.Default.LoadFromStream(stream, symbolsStream);
+                    var assembly = this.assemblyLoadContext.LoadFromStream(stream, symbolsStream);
                     return assembly;
                 }
             }
@@ -132,7 +91,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders
             using (var stream = new MemoryStream())
             {
                 compilation.Emit(stream);
-                Assembly assembly = Assembly.Load(stream.GetBuffer());
+                Assembly assembly = this.assemblyLoadContext.LoadFromStream(stream);
                 return assembly;
             }
         }
@@ -143,6 +102,52 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders
             if (assemblyString != null)
             {
                 return new AssemblyName(assemblyString);
+            }
+
+            return null;
+        }
+
+        public Assembly LoadAssembly(AssemblyName assemblyName)
+        {
+            foreach (var name in this.loadedAssemblies.Keys)
+            {
+                if (AssemblyName.ReferenceMatchesDefinition(assemblyName, name))
+                {
+                    return this.loadedAssemblies[name];
+                }
+            }
+
+            var project = this.workspaceManager.FindProjectByAssemblyName(assemblyName.Name);
+
+            if (project != null)
+            {
+                var compilations = this.compilationHandler.CompileProjects(new[] { project.Name });
+                using (var symbolsStream = new MemoryStream())
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        var errors = compilations[project.Name].GetDiagnostics().Where(d => d.Severity == DiagnosticSeverity.Error).ToArray();
+                        if (errors.Length > 0)
+                        {
+                            this.AlertBuildErrors(errors);
+                        }
+
+                        Assembly assembly = null;
+                        if (debuggingEnabled)
+                        {
+                            var pdbFileName = $"{assemblyName.Name}.pdb";
+                            assembly = this.EmitAndLoadWithPdb(compilations[project.Name], pdbFileName);
+                        }
+                        else
+                        {
+                            assembly = this.EmitAndLoad(compilations[project.Name]);
+                        }
+
+                        this.loadedAssemblies.Add(assembly.GetName(), assembly);
+
+                        return assembly;
+                    }
+                }
             }
 
             return null;

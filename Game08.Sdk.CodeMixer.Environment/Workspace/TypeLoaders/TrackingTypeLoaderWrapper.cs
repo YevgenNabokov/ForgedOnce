@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Environment.Workspace.TypeLoaders
@@ -12,15 +13,16 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.TypeLoaders
     {
         private readonly ITypeLoader underlyingTypeLoader;
         private readonly IFileSystem fileSystem;
-
+        private readonly AssemblyLoadContext assemblyLoadContext;
         private HashSet<string> probingPaths = new HashSet<string>();
 
         private ResolveEventHandler resolveEventHandler;
 
-        public TrackingTypeLoaderWrapper(ITypeLoader underlyingTypeLoader, IFileSystem fileSystem)
+        public TrackingTypeLoaderWrapper(ITypeLoader underlyingTypeLoader, IFileSystem fileSystem, AssemblyLoadContext assemblyLoadContext)
         {
             this.underlyingTypeLoader = underlyingTypeLoader;
             this.fileSystem = fileSystem;
+            this.assemblyLoadContext = assemblyLoadContext;
         }
 
         public Type LoadType(string typeName, string nugetPackageName = null, string nugetPackageVersion = null)
@@ -45,30 +47,7 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.TypeLoaders
 
         private Assembly HandleAssemblyResolve(object sender, ResolveEventArgs args)
         {
-            Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
-            if (assembly != null)
-                return assembly;
-
-            string fileName = args.Name.Split(',')[0] + ".dll".ToLower();
-
-            foreach(var probingPath in this.probingPaths)
-            {
-                var path = this.fileSystem.Path.Combine(probingPath, fileName);
-                try
-                {
-                    if (this.fileSystem.File.Exists(path))
-                    {
-                        var result = Assembly.LoadFrom(path);
-                        return result;
-                    }
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-            }
-
-            return null;
+            return this.LoadAssembly(new AssemblyName(args.Name));
         }
 
         public void AttachAssemblyResolveHandler()
@@ -87,6 +66,34 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.TypeLoaders
                 AppDomain.CurrentDomain.AssemblyResolve -= this.resolveEventHandler;
                 this.resolveEventHandler = null;
             }
+        }
+
+        public Assembly LoadAssembly(AssemblyName assemblyName)
+        {
+            Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == assemblyName.FullName);
+            if (assembly != null)
+                return assembly;
+
+            string fileName = assemblyName.FullName.Split(',')[0] + ".dll".ToLower();
+
+            foreach (var probingPath in this.probingPaths)
+            {
+                var path = this.fileSystem.Path.Combine(probingPath, fileName);
+                try
+                {
+                    if (this.fileSystem.File.Exists(path))
+                    {
+                        var result = this.assemblyLoadContext.LoadFromAssemblyPath(path);
+                        return result;
+                    }
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+
+            return null;
         }
     }
 }

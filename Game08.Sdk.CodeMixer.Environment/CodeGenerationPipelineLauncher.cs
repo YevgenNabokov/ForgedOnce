@@ -49,16 +49,20 @@ namespace Game08.Sdk.CodeMixer.Environment
                 this.initialWorkspaceManager.CreateAdHocClone(),
                 this.outputWorkspaceManager);
 
-            var typeLoader = new AggregateTypeLoader(
-                new DefaultTypeLoader(),
-                new ProjectReferenceTypeLoader(workspaces.ProcessingWorkspace, this.fileSystem),
-                new WorkspaceTypeLoader(workspaces.ProcessingWorkspace));
+
+
+            var typeLoader = new AggregateTypeLoader();
+            var assemblyLoadContext = new CustomAssemblyLoadContext(typeLoader);
+
+            typeLoader.AddResolver(new DefaultTypeLoader());
+            typeLoader.AddResolver(new ProjectReferenceTypeLoader(workspaces.ProcessingWorkspace, this.fileSystem, assemblyLoadContext));
+            typeLoader.AddResolver(new WorkspaceTypeLoader(workspaces.ProcessingWorkspace, assemblyLoadContext));
             if (this.additionalTypeLoader != null)
             {
                 typeLoader.AddResolver(this.additionalTypeLoader);
             }
 
-            var trackingTypeLoader = new TrackingTypeLoaderWrapper(typeLoader, this.fileSystem);
+            var trackingTypeLoader = new TrackingTypeLoaderWrapper(typeLoader, this.fileSystem, assemblyLoadContext);
 
             trackingTypeLoader.AttachAssemblyResolveHandler();
             

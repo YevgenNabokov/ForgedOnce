@@ -1,6 +1,7 @@
 ﻿using Game08.Sdk.CodeMixer.Environment.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace Game08.Sdk.CodeMixer.Environment.Workspace.TypeLoaders
@@ -17,6 +18,20 @@ namespace Game08.Sdk.CodeMixer.Environment.Workspace.TypeLoaders
         public void AddResolver(ITypeLoader typeResolver)
         {
             this.typeResolvers.Add(typeResolver);
+        }
+
+        public Assembly LoadAssembly(AssemblyName assemblyName)
+        {
+            foreach (var resolver in this.typeResolvers)
+            {
+                var result = resolver.LoadAssembly(assemblyName);
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+
+            return null;
         }
 
         public Type LoadType(string typeName, string nugetPackageName = null, string nugetPackageVersion = null)

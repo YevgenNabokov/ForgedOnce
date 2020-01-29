@@ -2,6 +2,7 @@
 using Game08.Sdk.CodeMixer.Environment.Workspace.CodeAnalysis.TypeLoaders;
 using Game08.Sdk.CodeMixer.Tests.TestObjectFactories;
 using NUnit.Framework;
+using System.Runtime.Loader;
 
 namespace Game08.Sdk.CodeMixer.Tests.Environment.Workspace
 {
@@ -16,7 +17,7 @@ namespace Game08.Sdk.CodeMixer.Tests.Environment.Workspace
             var pluginAssembly = "MyPlugins";
             var pluginWorkspace = TestWorkspaceFactory.GetWorkspace(null, pluginNamespace, pluginClass, pluginAssembly);
 
-            var subject = new WorkspaceTypeLoader(new WorkspaceManager(pluginWorkspace));
+            var subject = new WorkspaceTypeLoader(new WorkspaceManager(pluginWorkspace), AssemblyLoadContext.Default);
 
             var result = subject.LoadType($"{pluginNamespace}.{pluginClass}, {pluginAssembly}");
 
