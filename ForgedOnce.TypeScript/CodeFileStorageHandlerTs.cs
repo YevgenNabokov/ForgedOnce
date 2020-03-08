@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ForgedOnce.TypeScript
 {
-    public class CodeFileStorageHandlerLts : ICodeFileStorageHandler
+    public class CodeFileStorageHandlerTs : ICodeFileStorageHandler
     {
         private List<CodeFile> codeFiles = new List<CodeFile>();
 

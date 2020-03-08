@@ -10,7 +10,7 @@ using ForgedOnce.Core.Interfaces;
 
 namespace ForgedOnce.TypeScript
 {
-    public class CodeFileCompilationHandlerLts : ICodeFileCompilationHandler
+    public class CodeFileCompilationHandlerTs : ICodeFileCompilationHandler
     {
         private readonly IPipelineExecutionInfo pipelineExecutionInfo;
         private readonly ILogger logger;
@@ -18,9 +18,9 @@ namespace ForgedOnce.TypeScript
 
         private UpdateTypeReferencesVisitor referenceUpdater = new UpdateTypeReferencesVisitor();
 
-        private List<CodeFileLtsModel> codeFiles = new List<CodeFileLtsModel>();
+        private List<CodeFileTsModel> codeFiles = new List<CodeFileTsModel>();
 
-        public CodeFileCompilationHandlerLts(IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger)
+        public CodeFileCompilationHandlerTs(IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger)
         {
             this.pipelineExecutionInfo = pipelineExecutionInfo;
             this.logger = logger;
@@ -36,7 +36,7 @@ namespace ForgedOnce.TypeScript
 
         public void Register(CodeFile codeFile)
         {
-            var ltsCodeFile = codeFile as CodeFileLtsModel;
+            var ltsCodeFile = codeFile as CodeFileTsModel;
             if (!this.codeFiles.Contains(ltsCodeFile))
             {
                 this.codeFiles.Add(ltsCodeFile);
@@ -50,20 +50,20 @@ namespace ForgedOnce.TypeScript
 
         public void Unregister(CodeFile codeFile)
         {
-            var ltsCodeFile = codeFile as CodeFileLtsModel;
+            var ltsCodeFile = codeFile as CodeFileTsModel;
             if (this.codeFiles.Contains(ltsCodeFile))
             {
                 this.codeFiles.Remove(ltsCodeFile);
             }
         }
 
-        private void UpdateCodeFileTypeLocation(CodeFileLtsModel codeFileLtsModel)
+        private void UpdateCodeFileTypeLocation(CodeFileTsModel codeFileTsModel)
         {
-            if (codeFileLtsModel.Model != null)
+            if (codeFileTsModel.Model != null)
             {
-                foreach (var node in search.FindNodes<NamedTypeDefinition>(codeFileLtsModel.Model))
+                foreach (var node in search.FindNodes<NamedTypeDefinition>(codeFileTsModel.Model))
                 {
-                    var result = codeFileLtsModel.TypeRepository.UpdateTypeDefinitionFile(node.TypeKey, codeFileLtsModel.GetPath());
+                    var result = codeFileTsModel.TypeRepository.UpdateTypeDefinitionFile(node.TypeKey, codeFileTsModel.GetPath());
                     node.TypeKey = result.NewTypeDefinitionId;
                     foreach (var f in this.codeFiles)
                     {

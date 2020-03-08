@@ -7,13 +7,13 @@ using System.Text;
 
 namespace ForgedOnce.TypeScript
 {
-    public class CodeFileLtsText : CodeFile
+    public class CodeFileTsText : CodeFile
     {
         private string text;
 
         public override string Language => Languages.LimitedTypeScript;
 
-        public CodeFileLtsText(string id, string name)
+        public CodeFileTsText(string id, string name)
             : base(id, name)
         {
         }

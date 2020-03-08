@@ -12,9 +12,9 @@ namespace ForgedOnce.TypeScript.Metadata
     public class SingleNodeSnapshot : SnapshotBase, ISingleNodeSnapshot
     {
         public SingleNodeSnapshot(
-            CodeFileLtsModel codeFileLts,
+            CodeFileTsModel codeFileTs,
             SyntaxTreeMappedVisitor<SyntaxTreeMappedVisitorContext> mappedVisitor)
-            : base(codeFileLts, mappedVisitor)
+            : base(codeFileTs, mappedVisitor)
         {
         }
 
@@ -28,8 +28,8 @@ namespace ForgedOnce.TypeScript.Metadata
             var key = this.GetSnapshotRootAnnotationKey();
             NodePath currentPath = null;
             this.mappedVisitor.Start(
-                this.codeFileLts.Model,
-                new SyntaxTreeMappedVisitorContext(new[] { new NodePathLevel(this.codeFileLts.Id, null) }),
+                this.codeFileTs.Model,
+                new SyntaxTreeMappedVisitorContext(new[] { new NodePathLevel(this.codeFileTs.Id, null) }),
                 (n, c) =>
                 {
                     if (n.HasAnnotation(key))
@@ -53,8 +53,8 @@ namespace ForgedOnce.TypeScript.Metadata
             this.annotationId = Guid.NewGuid().ToString();
             NodePath nodePath = null;
             this.mappedVisitor.Start(
-                this.codeFileLts.Model,
-                new SyntaxTreeMappedVisitorContext(new[] { new NodePathLevel(this.codeFileLts.Id, null) }),
+                this.codeFileTs.Model,
+                new SyntaxTreeMappedVisitorContext(new[] { new NodePathLevel(this.codeFileTs.Id, null) }),
                 (n, c) =>
                 {
                     if (n == astNode)

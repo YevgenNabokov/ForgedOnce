@@ -8,7 +8,7 @@ namespace ForgedOnce.TypeScript.Metadata
 {
     public abstract class SnapshotBase
     {
-        protected readonly CodeFileLtsModel codeFileLts;
+        protected readonly CodeFileTsModel codeFileTs;
 
         protected readonly SyntaxTreeMappedVisitor<SyntaxTreeMappedVisitorContext> mappedVisitor;
 
@@ -19,10 +19,10 @@ namespace ForgedOnce.TypeScript.Metadata
         protected MetadataRoot[] roots;
 
         public SnapshotBase(
-            CodeFileLtsModel codeFileLts,
+            CodeFileTsModel codeFileTs,
             SyntaxTreeMappedVisitor<SyntaxTreeMappedVisitorContext> mappedVisitor)
         {
-            this.codeFileLts = codeFileLts;
+            this.codeFileTs = codeFileTs;
             this.mappedVisitor = mappedVisitor;
         }
 
@@ -31,8 +31,8 @@ namespace ForgedOnce.TypeScript.Metadata
         public void Initialize(Node astNode)
         {
             this.annotationId = Guid.NewGuid().ToString();
-            this.originalRootPath = this.GetInitialRootPath(astNode, !this.codeFileLts.IsReadOnly);
-            if (this.codeFileLts.IsReadOnly)
+            this.originalRootPath = this.GetInitialRootPath(astNode, !this.codeFileTs.IsReadOnly);
+            if (this.codeFileTs.IsReadOnly)
             {
                 this.roots = new[] { new MetadataRoot(this.originalRootPath, this.originalRootPath) };
             }

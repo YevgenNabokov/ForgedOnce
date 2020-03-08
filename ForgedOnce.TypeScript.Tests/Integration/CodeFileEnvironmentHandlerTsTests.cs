@@ -16,7 +16,7 @@ using ForgedOnce.Environment;
 namespace ForgedOnce.TypeScript.Tests.Integration
 {
     [TestFixture]
-    public class CodeFileEnvironmentHandlerLtsTests
+    public class CodeFileEnvironmentHandlerTsTests
     {
         [Test]
         public void CanTransformOutputs()
@@ -27,9 +27,9 @@ namespace ForgedOnce.TypeScript.Tests.Integration
             var tempDir = fileSystem.Directory.CreateDirectory(fileSystem.Path.Combine(path, Guid.NewGuid().ToString()));
             var fileSystemMock = this.SetupRestrictedFileSystem(tempDir.FullName);
 
-            CodeFileEnvironmentHandlerLts subject = new CodeFileEnvironmentHandlerLts(fileSystemMock, new PipelineExecutionInfo(), logger);
+            CodeFileEnvironmentHandlerTs subject = new CodeFileEnvironmentHandlerTs(fileSystemMock, new PipelineExecutionInfo(), logger);
 
-            var codeFile = subject.CreateCodeFile("Test.ts") as CodeFileLtsModel;
+            var codeFile = subject.CreateCodeFile("Test.ts") as CodeFileTsModel;
             codeFile.Location = new Core.CodeFileLocation()
             {
                 FilePath = "Z:\\TestFolder\\TestSubfolder\\Test.ts"

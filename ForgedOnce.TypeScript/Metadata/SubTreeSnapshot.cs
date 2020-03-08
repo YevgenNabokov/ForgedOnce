@@ -12,9 +12,9 @@ namespace ForgedOnce.TypeScript.Metadata
     public class SubTreeSnapshot : SnapshotBase, ISubTreeSnapshot
     {
         public SubTreeSnapshot(
-            CodeFileLtsModel codeFileLts,
+            CodeFileTsModel codeFileTs,
             SyntaxTreeMappedVisitor<SyntaxTreeMappedVisitorContext> mappedVisitor)
-            : base(codeFileLts, mappedVisitor)
+            : base(codeFileTs, mappedVisitor)
         {
         }
 
@@ -25,8 +25,8 @@ namespace ForgedOnce.TypeScript.Metadata
             NodePath nodePath = null;
             bool leftRootNode = false;
             this.mappedVisitor.Start(
-                this.codeFileLts.Model,
-                new SyntaxTreeMappedVisitorContext(new[] { new NodePathLevel(this.codeFileLts.Id, null) }),
+                this.codeFileTs.Model,
+                new SyntaxTreeMappedVisitorContext(new[] { new NodePathLevel(this.codeFileTs.Id, null) }),
                 (n, c) =>
                 {
                     if (n == astNode)
@@ -70,8 +70,8 @@ namespace ForgedOnce.TypeScript.Metadata
             Stack<Node> rootsStack = new Stack<Node>();
 
             this.mappedVisitor.Start(
-                this.codeFileLts.Model,
-                new SyntaxTreeMappedVisitorContext(new[] { new NodePathLevel(this.codeFileLts.Id, null) }),
+                this.codeFileTs.Model,
+                new SyntaxTreeMappedVisitorContext(new[] { new NodePathLevel(this.codeFileTs.Id, null) }),
                 (n, c) =>
                 {
                     if (n.HasAnnotation(originalPathAnnotationKey))
@@ -112,11 +112,11 @@ namespace ForgedOnce.TypeScript.Metadata
         {
             bool result = false;
             var originalPathAnnotationKey = this.GetOriginalPathAnnotationKey();
-            if (path.Levels.Count > 0 && path.Levels[0].Name == this.codeFileLts.Id)
+            if (path.Levels.Count > 0 && path.Levels[0].Name == this.codeFileTs.Id)
             {
                 this.mappedVisitor.Start(
-                this.codeFileLts.Model,
-                new SyntaxTreeMappedVisitorContext(new[] { new NodePathLevel(this.codeFileLts.Id, null) }),
+                this.codeFileTs.Model,
+                new SyntaxTreeMappedVisitorContext(new[] { new NodePathLevel(this.codeFileTs.Id, null) }),
                 (n, c) =>
                 {
                     if (c.CurrentPath.Count == path.Levels.Count)

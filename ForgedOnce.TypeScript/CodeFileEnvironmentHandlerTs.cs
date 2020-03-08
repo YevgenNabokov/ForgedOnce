@@ -14,7 +14,7 @@ using System.Text;
 
 namespace ForgedOnce.TypeScript
 {
-    public class CodeFileEnvironmentHandlerLts : CodeFileEnvironmentHandler
+    public class CodeFileEnvironmentHandlerTs : CodeFileEnvironmentHandler
     {
         private readonly string outputFolderName = "TsOutputs";
 
@@ -22,12 +22,12 @@ namespace ForgedOnce.TypeScript
 
         private LtsTypeRepository typeRepository;
 
-        public CodeFileEnvironmentHandlerLts(IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger)
-            : this(fileSystem, new CodeFileStorageHandlerLts(), new CodeFileCompilationHandlerLts(pipelineExecutionInfo, logger))
+        public CodeFileEnvironmentHandlerTs(IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger)
+            : this(fileSystem, new CodeFileStorageHandlerTs(), new CodeFileCompilationHandlerTs(pipelineExecutionInfo, logger))
         {            
         }
 
-        public CodeFileEnvironmentHandlerLts(
+        public CodeFileEnvironmentHandlerTs(
             IFileSystem fileSystem,
             ICodeFileStorageHandler codeFileStorageHandler,
             ICodeFileCompilationHandler codeFileCompilationHandler)
@@ -39,7 +39,7 @@ namespace ForgedOnce.TypeScript
 
         public override IEnumerable<Core.CodeFile> GetOutputs()
         {
-            var models = base.GetOutputs().Cast<CodeFileLtsModel>().ToList();
+            var models = base.GetOutputs().Cast<CodeFileTsModel>().ToList();
 
             var task = new CodeGenerationTask()
             {
@@ -70,7 +70,7 @@ namespace ForgedOnce.TypeScript
 
             var root = this.fileSystem.Path.GetTempPath();
             var outputRoot = this.fileSystem.Path.Combine(root, $"{outputFolderName}_{Guid.NewGuid()}");
-            Dictionary<string, CodeFileLtsModel> fileNameMappings = new Dictionary<string, CodeFileLtsModel>();
+            Dictionary<string, CodeFileTsModel> fileNameMappings = new Dictionary<string, CodeFileTsModel>();
             foreach (var file in models)
             {
                 var tempPath = this.fileSystem.Path.IsPathRooted(file.GetPath()) ? file.GetPath().Substring(commonRootPath.Length) : file.GetPath();
@@ -96,10 +96,10 @@ namespace ForgedOnce.TypeScript
                 throw new InvalidOperationException($"Errors occurred during TypeScript generation from intermediate model: \r\n{errorsText}");
             }
 
-            List<CodeFileLtsText> result = new List<CodeFileLtsText>();
+            List<CodeFileTsText> result = new List<CodeFileTsText>();
             foreach (var map in fileNameMappings)
             {
-                result.Add(new CodeFileLtsText(map.Value.Id, map.Value.Name)
+                result.Add(new CodeFileTsText(map.Value.Id, map.Value.Name)
                 {
                     Location = map.Value.Location,
                     SourceCodeText = this.fileSystem.File.ReadAllText(this.fileSystem.Path.Combine(outputRoot, map.Key))
@@ -111,7 +111,7 @@ namespace ForgedOnce.TypeScript
 
         protected override Core.CodeFile CreateCodeFile(string id, string name)
         {
-            return new CodeFileLtsModel(id, name, this.typeRepository);
+            return new CodeFileTsModel(id, name, this.typeRepository);
         }
     }
 }

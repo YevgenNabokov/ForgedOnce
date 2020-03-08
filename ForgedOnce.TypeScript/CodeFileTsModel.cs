@@ -12,18 +12,18 @@ using System.Text;
 
 namespace ForgedOnce.TypeScript
 {
-    public class CodeFileLtsModel : CodeFile
+    public class CodeFileTsModel : CodeFile
     {
         private bool isDefinition;
         private FileRoot model;
 
         public override string Language => Languages.LimitedTypeScript;
 
-        public CodeFileLtsModel(string id, string name, ILtsTypeRepository ltsTypeRepository)
+        public CodeFileTsModel(string id, string name, ILtsTypeRepository ltsTypeRepository)
             : base(id, name)
         {
             this.TypeRepository = ltsTypeRepository;
-            this.NodePathService = new LtsNodePathService(this);
+            this.NodePathService = new TsNodePathService(this);
             this.Model = new FileRoot();
         }
 

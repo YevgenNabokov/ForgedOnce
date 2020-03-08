@@ -9,11 +9,11 @@ using System.Text;
 
 namespace ForgedOnce.TypeScript
 {
-    public class LtsCodeFileHandlerFactory : ICodeFileEnvironmentHandlerFactory
+    public class TsCodeFileHandlerFactory : ICodeFileEnvironmentHandlerFactory
     {
         public ICodeFileEnvironmentHandler Create(IWorkspaceManager workspaceManager, IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger, JObject configuration = null)
         {
-            return new CodeFileEnvironmentHandlerLts(fileSystem, pipelineExecutionInfo, logger);
+            return new CodeFileEnvironmentHandlerTs(fileSystem, pipelineExecutionInfo, logger);
         }
     }
 }
