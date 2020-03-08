@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Configurations>Debug;Release;Debug-cli-tools</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\PipelineConfigurations\IntegrationTestConfig01.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\PipelineConfigurations\IntegrationTestConfig01.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Test.Resources.Proprietary" Version="1.1.0-beta1-20150824-02" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ForgedOnce.Core\ForgedOnce.Core.csproj" />
+    <ProjectReference Include="..\ForgedOnce.CSharp\ForgedOnce.CSharp.csproj" />
+    <ProjectReference Include="..\ForgedOnce.Environment\ForgedOnce.Environment.csproj" />
+  </ItemGroup>
+
+</Project>

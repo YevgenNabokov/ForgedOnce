@@ -1,7 +1,7 @@
 {
   "codeFileHandlers": [
-    { "type": "Game08.Sdk.CodeMixer.CSharp.CSharpCodeFileHandlerFactory, Game08.Sdk.CodeMixer.CSharp" },
-    { "type": "Game08.Sdk.CodeMixer.LimitedTypeScript.LtsCodeFileHandlerFactory, Game08.Sdk.CodeMixer.LimitedTypeScript" }
+    { "type": "ForgedOnce.CSharp.CSharpCodeFileHandlerFactory, ForgedOnce.CSharp" },
+    { "type": "ForgedOnce.TypeScript.LtsCodeFileHandlerFactory, ForgedOnce.TypeScript" }
   ],
   "inputs": {
     "InputOne": "CSharp:Project:Subject/SourceModels/*.cs"

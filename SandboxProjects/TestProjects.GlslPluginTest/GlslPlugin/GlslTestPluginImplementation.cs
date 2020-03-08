@@ -1,10 +1,10 @@
-﻿using Game08.Sdk.CodeMixer.Core;
-using Game08.Sdk.CodeMixer.Core.Interfaces;
-using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
-using Game08.Sdk.CodeMixer.CSharp;
-using Game08.Sdk.CodeMixer.Glsl;
-using Game08.Sdk.GlslLanguageServices.Builder;
-using Game08.Sdk.GlslLanguageServices.LanguageModels.Ast;
+﻿using ForgedOnce.Core;
+using ForgedOnce.Core.Interfaces;
+using ForgedOnce.Core.Metadata.Interfaces;
+using ForgedOnce.CSharp;
+using ForgedOnce.Glsl;
+using ForgedOnce.GlslLanguageServices.Builder;
+using ForgedOnce.GlslLanguageServices.LanguageModels.Ast;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace GlslPlugin
 
         public GlslTestPluginImplementation()
         {
-            this.Signature = new Game08.Sdk.CodeMixer.Core.Plugins.PluginSignature()
+            this.Signature = new ForgedOnce.Core.Plugins.PluginSignature()
             {
                 Id = new Guid().ToString(),
                 InputLanguage = Languages.CSharp,

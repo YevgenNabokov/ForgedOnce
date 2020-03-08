@@ -1,7 +1,7 @@
-﻿using Game08.Sdk.CodeMixer.Core;
-using Game08.Sdk.CodeMixer.Core.Interfaces;
-using Game08.Sdk.CodeMixer.Core.Plugins;
-using Game08.Sdk.CodeMixer.CSharp;
+﻿using ForgedOnce.Core;
+using ForgedOnce.Core.Interfaces;
+using ForgedOnce.Core.Plugins;
+using ForgedOnce.CSharp;
 using System;
 using System.Collections.Generic;
 using System.Text;

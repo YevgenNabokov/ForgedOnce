@@ -1,0 +1,36 @@
+{
+  "codeFileHandlers": [
+    { "type": "ForgedOnce.CSharp.CSharpCodeFileHandlerFactory, ForgedOnce.CSharp" }
+  ],
+  "inputs": {
+    "InputOne": "CSharp:Project:NewProject/*.cs"
+  },
+  "batches": [
+    {
+      "name": "Batch01",
+      "stages": [
+        {
+          "name": "Stage01",
+          "plugin": {
+            "pluginFactory": { "type": "ForgedOnce.Tests.TestClasses.TestPluginFactory, ForgedOnce.Tests" }
+          },
+          "input": {
+            "settings": {
+              "InputOne": "*.cs"
+            }
+          },
+          "output": {
+            "settings": {
+              "OutputStream01": "*.cs"
+            }
+          },
+          "destinationMapping": {
+            "OutputStream01": {
+              "settings": { "path": "NewProject/GeneratedOutput" }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>netcoreapp2.2;net472</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis" Version="3.4.0" />
+    <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ForgedOnce.Core\ForgedOnce.Core.csproj" />
+    <ProjectReference Include="..\ForgedOnce.CSharp.MsBuild\ForgedOnce.CSharp.MsBuild.csproj" />
+    <ProjectReference Include="..\ForgedOnce.CSharp\ForgedOnce.CSharp.csproj" />
+    <ProjectReference Include="..\ForgedOnce.Environment\ForgedOnce.Environment.csproj" />
+    <ProjectReference Include="..\ForgedOnce.Glsl.MsBuild\ForgedOnce.Glsl.MsBuild.csproj" />
+    <ProjectReference Include="..\ForgedOnce.Glsl\ForgedOnce.Glsl.csproj" />
+    <ProjectReference Include="..\ForgedOnce.Launcher.MSBuild\ForgedOnce.Launcher.MSBuild.csproj" />
+    <ProjectReference Include="..\ForgedOnce.TypeScript.MsBuild\ForgedOnce.TypeScript.MsBuild.csproj" />
+    <ProjectReference Include="..\ForgedOnce.TypeScript\ForgedOnce.TypeScript.csproj" />
+  </ItemGroup>
+
+</Project>

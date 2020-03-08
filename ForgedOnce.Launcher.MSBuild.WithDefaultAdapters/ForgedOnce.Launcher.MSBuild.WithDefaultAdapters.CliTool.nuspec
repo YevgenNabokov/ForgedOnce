@@ -1,0 +1,26 @@
+﻿<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>ForgedOnce.Launcher.MSBuild.WithDefaultAdapters.CliTool</id>
+    <version>1.0.73</version>
+    <authors>Yevgen Nabokov</authors>
+    <description>Configurable pipeline for code generation with adapters for C#, GLSL and Limited TypeScript files.</description>
+    <dependencies>
+      <dependency id="Microsoft.CodeAnalysis" version="3.4" />
+      <dependency id="Newtonsoft.Json" version="12.0.1" />
+      <dependency id="ForgedOnce.GlslLanguageServices" version="0.1.0" />
+      <dependency id="ForgedOnce.TsLanguageServices.ModelBuilder" version="0.1.0" />
+      <dependency id="ForgedOnce.TsLanguageServices.ModelToCode" version="0.1.0" />
+    </dependencies>
+    <packageTypes>
+      <packageType name="DotnetCliTool" />
+    </packageTypes>
+  </metadata>
+  <files>
+    <!--<file src="_._" target="lib/netcoreapp2.2/" />
+    <file src="_._" target="lib/netstandard2.0/" />
+    <file src="_._" target="lib/net472/" />-->
+
+    <file src="$publishdir$\net472\**\*" target="lib/net472/" />
+    <file src="$publishdir$\netcoreapp2.2\**\*" target="lib/netcoreapp2.2/" />
+  </files>
+</package>

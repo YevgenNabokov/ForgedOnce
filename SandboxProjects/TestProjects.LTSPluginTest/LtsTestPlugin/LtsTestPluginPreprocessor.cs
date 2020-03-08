@@ -1,5 +1,5 @@
-﻿using Game08.Sdk.CodeMixer.Core;
-using Game08.Sdk.CodeMixer.Core.Interfaces;
+﻿using ForgedOnce.Core;
+using ForgedOnce.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;

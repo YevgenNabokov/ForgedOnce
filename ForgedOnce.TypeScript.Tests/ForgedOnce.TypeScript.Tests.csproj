@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Configurations>Debug;Release;Debug-cli-tools</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.0" />
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.0">
+      <GeneratePathProperty>true</GeneratePathProperty>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
+    <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="8.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ForgedOnce.TypeScript\ForgedOnce.TypeScript.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <NodeRedist Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\$(TargetFramework)\NodeRedist\**\*.*" />
+    <CodeGeneratorJs Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\$(TargetFramework)\CodeGeneratorJs\**\*.*" />
+  </ItemGroup>
+
+  <Target Name="CopyRedist" AfterTargets="Build">
+    <Copy SourceFiles="@(NodeRedist)" DestinationFolder="$(MSBuildProjectDirectory)\bin\$(Configuration)\$(TargetFramework)\NodeRedist\%(RecursiveDir)" />
+    <Copy SourceFiles="@(CodeGeneratorJs)" DestinationFolder="$(MSBuildProjectDirectory)\bin\$(Configuration)\$(TargetFramework)\CodeGeneratorJs\%(RecursiveDir)" />
+  </Target>
+
+</Project>

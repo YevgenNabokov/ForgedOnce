@@ -1,7 +1,7 @@
-﻿using Game08.Sdk.CodeMixer.Core;
-using Game08.Sdk.CodeMixer.Core.Interfaces;
-using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
-using Game08.Sdk.CodeMixer.CSharp;
+﻿using ForgedOnce.Core;
+using ForgedOnce.Core.Interfaces;
+using ForgedOnce.Core.Metadata.Interfaces;
+using ForgedOnce.CSharp;
 using Microsoft.CodeAnalysis.CSharp;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace AddDisplayNameAttrbutePlugin
 
         public Plugin()
         {
-            this.Signature = new Game08.Sdk.CodeMixer.Core.Plugins.PluginSignature()
+            this.Signature = new ForgedOnce.Core.Plugins.PluginSignature()
             {
                 Id = new Guid().ToString(),
                 InputLanguage = Languages.CSharp,

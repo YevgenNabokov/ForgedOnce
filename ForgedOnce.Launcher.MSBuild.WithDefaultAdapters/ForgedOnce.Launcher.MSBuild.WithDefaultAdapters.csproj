@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>netcoreapp2.2;net472</TargetFrameworks>
+    <Configurations>Debug;Release;Debug-cli-tools</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <IntermediatePackDir>$(MSBuildProjectDirectory)/bin/$(Configuration)/publish/</IntermediatePackDir>
+    <PublishDir>$(IntermediatePackDir)$(TargetFramework)/</PublishDir>
+    <NuspecProperties>publishDir=$([MSBuild]::NormalizeDirectory($(IntermediatePackDir)))</NuspecProperties>
+    <PackageOutputPath>$(SolutionDir)/NugetOutputs</PackageOutputPath>
+    <AssemblyName>dotnet-forgedonce-cg-msbuild</AssemblyName>
+  </PropertyGroup>
+    
+  <PropertyGroup Condition="$(Configuration.Contains('cli-tools'))">
+    <PackageType>DotnetCliTool</PackageType>
+    <NuspecFile>ForgedOnce.Launcher.MSBuild.WithDefaultAdapters.CliTool.nuspec</NuspecFile>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="!$(Configuration.Contains('cli-tools'))">    
+    <NuspecFile>ForgedOnce.Launcher.MSBuild.WithDefaultAdapters.nuspec</NuspecFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.0">
+      <GeneratePathProperty>true</GeneratePathProperty>
+    </PackageReference>
+    <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ForgedOnce.CSharp.MsBuild\ForgedOnce.CSharp.MsBuild.csproj" />
+    <ProjectReference Include="..\ForgedOnce.CSharp\ForgedOnce.CSharp.csproj" />
+    <ProjectReference Include="..\ForgedOnce.Glsl.MsBuild\ForgedOnce.Glsl.MsBuild.csproj" />
+    <ProjectReference Include="..\ForgedOnce.Glsl\ForgedOnce.Glsl.csproj" />
+    <ProjectReference Include="..\ForgedOnce.Launcher.MSBuild\ForgedOnce.Launcher.MSBuild.csproj" />
+    <ProjectReference Include="..\ForgedOnce.TypeScript.MsBuild\ForgedOnce.TypeScript.MsBuild.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ForgedOnce.TypeScript\ForgedOnce.TypeScript.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <NodeRedist Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\$(TargetFramework)\NodeRedist\**\*.*" />
+    <CodeGeneratorJs Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\$(TargetFramework)\CodeGeneratorJs\**\*.*" />
+  </ItemGroup>
+
+  <Target Name="CopyRedist" BeforeTargets="Publish">
+    <Copy SourceFiles="@(NodeRedist)" DestinationFolder="$(PublishDir)\NodeRedist\%(RecursiveDir)" />
+    <Copy SourceFiles="@(CodeGeneratorJs)" DestinationFolder="$(PublishDir)\CodeGeneratorJs\%(RecursiveDir)" />
+  </Target>
+
+  <Target Name="PublishAll" BeforeTargets="GenerateNuspec">
+    <ItemGroup>
+      <_TargetFramework Include="$(TargetFrameworks)" />
+    </ItemGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Publish" Properties="TargetFramework=%(_TargetFramework.Identity)" />
+  </Target>
+
+</Project>

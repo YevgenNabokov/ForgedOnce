@@ -1,11 +1,11 @@
-﻿using Game08.Sdk.CodeMixer.Core;
-using Game08.Sdk.CodeMixer.Core.Interfaces;
-using Game08.Sdk.CodeMixer.Core.Metadata.Interfaces;
-using Game08.Sdk.CodeMixer.CSharp;
-using Game08.Sdk.CodeMixer.LimitedTypeScript;
-using Game08.Sdk.LTS.Builder.DefinitionTree;
-using ModelTree = Game08.Sdk.LTS.Model.DefinitionTree;
-using Game08.Sdk.LTS.Model.TypeData;
+﻿using ForgedOnce.Core;
+using ForgedOnce.Core.Interfaces;
+using ForgedOnce.Core.Metadata.Interfaces;
+using ForgedOnce.CSharp;
+using ForgedOnce.TypeScript;
+using ForgedOnce.TsLanguageServices.ModelBuilder.DefinitionTree;
+using ModelTree = ForgedOnce.TsLanguageServices.Model.DefinitionTree;
+using ForgedOnce.TsLanguageServices.Model.TypeData;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace LtsTestPlugin
 
         public LtsTestPluginImplementation()
         {
-            this.Signature = new Game08.Sdk.CodeMixer.Core.Plugins.PluginSignature()
+            this.Signature = new ForgedOnce.Core.Plugins.PluginSignature()
             {
                 Id = new Guid().ToString(),
                 InputLanguage = Languages.CSharp,

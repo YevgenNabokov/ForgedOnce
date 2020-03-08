@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Game08.Sdk.CodeMixer.CSharp" Version="1.0.5" />
-    <PackageReference Include="Game08.Sdk.CodeMixer.LimitedTypeScript" Version="1.0.7" />
-    <PackageReference Include="Game08.Sdk.LTS.Builder" Version="1.0.11" />
+    <PackageReference Include="ForgedOnce.CSharp" Version="1.0.5" />
+    <PackageReference Include="ForgedOnce.TypeScript" Version="1.0.7" />
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelBuilder" Version="1.0.11" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="3.2.1" />
   </ItemGroup>
 

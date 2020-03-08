@@ -1,0 +1,23 @@
+﻿using ForgedOnce.Environment.Workspace;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ForgedOnce.Environment.Interfaces
+{
+    public interface IWorkspaceManagerBase : ICodeFileStorageHandler
+    {
+        IEnumerable<DocumentPath> DocumentPaths
+        {
+            get;
+        }
+
+        WorkspaceCodeFileLocation GetDocumentLocationByPath(DocumentPath documentPath);
+
+        bool ProjectExists(string projectName);
+
+        bool DocumentExists(string fullPath);
+
+        void RemoveCodeFile(DocumentPath documentPath);
+    }
+}
