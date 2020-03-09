@@ -1,7 +1,7 @@
 ﻿<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ForgedOnce.CSharp.Helpers</id>
-    <version>1.0.1</version>
+    <version>0.1.0</version>
     <authors>Yevgen Nabokov</authors>
     <description>Helpers for C# code analysis and syntax generation.</description>
     <dependencies>
