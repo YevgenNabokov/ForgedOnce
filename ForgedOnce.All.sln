@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForgedOnce.CSharp.MsBuild",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForgedOnce.Glsl.MsBuild", "ForgedOnce.Glsl.MsBuild\ForgedOnce.Glsl.MsBuild.csproj", "{E8D7400F-3B32-4FD0-9C2E-959862B28035}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForgedOnce.Launcher.MSBuild.WithDefaultAdapters", "ForgedOnce.Launcher.MSBuild.WithDefaultAdapters\ForgedOnce.Launcher.MSBuild.WithDefaultAdapters.csproj", "{BA4119DE-9800-4A9E-A47F-395E730B51B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForgedOnce.Launcher.MSBuild.Default", "ForgedOnce.Launcher.MSBuild.Default\ForgedOnce.Launcher.MSBuild.Default.csproj", "{BA4119DE-9800-4A9E-A47F-395E730B51B3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForgedOnce.CSharp.Helpers", "ForgedOnce.CSharp.Helpers\ForgedOnce.CSharp.Helpers.csproj", "{58722670-DBF6-44A1-ABE4-1DED31A96566}"
 EndProject

@@ -7,7 +7,7 @@ using ForgedOnce.TypeScript.MsBuild;
 using System;
 using System.IO.Abstractions;
 
-namespace ForgedOnce.Launcher.MSBuild.WithDefaultAdapters
+namespace ForgedOnce.Launcher.MSBuild.Default
 {
     class Program
     {

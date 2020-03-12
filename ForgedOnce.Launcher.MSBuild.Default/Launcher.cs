@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Text;
 
-namespace ForgedOnce.Launcher.MSBuild.WithDefaultAdapters
+namespace ForgedOnce.Launcher.MSBuild.Default
 {
     public class Launcher
     {

@@ -1,9 +1,9 @@
 ﻿<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
-    <id>ForgedOnce.Launcher.MSBuild.WithDefaultAdapters.CliTool</id>
+    <id>ForgedOnce.Launcher.MSBuild.Default.CliTool</id>
     <version>0.1.0</version>
     <authors>Yevgen Nabokov</authors>
-    <description>Configurable pipeline for code generation with adapters for C#, GLSL and Limited TypeScript files.</description>
+    <description>Configurable pipeline for code generation with adapters for C#, GLSL and TypeScript files.</description>
     <dependencies>
       <dependency id="Microsoft.CodeAnalysis" version="3.4" />
       <dependency id="Newtonsoft.Json" version="12.0.1" />

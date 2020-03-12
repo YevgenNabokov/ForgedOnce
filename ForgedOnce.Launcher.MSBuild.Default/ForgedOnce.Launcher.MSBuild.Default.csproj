@@ -17,11 +17,11 @@
     
   <PropertyGroup Condition="$(Configuration.Contains('cli-tools'))">
     <PackageType>DotnetCliTool</PackageType>
-    <NuspecFile>ForgedOnce.Launcher.MSBuild.WithDefaultAdapters.CliTool.nuspec</NuspecFile>
+    <NuspecFile>ForgedOnce.Launcher.MSBuild.Default.CliTool.nuspec</NuspecFile>
   </PropertyGroup>
   
   <PropertyGroup Condition="!$(Configuration.Contains('cli-tools'))">    
-    <NuspecFile>ForgedOnce.Launcher.MSBuild.WithDefaultAdapters.nuspec</NuspecFile>
+    <NuspecFile>ForgedOnce.Launcher.MSBuild.Default.nuspec</NuspecFile>
   </PropertyGroup>
 
   <ItemGroup>
