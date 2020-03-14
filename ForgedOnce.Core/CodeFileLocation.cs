@@ -34,5 +34,10 @@ namespace ForgedOnce.Core
                 return hash;
             }
         }
+
+        public override string ToString()
+        {
+            return $"{nameof(FilePath)}={this.FilePath}";
+        }
     }
 }

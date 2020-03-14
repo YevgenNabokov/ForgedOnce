@@ -58,8 +58,18 @@ namespace ForgedOnce.Environment
             return this.compilationHandler.SupportsCodeLanguage(language);
         }
 
+        public virtual bool CanResolveExistingCodeFile(CodeFileLocation location)
+        {
+            return this.storageHandler.CanResolveCodeFileName(location);
+        }
+
         public virtual CodeFile ResolveExistingCodeFile(CodeFileLocation location)
         {
+            if (!this.storageHandler.CanResolveCodeFileName(location))
+            {
+                throw new InvalidOperationException($"Unable to resolve code file at location ({location.ToString()})");
+            }
+
             var codeFile = this.CreateCodeFile(this.storageHandler.ResolveCodeFileName(location));
             codeFile.Location = location;
             this.storageHandler.ResolveCodeFile(codeFile);

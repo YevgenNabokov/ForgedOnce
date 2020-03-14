@@ -35,5 +35,10 @@ namespace ForgedOnce.TypeScript
         {
             throw new NotSupportedException();
         }
+
+        public bool CanResolveCodeFileName(CodeFileLocation location)
+        {
+            throw new NotSupportedException();
+        }
     }
 }

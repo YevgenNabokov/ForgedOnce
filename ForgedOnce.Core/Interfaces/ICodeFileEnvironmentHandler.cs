@@ -18,6 +18,8 @@ namespace ForgedOnce.Core.Interfaces
 
         void RefreshAndRecompile();
 
+        bool CanResolveExistingCodeFile(CodeFileLocation location);
+
         CodeFile ResolveExistingCodeFile(CodeFileLocation location);
 
         ICodeStream CreateCodeStream(string language, string name, ICodeFileDestination codeFileLocationProvider = null);

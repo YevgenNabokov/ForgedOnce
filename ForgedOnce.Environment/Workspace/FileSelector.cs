@@ -1,4 +1,5 @@
-﻿using ForgedOnce.Environment.Interfaces;
+﻿using ForgedOnce.Core;
+using ForgedOnce.Environment.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
@@ -16,9 +17,9 @@ namespace ForgedOnce.Environment.Workspace
             this.filePaths = filePaths;
         }
 
-        public IEnumerable<string> GetFiles(IFileSystem fileSystem, string basePath)
+        public IEnumerable<CodeFileLocation> GetFiles(IFileSystem fileSystem, string basePath)
         {
-            List<string> result = new List<string>();
+            List<CodeFileLocation> result = new List<CodeFileLocation>();
 
             foreach (var mask in this.filePaths)
             {
@@ -41,7 +42,10 @@ namespace ForgedOnce.Environment.Workspace
                 {
                     if (PathMaskHelper.PathMatchMask(file, startDirectoryMask))
                     {
-                        result.Add(file);
+                        result.Add(new CodeFileLocation()
+                        {
+                            FilePath = file
+                        });
                     }
                 }
             }

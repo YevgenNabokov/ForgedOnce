@@ -45,11 +45,11 @@ namespace ForgedOnce.Environment.Workspace
 
         private void ClearInWorkspace(IWorkspaceManagerBase workspace)
         {
-            foreach (var path in workspace.DocumentPaths)
+            foreach (var location in workspace.CodeFileLocations)
             {
-                if (path.ProjectName == this.projectName && path.ProjectFolders.SequenceEqual(this.pathParts))
+                if (location.DocumentPath.ProjectName == this.projectName && location.DocumentPath.ProjectFolders.SequenceEqual(this.pathParts))
                 {
-                    workspace.RemoveCodeFile(path);
+                    workspace.RemoveCodeFile(location.DocumentPath);
                 }
             }
         }

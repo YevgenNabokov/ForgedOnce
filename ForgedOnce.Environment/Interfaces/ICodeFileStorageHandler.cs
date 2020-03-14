@@ -11,6 +11,8 @@ namespace ForgedOnce.Environment.Interfaces
 
         void Remove(CodeFile codeFile);
 
+        bool CanResolveCodeFileName(CodeFileLocation location);
+
         string ResolveCodeFileName(CodeFileLocation location);
 
         void ResolveCodeFile(CodeFile codeFile, bool resolveSourceCodeText = true, bool resolveLocation = true);

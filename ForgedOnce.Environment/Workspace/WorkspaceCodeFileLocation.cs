@@ -41,5 +41,11 @@ namespace ForgedOnce.Environment.Workspace
                 return hash;
             }
         }
+
+        public override string ToString()
+        {
+            var docPathString = this.DocumentPath != null ? this.DocumentPath.ToString() : "<empty>";
+            return $"{base.ToString()}; {nameof(DocumentPath)}={docPathString}";
+        }
     }
 }

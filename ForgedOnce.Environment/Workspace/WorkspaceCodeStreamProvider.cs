@@ -57,14 +57,13 @@ namespace ForgedOnce.Environment.Workspace
             Dictionary<CodeFileLocation, CodeFile> codeFiles = new Dictionary<CodeFileLocation, CodeFile>();
             if (this.fileSelector != null)
             {
-                foreach (var filePath in this.fileSelector.GetFiles(this.fileSystem, this.basePath))
+                foreach (var file in this.fileSelector.GetFiles(this.fileSystem, this.basePath))
                 {
-                    if (this.workspaceManager.DocumentExists(filePath))
+                    if (this.codeFileResolver.CanResolveCodeFile(this.language, file))
                     {
-                        var location = new CodeFileLocation() { FilePath = filePath };
-                        if (!codeFiles.ContainsKey(location))
+                        if (!codeFiles.ContainsKey(file))
                         {
-                            codeFiles.Add(location, this.codeFileResolver.ResolveCodeFile(this.language, location));
+                            codeFiles.Add(file, this.codeFileResolver.ResolveCodeFile(this.language, file));
                         }
                     }
                 }

@@ -7,12 +7,10 @@ namespace ForgedOnce.Environment.Interfaces
 {
     public interface IWorkspaceManagerBase : ICodeFileStorageHandler
     {
-        IEnumerable<DocumentPath> DocumentPaths
+        IEnumerable<WorkspaceCodeFileLocation> CodeFileLocations
         {
             get;
         }
-
-        WorkspaceCodeFileLocation GetDocumentLocationByPath(DocumentPath documentPath);
 
         bool ProjectExists(string projectName);
 

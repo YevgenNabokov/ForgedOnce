@@ -94,16 +94,21 @@ namespace ForgedOnce.Environment.Workspace.CodeAnalysis
             return null;
         }
 
-        public IEnumerable<DocumentPath> DocumentPaths
+        public IEnumerable<WorkspaceCodeFileLocation> CodeFileLocations
         {
             get
             {
-                List<DocumentPath> result = new List<DocumentPath>();
+                List<WorkspaceCodeFileLocation> result = new List<WorkspaceCodeFileLocation>();
                 foreach (var project in this.workspace.CurrentSolution.Projects)
                 {
                     foreach (var document in project.Documents)
                     {
-                        result.Add(new DocumentPath(project.Name, document.Folders, document.Name));
+                        result.Add(
+                            new WorkspaceCodeFileLocation()
+                            {
+                                DocumentPath = new DocumentPath(project.Name, document.Folders, document.Name),
+                                FilePath = document.FilePath
+                            });
                     }
                 }
 
@@ -241,21 +246,6 @@ namespace ForgedOnce.Environment.Workspace.CodeAnalysis
             }
         }
 
-        public WorkspaceCodeFileLocation GetDocumentLocationByPath(DocumentPath documentPath)
-        {
-            var doc = this.FindDocument(documentPath);
-            if (doc != null)
-            {
-                return new WorkspaceCodeFileLocation()
-                {
-                    DocumentPath = documentPath,
-                    FilePath = doc.FilePath
-                };
-            }
-
-            return null;
-        }
-
         public bool ProjectExists(string projectName)
         {
             return this.FindProject(projectName) != null;
@@ -274,6 +264,11 @@ namespace ForgedOnce.Environment.Workspace.CodeAnalysis
         public void Remove(CodeFile codeFile)
         {
             this.workspaceFileStorageHandler.Remove(codeFile);
+        }
+
+        public bool CanResolveCodeFileName(CodeFileLocation location)
+        {
+            return this.workspaceFileStorageHandler.CanResolveCodeFileName(location);
         }
 
         public string ResolveCodeFileName(CodeFileLocation location)

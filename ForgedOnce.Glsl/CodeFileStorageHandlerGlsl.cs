@@ -41,6 +41,11 @@ namespace ForgedOnce.Glsl
             }            
         }
 
+        public bool CanResolveCodeFileName(CodeFileLocation location)
+        {
+            return this.fileSystem.File.Exists(location.FilePath);
+        }
+
         public string ResolveCodeFileName(CodeFileLocation location)
         {
             if (this.fileSystem.File.Exists(location.FilePath))

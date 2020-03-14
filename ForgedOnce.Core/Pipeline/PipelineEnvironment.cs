@@ -110,5 +110,10 @@ namespace ForgedOnce.Core.Pipeline
         {
             return this.HandlerFor(language).ResolveExistingCodeFile(location);
         }
+
+        public bool CanResolveCodeFile(string language, CodeFileLocation location)
+        {
+            return this.HandlerFor(language).CanResolveExistingCodeFile(location);
+        }
     }
 }

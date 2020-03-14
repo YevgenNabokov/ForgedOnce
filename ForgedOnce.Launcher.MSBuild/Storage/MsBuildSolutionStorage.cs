@@ -24,17 +24,22 @@ namespace ForgedOnce.Launcher.MSBuild.Storage
             this.fileSystem = fileSystem;
         }
 
-        public IEnumerable<DocumentPath> DocumentPaths
+        public IEnumerable<WorkspaceCodeFileLocation> CodeFileLocations
         {
             get
             {
-                List<DocumentPath> result = new List<DocumentPath>();
+                List<WorkspaceCodeFileLocation> result = new List<WorkspaceCodeFileLocation>();
 
                 foreach (var proj in this.Solution.Projects)
                 {
                     foreach (var item in proj.Value.Items)
                     {
-                        result.Add(item.DocumentPath);
+                        result.Add(
+                            new WorkspaceCodeFileLocation()
+                            {
+                                DocumentPath = item.DocumentPath,
+                                FilePath = item.FullPath
+                            });
                     }
                 }
 
@@ -88,27 +93,6 @@ namespace ForgedOnce.Launcher.MSBuild.Storage
         public bool DocumentExists(string fullPath)
         {
             return this.Solution.Projects.Any(p => p.Value.Items.Any(i => i.FullPath == fullPath));
-        }
-
-        public WorkspaceCodeFileLocation GetDocumentLocationByPath(DocumentPath documentPath)
-        {
-            var project = this.Solution.GetProject(documentPath.ProjectName);
-
-            if (project != null)
-            {
-                var item = project.Items.FirstOrDefault(i => i.DocumentPath.Equals(documentPath));
-
-                if (item != null)
-                {
-                    return new WorkspaceCodeFileLocation()
-                    {
-                        DocumentPath = item.DocumentPath,
-                        FilePath = item.FullPath
-                    };
-                }
-            }
-
-            return null;
         }
 
         public bool ProjectExists(string projectName)
@@ -171,6 +155,11 @@ namespace ForgedOnce.Launcher.MSBuild.Storage
         }
 
         public void ResolveCodeFile(CodeFile codeFile, bool resolveSourceCodeText = true, bool resolveLocation = true)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CanResolveCodeFileName(CodeFileLocation location)
         {
             throw new NotImplementedException();
         }

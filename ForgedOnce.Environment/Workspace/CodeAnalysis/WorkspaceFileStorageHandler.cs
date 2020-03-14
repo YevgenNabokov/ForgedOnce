@@ -66,6 +66,11 @@ namespace ForgedOnce.Environment.Workspace.CodeAnalysis
             this.workspaceManager.RemoveCodeFile(location.DocumentPath);
         }
 
+        public bool CanResolveCodeFileName(CodeFileLocation location)
+        {
+            return this.FindDocument(location) != null;
+        }
+
         public string ResolveCodeFileName(CodeFileLocation location)
         {
             var document = this.FindDocument(location);

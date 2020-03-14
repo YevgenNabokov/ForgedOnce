@@ -19,11 +19,11 @@ namespace ForgedOnce.Environment.Workspace
         public IEnumerable<WorkspaceCodeFileLocation> GetDocuments(IWorkspaceManagerBase workspaceManager)
         {
             List<WorkspaceCodeFileLocation> result = new List<WorkspaceCodeFileLocation>();
-            foreach (var docPath in workspaceManager.DocumentPaths)
+            foreach (var location in workspaceManager.CodeFileLocations)
             {
-                if (this.documentPaths.Any(m => PathMaskHelper.PathMatchMask(docPath.ToString(), m)))
+                if (this.documentPaths.Any(m => PathMaskHelper.PathMatchMask(location.ToString(), m)))
                 {
-                    result.Add(workspaceManager.GetDocumentLocationByPath(docPath));
+                    result.Add(location);
                 }
                 
             }
