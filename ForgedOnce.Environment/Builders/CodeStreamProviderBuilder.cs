@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Text;
+using ForgedOnce.Environment.Workspace.CodeFileLocationSelectors;
+using ForgedOnce.Environment.Workspace.CodeFileLocationFilters;
 
 namespace ForgedOnce.Environment.Builders
 {
@@ -45,10 +47,14 @@ namespace ForgedOnce.Environment.Builders
                                 provider.Language,
                                 provider.Name,
                                 this.pipelineEnvironment,
-                                this.workspaceManager,
-                                this.fileSystem,
-                                this.basePath,
-                                new FileSelector(provider.Paths)));
+                                new FileSystemLocationSelector(
+                                    provider.Paths,
+                                    this.fileSystem,
+                                    this.basePath,
+                                    new CodeFileLocationFilter(
+                                        this.fileSystem,
+                                        this.basePath,
+                                        provider.Paths))));
                         }; break;
                     case CodeStreamProviderType.Project:
                         {
@@ -56,8 +62,9 @@ namespace ForgedOnce.Environment.Builders
                                 provider.Language,
                                 provider.Name,
                                 this.pipelineEnvironment,
-                                this.workspaceManager,
-                                new DocumentSelector(provider.Paths)));
+                                new WorkspaceLocationSelector(
+                                    this.workspaceManager,
+                                    new WorkspaceCodeFileLocationFilter(provider.Paths))));
                         }; break;
                     case CodeStreamProviderType.CreateNew:
                         {

@@ -14,68 +14,30 @@ namespace ForgedOnce.Environment.Workspace
         private readonly string language;
         private readonly string name;
         private readonly ICodeFileResolver codeFileResolver;
-        private readonly IWorkspaceManagerBase workspaceManager;
-        private readonly IDocumentSelector documentSelector;
-        private readonly IFileSystem fileSystem;
-        private readonly string basePath;
-        private readonly IFileSelector fileSelector;
+        private readonly ICodeFileLocationSelector<CodeFileLocation> locationsSelector;
 
         public WorkspaceCodeStreamProvider(
             string language,
             string name,
             ICodeFileResolver codeFileResolver,
-            IWorkspaceManagerBase workspaceManager,
-            IFileSystem fileSystem,
-            string basePath,
-            IFileSelector fileSelector)
+            ICodeFileLocationSelector<CodeFileLocation> locationsSelector)
         {
             this.language = language;
             this.name = name;
             this.codeFileResolver = codeFileResolver;
-            this.workspaceManager = workspaceManager;
-            this.fileSystem = fileSystem;
-            this.basePath = basePath;
-            this.fileSelector = fileSelector;
-        }
-
-        public WorkspaceCodeStreamProvider(
-            string language,
-            string name,
-            ICodeFileResolver codeFileResolver,
-            IWorkspaceManagerBase workspaceManager,
-            IDocumentSelector documentSelector)
-        {
-            this.language = language;
-            this.name = name;
-            this.codeFileResolver = codeFileResolver;
-            this.workspaceManager = workspaceManager;
-            this.documentSelector = documentSelector;
+            this.locationsSelector = locationsSelector;
         }
 
         public IEnumerable<ICodeStream> RetrieveCodeStreams()
         {
             Dictionary<CodeFileLocation, CodeFile> codeFiles = new Dictionary<CodeFileLocation, CodeFile>();
-            if (this.fileSelector != null)
+            foreach (var location in this.locationsSelector.GetLocations())
             {
-                foreach (var file in this.fileSelector.GetFiles(this.fileSystem, this.basePath))
+                if (this.codeFileResolver.CanResolveCodeFile(this.language, location))
                 {
-                    if (this.codeFileResolver.CanResolveCodeFile(this.language, file))
+                    if (!codeFiles.ContainsKey(location))
                     {
-                        if (!codeFiles.ContainsKey(file))
-                        {
-                            codeFiles.Add(file, this.codeFileResolver.ResolveCodeFile(this.language, file));
-                        }
-                    }
-                }
-            }
-
-            if (this.documentSelector != null)
-            {
-                foreach (var doc in this.documentSelector.GetDocuments(this.workspaceManager))
-                {
-                    if (!codeFiles.ContainsKey(doc))
-                    {
-                        codeFiles.Add(doc, this.codeFileResolver.ResolveCodeFile(this.language, doc));
+                        codeFiles.Add(location, this.codeFileResolver.ResolveCodeFile(this.language, location));
                     }
                 }
             }
