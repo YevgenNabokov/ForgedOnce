@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <Configurations>Debug;Release;Debug-cli-tools</Configurations>
   </PropertyGroup>
 
@@ -26,8 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <NodeRedist Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\$(TargetFramework)\NodeRedist\**\*.*" />
-    <CodeGeneratorJs Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\$(TargetFramework)\CodeGeneratorJs\**\*.*" />
+    <NodeRedist Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\NodeRedist\**\*.*" />
+    <CodeGeneratorJs Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\CodeGeneratorJs\**\*.*" />
   </ItemGroup>
 
   <Target Name="CopyRedist" AfterTargets="Build">
