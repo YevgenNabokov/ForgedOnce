@@ -9,6 +9,8 @@ using ForgedOnce.Environment.Workspace.CodeAnalysis;
 using ForgedOnce.Core.Interfaces;
 using System.Linq;
 using ForgedOnce.Core.Logging;
+using ForgedOnce.Core.Pipeline;
+using System.Threading.Tasks;
 
 namespace ForgedOnce.CSharp
 {
@@ -29,11 +31,17 @@ namespace ForgedOnce.CSharp
             this.compilationHandler = new WorkspaceCompilationHandler(workspaceManager);
         }
 
+        public ShadowFilter ShadowFilter { get; set; }
+
         public void RefreshAndRecompile()
         {
             List<string> projectsToRebuild = new List<string>();
 
-            foreach (var file in this.codeFiles)
+            var codeFilesToRebuild = this.ShadowFilter == null ? this.codeFiles : this.codeFiles.Where(f => !this.ShadowFilter.IsMatch(f.Location));
+
+            var shadowed = this.ShadowCodeFiles();
+
+            foreach (var file in codeFilesToRebuild)
             {
                 var projName = (file.Location as WorkspaceCodeFileLocation).DocumentPath.ProjectName;
 
@@ -47,7 +55,7 @@ namespace ForgedOnce.CSharp
 
             this.AssertCompilationResults(compilations);
 
-            foreach (var file in this.codeFiles)
+            foreach (var file in codeFilesToRebuild)
             {
                 var location = file.Location as WorkspaceCodeFileLocation;                
                 var document = this.workspaceManager.FindDocument(location.DocumentPath);
@@ -55,6 +63,8 @@ namespace ForgedOnce.CSharp
                 file.SyntaxTree = document.GetSyntaxTreeAsync().Result;
                 file.SemanticModel = compilations[document.Project.Name].GetSemanticModel(file.SyntaxTree);
             }
+
+            this.UnshadowCodeFiles(shadowed);
         }
 
         public void Register(CodeFile codeFile)
@@ -85,6 +95,40 @@ namespace ForgedOnce.CSharp
                 }
 
                 this.codeFiles.Remove(codeFile as CodeFileCSharp);
+            }
+        }
+
+        private Dictionary<WorkspaceCodeFileLocation, string> ShadowCodeFiles()
+        {
+            Dictionary<WorkspaceCodeFileLocation, string> result = new Dictionary<WorkspaceCodeFileLocation, string>();
+            if (this.ShadowFilter != null)
+            {
+                List<WorkspaceCodeFileLocation> locations = new List<WorkspaceCodeFileLocation>();
+                foreach (var location in this.workspaceManager.CodeFileLocations)
+                {
+                    if (this.ShadowFilter.IsMatch(location))
+                    {
+                        locations.Add(location);
+                    }
+                }
+
+                foreach (var location in locations)
+                {
+                    var doc = this.workspaceManager.FindDocument(location.DocumentPath);
+                    var text = doc.GetTextAsync().Result.ToString();
+                    this.workspaceManager.RemoveCodeFile(location.DocumentPath);
+                    result.Add(location, text);
+                }
+            }
+
+            return result;
+        }
+
+        private void UnshadowCodeFiles(Dictionary<WorkspaceCodeFileLocation, string> files)
+        {
+            foreach (var f in files)
+            {
+                this.workspaceManager.AddCodeFile(f.Key.DocumentPath, f.Value, f.Key.FilePath);
             }
         }
 

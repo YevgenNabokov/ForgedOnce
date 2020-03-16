@@ -1,5 +1,6 @@
 ﻿using ForgedOnce.Core;
 using ForgedOnce.Environment.Interfaces;
+using ForgedOnce.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
@@ -13,9 +14,9 @@ namespace ForgedOnce.Environment.Workspace.CodeFileLocationSelectors
         private readonly string[] paths;
         private readonly IFileSystem fileSystem;
         private readonly string basePath;
-        private readonly ICodeFileLocationFilter<CodeFileLocation> filter;
+        private readonly ICodeFileLocationFilter filter;
 
-        public FileSystemLocationSelector(string[] paths, IFileSystem fileSystem, string basePath, ICodeFileLocationFilter<CodeFileLocation> filter = null)
+        public FileSystemLocationSelector(string[] paths, IFileSystem fileSystem, string basePath, ICodeFileLocationFilter filter = null)
         {
             this.paths = paths;
             this.fileSystem = fileSystem;

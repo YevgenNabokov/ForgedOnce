@@ -1,8 +1,10 @@
 ﻿using ForgedOnce.Core;
 using ForgedOnce.Core.Interfaces;
+using ForgedOnce.Core.Pipeline;
 using ForgedOnce.Environment.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ForgedOnce.Glsl
@@ -19,9 +21,11 @@ namespace ForgedOnce.Glsl
             this.logger = logger;
         }
 
+        public ShadowFilter ShadowFilter { get; set; }
+
         public void RefreshAndRecompile()
         {
-            foreach (var codeFile in this.codeFiles)
+            foreach (var codeFile in this.codeFiles.Where(f => !this.ShadowFilter.IsMatch(f.Location)))
             {
                 codeFile.ShaderFile.RebuildSemanticContext();                
             }

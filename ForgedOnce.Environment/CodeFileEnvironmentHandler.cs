@@ -1,5 +1,6 @@
 ﻿using ForgedOnce.Core;
 using ForgedOnce.Core.Interfaces;
+using ForgedOnce.Core.Pipeline;
 using ForgedOnce.Environment.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,13 @@ namespace ForgedOnce.Environment
 
         public CodeFileEnvironmentHandler(ICodeFileStorageHandler codeFileStorageHandler, ICodeFileCompilationHandler codeFileCompilationHandler)
         {
+            this.ShadowFilter = new ShadowFilter();
             this.storageHandler = codeFileStorageHandler;
             this.compilationHandler = codeFileCompilationHandler;
+            this.compilationHandler.ShadowFilter = this.ShadowFilter;
         }
+
+        public ShadowFilter ShadowFilter { get; protected set; }
 
         public virtual IEnumerable<CodeFile> GetOutputs()
         {

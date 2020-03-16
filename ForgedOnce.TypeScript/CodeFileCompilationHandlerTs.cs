@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using ForgedOnce.TsLanguageServices.ModelBuilder.DefinitionTree;
 using ForgedOnce.Core.Interfaces;
+using ForgedOnce.Core.Pipeline;
 
 namespace ForgedOnce.TypeScript
 {
@@ -25,6 +26,8 @@ namespace ForgedOnce.TypeScript
             this.pipelineExecutionInfo = pipelineExecutionInfo;
             this.logger = logger;
         }
+
+        public ShadowFilter ShadowFilter { get; set; }
 
         public void RefreshAndRecompile()
         {

@@ -1,4 +1,6 @@
-﻿using ForgedOnce.Environment.Interfaces;
+﻿using ForgedOnce.Core;
+using ForgedOnce.Environment.Interfaces;
+using ForgedOnce.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +8,7 @@ using System.Text;
 
 namespace ForgedOnce.Environment.Workspace.CodeFileLocationFilters
 {
-    public class WorkspaceCodeFileLocationFilter : ICodeFileLocationFilter<WorkspaceCodeFileLocation>
+    public class WorkspaceCodeFileLocationFilter : ICodeFileLocationFilter
     {
         private readonly string[] documentPaths;
 
@@ -16,9 +18,14 @@ namespace ForgedOnce.Environment.Workspace.CodeFileLocationFilters
         }
 
 
-        public bool IsMatch(WorkspaceCodeFileLocation location)
+        public bool IsMatch(CodeFileLocation location)
         {
-            return this.documentPaths.Any(m => PathMaskHelper.PathMatchMask(location.ToString(), m));
+            if (location is WorkspaceCodeFileLocation workspaceCodeFileLocation)
+            {
+                return this.documentPaths.Any(m => PathMaskHelper.PathMatchMask(workspaceCodeFileLocation.DocumentPath.ToString(), m));
+            }
+
+            throw new NotSupportedException($"{nameof(WorkspaceCodeFileLocationFilter)} supports only locations of type: {typeof(WorkspaceCodeFileLocation)}");
         }
     }
 }

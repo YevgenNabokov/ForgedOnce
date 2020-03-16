@@ -3,6 +3,7 @@ using ForgedOnce.Core.Logging;
 using ForgedOnce.Core.Metadata.Storage;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ForgedOnce.Core.Pipeline
 {
@@ -90,6 +91,8 @@ namespace ForgedOnce.Core.Pipeline
         {
             this.logger.Write(new StageSubLevelInfoRecord($"Starting batch {batch.Name}."));
 
+            this.ApplyShadowing(batch);
+
             this.pipelineExecutionInfo.CurrentBatchIndex = batch.Index;
             this.PipelineEnvironment.RefreshAndRecompile();
 
@@ -101,7 +104,10 @@ namespace ForgedOnce.Core.Pipeline
                 this.pipelineExecutionInfo.CurrentStageName = stage.Stage.StageName;
 
                 var codeStreamFactory = new CodeStreamFactory(this.PipelineEnvironment, stage.CodeFileDestinations);
-                var outputs = stage.Stage.Execute(stage.InputSelector.Select(inputs), this.MetadataStore, this.MetadataStore, codeStreamFactory, this.pipelineExecutionInfo);
+
+                var inputCodeFiles = stage.InputSelector.Select(inputs);
+                inputCodeFiles = inputCodeFiles.Where(c => !this.PipelineEnvironment.GetShadowFilter(c.Language).IsMatch(c.Location));
+                var outputs = stage.Stage.Execute(inputCodeFiles, this.MetadataStore, this.MetadataStore, codeStreamFactory, this.pipelineExecutionInfo);
                 if (stage.FinalOutputSelector != null)
                 {
                     storableOutputs.AddRange(stage.FinalOutputSelector.Select(outputs));
@@ -136,6 +142,25 @@ namespace ForgedOnce.Core.Pipeline
             result.AddRange(persistentInputs);
 
             return result;
+        }
+
+        private void ApplyShadowing(Batch batch)
+        {
+            if (batch.Shadow != null)
+            {
+                foreach (var s in batch.Shadow)
+                {
+                    this.PipelineEnvironment.GetShadowFilter(s.Language).Shadow(s.Filter);
+                }
+            }
+
+            if (batch.Unshadow != null)
+            {
+                foreach (var s in batch.Shadow)
+                {
+                    this.PipelineEnvironment.GetShadowFilter(s.Language).Unshadow(s.Filter);
+                }
+            }
         }
 
         private void CommitMetadata()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ForgedOnce.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,5 +14,9 @@ namespace ForgedOnce.Core.Pipeline
         public List<StageContainer> Stages = new List<StageContainer>();
 
         public List<string> PersistInputCodeStreams;
+
+        public List<BatchShadowFilter> Shadow;
+
+        public List<BatchShadowFilter> Unshadow;
     }
 }

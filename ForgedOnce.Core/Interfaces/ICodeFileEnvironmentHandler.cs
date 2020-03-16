@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ForgedOnce.Core.Pipeline;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +7,8 @@ namespace ForgedOnce.Core.Interfaces
 {
     public interface ICodeFileEnvironmentHandler : ICodeFileFactory
     {
+        ShadowFilter ShadowFilter { get; }
+
         bool SupportsCodeLanguage(string language);
 
         IEnumerable<CodeFile> GetOutputs();

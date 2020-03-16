@@ -1,5 +1,6 @@
 ﻿using ForgedOnce.Core.Interfaces;
 using ForgedOnce.Core.Metadata.Interfaces;
+using ForgedOnce.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -114,6 +115,11 @@ namespace ForgedOnce.Core.Pipeline
         public bool CanResolveCodeFile(string language, CodeFileLocation location)
         {
             return this.HandlerFor(language).CanResolveExistingCodeFile(location);
+        }
+
+        public ShadowFilter GetShadowFilter(string language)
+        {
+            return this.HandlerFor(language).ShadowFilter;
         }
     }
 }

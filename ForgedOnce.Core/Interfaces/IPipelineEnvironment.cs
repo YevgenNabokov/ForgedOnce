@@ -1,4 +1,6 @@
 ﻿using ForgedOnce.Core.Metadata.Interfaces;
+using ForgedOnce.Core.Pipeline;
+using ForgedOnce.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,5 +22,7 @@ namespace ForgedOnce.Core.Interfaces
         void RefreshAndRecompile();
 
         ICodeStream CreateCodeStream(string language, string name, ICodeFileDestination codeFileLocationProvider = null);
+
+        ShadowFilter GetShadowFilter(string language);
     }
 }

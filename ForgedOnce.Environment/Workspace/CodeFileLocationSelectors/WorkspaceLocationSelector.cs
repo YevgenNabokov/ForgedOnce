@@ -1,4 +1,5 @@
 ﻿using ForgedOnce.Environment.Interfaces;
+using ForgedOnce.Interfaces;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,9 @@ namespace ForgedOnce.Environment.Workspace.CodeFileLocationSelectors
     public class WorkspaceLocationSelector : ICodeFileLocationSelector<WorkspaceCodeFileLocation>
     {
         private readonly IWorkspaceManagerBase workspaceManager;
-        private readonly ICodeFileLocationFilter<WorkspaceCodeFileLocation> filter;
+        private readonly ICodeFileLocationFilter filter;
 
-        public WorkspaceLocationSelector(IWorkspaceManagerBase workspaceManager, ICodeFileLocationFilter<WorkspaceCodeFileLocation> filter = null)
+        public WorkspaceLocationSelector(IWorkspaceManagerBase workspaceManager, ICodeFileLocationFilter filter = null)
         {
             this.workspaceManager = workspaceManager;
             this.filter = filter;
