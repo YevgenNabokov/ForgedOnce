@@ -4,10 +4,12 @@ using ForgedOnce.Core.Metadata.Interfaces;
 using ForgedOnce.Core.Pipeline;
 using ForgedOnce.Environment.Configuration;
 using ForgedOnce.Environment.Interfaces;
+using ForgedOnce.Environment.Workspace.CodeFileLocationFilters;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
+using System.Linq;
 using System.Text;
 
 namespace ForgedOnce.Environment.Builders
@@ -89,12 +91,37 @@ namespace ForgedOnce.Environment.Builders
                     Index = index,
                     Name = config.Name,
                     PersistInputCodeStreams = new List<string>(config.PersistCodeInputStreams),
-                    Stages = stages
+                    Stages = stages,
+                    Shadow = config.ShadowFilters.Select(c => this.BuildShadowFilter(c)).ToList(),
+                    Unshadow = config.UnshadowFilters.Select(c => this.BuildShadowFilter(c)).ToList(),
                 });
                 index++;
             }
 
             return result;
+        }
+
+        private BatchShadowFilter BuildShadowFilter(CodeFileFilterRegistration config)
+        {
+            switch (config.Type)
+            {
+                case CodeFileFilterType.FileSystem:
+                    return new BatchShadowFilter()
+                    {
+                        Language = config.Language,
+                        Filter = new CodeFileLocationFilter(
+                            this.fileSystem,
+                            this.basePath,
+                            config.Paths)
+                    };
+                case CodeFileFilterType.Project:
+                    return new BatchShadowFilter()
+                    {
+                        Language = config.Language,
+                        Filter = new WorkspaceCodeFileLocationFilter(config.Paths)
+                    };
+                default: throw new InvalidOperationException($"Shadow filter type not supported {config.Type}.");
+            }
         }
 
         private IPipelineEnvironment CreatePipelineEnvironment(IPipelineExecutionInfo pipelineExecutionInfo, PipelineConfiguration configuration)

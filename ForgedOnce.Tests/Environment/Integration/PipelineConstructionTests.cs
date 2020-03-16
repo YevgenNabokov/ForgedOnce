@@ -4,6 +4,7 @@ using ForgedOnce.Core.Pipeline;
 using ForgedOnce.Environment.Builders;
 using ForgedOnce.Environment.Workspace;
 using ForgedOnce.Environment.Workspace.CodeAnalysis;
+using ForgedOnce.Environment.Workspace.CodeFileLocationFilters;
 using ForgedOnce.Environment.Workspace.TypeLoaders;
 using ForgedOnce.Tests.TestObjectFactories;
 using Moq;
@@ -39,6 +40,18 @@ namespace ForgedOnce.Tests.Environment.Integration
             result.Should().NotBeNull();
 
             var pipeline = result as CodeGenerationPipeline;
+
+            pipeline.InputCodeStreamProvider.Should().NotBeNull();
+            pipeline.PipelineEnvironment.Should().NotBeNull();
+
+            pipeline.Batches.Should().NotBeNull();
+            pipeline.Batches.Count.Should().Be(1);
+
+            pipeline.Batches[0].Shadow.Should().NotBeNull();
+            pipeline.Batches[0].Shadow.Count.Should().Be(1);
+            pipeline.Batches[0].Shadow[0].Language.Should().Be("CSharp");
+            pipeline.Batches[0].Shadow[0].Filter.Should().NotBeNull();
+            pipeline.Batches[0].Shadow[0].Filter.Should().BeOfType<WorkspaceCodeFileLocationFilter>();
         }
     }
 }

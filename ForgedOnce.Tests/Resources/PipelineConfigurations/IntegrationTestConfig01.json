@@ -30,7 +30,8 @@
             }
           }
         }
-      ]
+      ],
+      "shadow": [ "CSharp:Project:NewProject/SFolder/*.cs" ]
     }
   ]
 }
