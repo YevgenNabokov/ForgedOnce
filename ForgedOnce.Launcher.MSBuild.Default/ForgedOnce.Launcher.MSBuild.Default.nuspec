@@ -1,7 +1,7 @@
 ﻿<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ForgedOnce.Launcher.MSBuild.Default</id>
-    <version>0.1.0</version>
+    <version>0.2.1</version>
     <authors>Yevgen Nabokov</authors>
     <description>Configurable pipeline for code generation with adapters for C#, GLSL and TypeScript files.</description>
     <dependencies>

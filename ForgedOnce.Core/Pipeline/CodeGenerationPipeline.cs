@@ -156,7 +156,7 @@ namespace ForgedOnce.Core.Pipeline
 
             if (batch.Unshadow != null)
             {
-                foreach (var s in batch.Shadow)
+                foreach (var s in batch.Unshadow)
                 {
                     this.PipelineEnvironment.GetShadowFilter(s.Language).Unshadow(s.Filter);
                 }
