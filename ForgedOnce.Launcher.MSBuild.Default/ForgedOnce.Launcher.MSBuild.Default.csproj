@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp2.2</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <Configurations>Debug;Release;Debug-cli-tools</Configurations>
   </PropertyGroup>
 
@@ -16,7 +16,8 @@
   </PropertyGroup>
     
   <PropertyGroup Condition="$(Configuration.Contains('cli-tools'))">
-    <PackageType>DotnetCliTool</PackageType>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>dotnet-forgedonce-cg-msbuild</ToolCommandName>
     <NuspecFile>ForgedOnce.Launcher.MSBuild.Default.CliTool.nuspec</NuspecFile>
   </PropertyGroup>
   
@@ -46,8 +47,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <NodeRedist Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\$(TargetFramework)\NodeRedist\**\*.*" />
-    <CodeGeneratorJs Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\$(TargetFramework)\CodeGeneratorJs\**\*.*" />
+    <NodeRedist Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\NodeRedist\**\*.*" />
+    <CodeGeneratorJs Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\CodeGeneratorJs\**\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DotnetToolSettings.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <Target Name="CopyRedist" BeforeTargets="Publish">

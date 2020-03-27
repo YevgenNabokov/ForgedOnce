@@ -2,10 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp2.2</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.0">
+      <GeneratePathProperty>true</GeneratePathProperty>
+    </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis" Version="3.4.0" />
     <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
   </ItemGroup>
@@ -20,6 +23,18 @@
     <ProjectReference Include="..\ForgedOnce.Launcher.MSBuild\ForgedOnce.Launcher.MSBuild.csproj" />
     <ProjectReference Include="..\ForgedOnce.TypeScript.MsBuild\ForgedOnce.TypeScript.MsBuild.csproj" />
     <ProjectReference Include="..\ForgedOnce.TypeScript\ForgedOnce.TypeScript.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\CodeGeneratorJs\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>CodeGeneratorJs\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>
+    <Content Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\NodeRedist\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>NodeRedist\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>
+    
   </ItemGroup>
 
 </Project>

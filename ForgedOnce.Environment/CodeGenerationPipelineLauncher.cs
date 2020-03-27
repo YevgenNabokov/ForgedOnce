@@ -49,8 +49,6 @@ namespace ForgedOnce.Environment
                 this.initialWorkspaceManager.CreateAdHocClone(),
                 this.outputWorkspaceManager);
 
-
-
             var typeLoader = new AggregateTypeLoader();
             var assemblyLoadContext = new CustomAssemblyLoadContext(typeLoader);
 
