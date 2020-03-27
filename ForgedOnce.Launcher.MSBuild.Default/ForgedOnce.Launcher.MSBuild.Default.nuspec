@@ -1,7 +1,7 @@
 ﻿<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ForgedOnce.Launcher.MSBuild.Default</id>
-    <version>0.2.1</version>
+    <version>0.3.1</version>
     <authors>Yevgen Nabokov</authors>
     <description>Configurable pipeline for code generation with adapters for C#, GLSL and TypeScript files.</description>
     <dependencies>
@@ -17,6 +17,6 @@
     <file src="_._" target="lib/netstandard2.0/" />
     <file src="_._" target="lib/net472/" />-->
 
-    <file src="$publishdir$\netcoreapp2.2\**\*" target="lib/netcoreapp2.2/" />
+    <file src="$publishdir$\netcoreapp3.1\**\*" target="lib/netcoreapp3.1/" />
   </files>
 </package>
