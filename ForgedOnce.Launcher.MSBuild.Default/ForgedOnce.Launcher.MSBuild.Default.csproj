@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType Condition="$(Configuration.Contains('cli-tools'))">Exe</OutputType>
+    <OutputType Condition="!$(Configuration.Contains('cli-tools'))">Library</OutputType>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <Configurations>Debug;Release;Debug-cli-tools</Configurations>
   </PropertyGroup>
@@ -33,20 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ForgedOnce.CSharp.MsBuild\ForgedOnce.CSharp.MsBuild.csproj" />
-    <ProjectReference Include="..\ForgedOnce.CSharp\ForgedOnce.CSharp.csproj" />
-    <ProjectReference Include="..\ForgedOnce.Glsl.MsBuild\ForgedOnce.Glsl.MsBuild.csproj" />
-    <ProjectReference Include="..\ForgedOnce.Glsl\ForgedOnce.Glsl.csproj" />
-    <ProjectReference Include="..\ForgedOnce.Launcher.MSBuild\ForgedOnce.Launcher.MSBuild.csproj" />
-    <ProjectReference Include="..\ForgedOnce.TypeScript.MsBuild\ForgedOnce.TypeScript.MsBuild.csproj">
-      <Private>true</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\ForgedOnce.TypeScript\ForgedOnce.TypeScript.csproj">
-      <Private>true</Private>
-    </ProjectReference>
-  </ItemGroup>
-
-  <ItemGroup>
     <NodeRedist Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\NodeRedist\**\*.*" />
     <CodeGeneratorJs Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\CodeGeneratorJs\**\*.*" />
   </ItemGroup>
@@ -55,6 +42,16 @@
     <None Update="DotnetToolSettings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ForgedOnce.CSharp.MsBuild\ForgedOnce.CSharp.MsBuild.csproj" />
+    <ProjectReference Include="..\ForgedOnce.CSharp\ForgedOnce.CSharp.csproj" />
+    <ProjectReference Include="..\ForgedOnce.Glsl.MsBuild\ForgedOnce.Glsl.MsBuild.csproj" />
+    <ProjectReference Include="..\ForgedOnce.Glsl\ForgedOnce.Glsl.csproj" />
+    <ProjectReference Include="..\ForgedOnce.Launcher.MSBuild\ForgedOnce.Launcher.MSBuild.csproj" />
+    <ProjectReference Include="..\ForgedOnce.TypeScript.MsBuild\ForgedOnce.TypeScript.MsBuild.csproj" />
+    <ProjectReference Include="..\ForgedOnce.TypeScript\ForgedOnce.TypeScript.csproj" />
   </ItemGroup>
 
   <Target Name="CopyRedist" BeforeTargets="Publish">
