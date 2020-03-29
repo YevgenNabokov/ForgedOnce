@@ -51,7 +51,7 @@
     <CodeGeneratorJs Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\CodeGeneratorJs\**\*.*" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="$(Configuration.Contains('cli-tools'))">
     <None Update="DotnetToolSettings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
