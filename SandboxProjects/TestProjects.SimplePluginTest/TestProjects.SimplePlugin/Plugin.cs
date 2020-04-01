@@ -10,17 +10,17 @@ using System.Text;
 
 namespace TestProjects.SimplePlugin
 {
-    public class AddSerializableAttributeToClassPlugin : CodeGenerationFromCSharpPlugin<AddSerializableAttributeToClassSettings, AddSerializableAttributeToClassMetadata>
+    public class Plugin : CodeGenerationFromCSharpPlugin<Settings, Parameters>
     {
         public const string OutStreamName = "PassThrough";
 
-        public AddSerializableAttributeToClassPlugin()
+        public Plugin()
         {
             this.Signature = new ForgedOnce.Core.Plugins.PluginSignature()
             {
                 Id = new Guid().ToString(),
                 InputLanguage = Languages.CSharp,
-                Name = nameof(AddSerializableAttributeToClassPlugin)
+                Name = nameof(Plugin)
             };
         }
 
@@ -31,7 +31,7 @@ namespace TestProjects.SimplePlugin
             return result;
         }
 
-        protected override void Implementation(CodeFileCSharp input, AddSerializableAttributeToClassMetadata inputParameters, IMetadataRecorder metadataRecorder)
+        protected override void Implementation(CodeFileCSharp input, Parameters inputParameters, IMetadataRecorder metadataRecorder, ILogger logger)
         {
             SerializableAttributeAdder serializableAttributeAdder = new SerializableAttributeAdder();
             var newRoot = serializableAttributeAdder.Visit(input.SyntaxTree.GetRoot());

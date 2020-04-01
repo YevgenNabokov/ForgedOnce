@@ -12,14 +12,14 @@
         {
           "name": "Stage01",
           "plugin": {
-            "pluginFactory": { "type": "TestProjects.SimplePlugin.AddSerializableAttributeToClassPluginFactory, TestProjects.SimplePlugin" }
+            "pluginFactory": { "type": "TestProjects.SimplePlugin.PluginFactory, TestProjects.SimplePlugin" }
           },
           "input": {
             "settings": {
               "InputOne": "*.cs"
             }
-          },          
-          "mappings": {
+          },
+          "destinationMapping": {
             "PassThrough": {
               "settings": { "path": "TestProjects.ProductProj/TransformedModels" }
             }
@@ -33,7 +33,10 @@
         {
           "name": "Stage02",
           "plugin": {
-            "pluginFactory": { "type": "TestPlugins.AddProperty.AddPropertyPluginFactory, TestPlugins.AddProperty" }
+            "pluginFactory": {
+              "type": "TestPlugins.AddProperty.PluginFactory, TestPlugins.AddProperty",
+              "config": { "propertyNames": "TestP,TestP2" }
+            }
           },
           "input": {
             "settings": {
@@ -45,7 +48,7 @@
               "PassThrough": "*.cs"
             }
           },
-          "mappings": {
+          "destinationMapping": {
             "PassThrough": {
               "settings": { "path": "TestProjects.ProductProj/TransformedModels" }
             }

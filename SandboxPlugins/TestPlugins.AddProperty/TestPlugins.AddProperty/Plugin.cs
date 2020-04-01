@@ -9,17 +9,17 @@ using System.Text;
 
 namespace TestPlugins.AddProperty
 {
-    public class AddPropertyPlugin : CodeGenerationFromCSharpPlugin<AddPropertySettings, AddPropertyMetadata>
+    public class Plugin : CodeGenerationFromCSharpPlugin<Settings, Parameters>
     {
         public const string OutStreamName = "PassThrough";
 
-        public AddPropertyPlugin()
+        public Plugin()
         {
             this.Signature = new ForgedOnce.Core.Plugins.PluginSignature()
             {
                 Id = new Guid().ToString(),
                 InputLanguage = Languages.CSharp,
-                Name = nameof(AddPropertyPlugin)
+                Name = nameof(Plugin)
             };
         }
 
@@ -30,9 +30,9 @@ namespace TestPlugins.AddProperty
             return result;
         }
 
-        protected override void Implementation(CodeFileCSharp input, AddPropertyMetadata inputParameters, IMetadataRecorder metadataRecorder)
+        protected override void Implementation(CodeFileCSharp input, Parameters inputParameters, IMetadataRecorder metadataRecorder, ILogger logger)
         {
-            PropertyAdder serializableAttributeAdder = new PropertyAdder();
+            PropertyAdder serializableAttributeAdder = new PropertyAdder(input.SemanticModel, inputParameters);
             var newRoot = serializableAttributeAdder.Visit(input.SyntaxTree.GetRoot());
 
             var outFile = this.Outputs[OutStreamName].CreateCodeFile(input.Name) as CodeFileCSharp;

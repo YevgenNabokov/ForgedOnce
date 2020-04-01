@@ -10,9 +10,11 @@ using System.Text;
 
 namespace ForgedOnce.Sandbox.MsBuildRunner
 {
-    public class TestProject4_Metadata
+    public class TestProject4_Metadata : ISandboxProject
     {
-        public static void Run()
+        public string Name => "Code generation with metadata project";
+
+        public void Run()
         {
             var fileSystem = new FileSystem();
             var logger = new CollectionLogger();

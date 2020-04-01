@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TestPlugins.AddProperty
+namespace TestProjects.SimplePlugin
 {
-    public class AddPropertySettings
-    {        
+    public class Parameters
+    {
     }
 }

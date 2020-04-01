@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TestProjects.SimplePlugin
 {
-    public class AddSerializableAttributeToClassMetadata
+    public class Settings
     {
     }
 }

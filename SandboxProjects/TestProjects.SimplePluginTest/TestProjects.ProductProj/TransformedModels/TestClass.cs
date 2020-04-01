@@ -13,7 +13,13 @@ namespace TestProjects.SubjectProj.SourceModels
             set;
         }
 
-        public int AddedProp
+        public int TestP
+        {
+            get;
+            set;
+        }
+
+        public int TestP2
         {
             get;
             set;

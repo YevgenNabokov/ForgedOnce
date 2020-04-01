@@ -1,7 +1,7 @@
 ﻿<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>TestPlugins.AddProperty</id>
-    <version>1.0.2</version>
+    <version>0.1.1</version>
     <authors>Yevgen Nabokov</authors>
     <description>Test plugin that adds property.</description>
     <dependencies>      

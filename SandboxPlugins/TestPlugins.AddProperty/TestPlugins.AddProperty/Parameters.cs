@@ -4,7 +4,8 @@ using System.Text;
 
 namespace TestPlugins.AddProperty
 {
-    public class AddPropertyMetadata
+    public class Parameters
     {
+        public Dictionary<string, string[]> TypePropertyNames = new Dictionary<string, string[]>();
     }
 }

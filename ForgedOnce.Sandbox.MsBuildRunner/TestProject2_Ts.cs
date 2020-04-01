@@ -10,9 +10,11 @@ using System.Text;
 
 namespace ForgedOnce.Sandbox.MsBuildRunner
 {
-    public class TestProject2_Lts
+    public class TestProject2_Ts : ISandboxProject
     {
-        public static void Run()
+        public string Name => "Simple C# to TypeScript code generation project";
+
+        public void Run()
         {
             var fileSystem = new FileSystem();
             var logger = new CollectionLogger();

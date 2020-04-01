@@ -11,9 +11,11 @@ using System.Text;
 
 namespace ForgedOnce.Sandbox.MsBuildRunner
 {
-    public class TestProject3_Glsl
+    public class TestProject3_Glsl : ISandboxProject
     {
-        public static void Run()
+        public string Name => "Simple C# to GLSL code generation project";
+
+        public void Run()
         {
             var fileSystem = new FileSystem();
             var adapters = new IMsBuildCodeFileStoreAdapter[] { new TypeScriptMsBuildStoreAdapter(fileSystem), new GlslMsBuildStoreAdapter(fileSystem), new CSharpMsBuildStoreAdapter(fileSystem) };

@@ -11,9 +11,11 @@ using System.Text;
 
 namespace ForgedOnce.Sandbox.MsBuildRunner
 {
-    public class TestProject1
+    public class TestProject1 : ISandboxProject
     {
-        public static void Run()
+        public string Name => "Simple C# to C# code generation project";
+
+        public void Run()
         {
             var fileSystem = new FileSystem();
             var logger = new CollectionLogger();
