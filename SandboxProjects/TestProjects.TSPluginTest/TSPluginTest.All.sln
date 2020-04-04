@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Subject", "Subject\Subject.csproj", "{BD495827-B72E-4432-AD28-515F55D8ACB9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LtsTestPlugin", "LtsTestPlugin\LtsTestPlugin.csproj", "{DA44B7A8-FD18-4B63-B05F-74F938911978}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TsTestPlugin", "TsTestPlugin\TsTestPlugin.csproj", "{DA44B7A8-FD18-4B63-B05F-74F938911978}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product", "Product\Product.csproj", "{09EC7D8F-A04A-4B59-9CF4-9EC2CFD8B2D5}"
 EndProject

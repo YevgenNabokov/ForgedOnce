@@ -20,8 +20,8 @@ namespace ForgedOnce.Sandbox.MsBuildRunner
             var logger = new CollectionLogger();
             var adapters = new IMsBuildCodeFileStoreAdapter[] { new TypeScriptMsBuildStoreAdapter(fileSystem), new CSharpMsBuildStoreAdapter(fileSystem) };
             CodeGenerationPipelineLauncherMsBuild launcher = new CodeGenerationPipelineLauncherMsBuild(fileSystem, logger, adapters);
-            var testSolutionPath = "..\\..\\..\\..\\SandboxProjects\\TestProjects.LTSPluginTest\\LTSPluginTest.All.sln";
-            var testConfig = "..\\..\\..\\..\\SandboxProjects\\TestProjects.LTSPluginTest\\Subject\\CGPipeline.json";
+            var testSolutionPath = "..\\..\\..\\..\\SandboxProjects\\TestProjects.TSPluginTest\\TsPluginTest.All.sln";
+            var testConfig = "..\\..\\..\\..\\SandboxProjects\\TestProjects.TSPluginTest\\Subject\\CGPipeline.json";
         
             launcher.Execute(testSolutionPath, testConfig);
         }

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LtsTestPlugin
+namespace TsTestPlugin
 {
-    public class LtsTestPluginMetadata
+    public class Parameters
     {
+        public string[] ClassNames;
     }
 }

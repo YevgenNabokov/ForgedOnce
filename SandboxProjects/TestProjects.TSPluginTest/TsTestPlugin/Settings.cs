@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LtsTestPlugin
+namespace TsTestPlugin
 {
-    public class LtsTestPluginSettings
+    public class Settings
     {
     }
 }

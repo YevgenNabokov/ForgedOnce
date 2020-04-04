@@ -13,19 +13,19 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace LtsTestPlugin
+namespace TsTestPlugin
 {
-    public class LtsTestPluginImplementation : CodeGenerationFromCSharpPlugin<LtsTestPluginSettings, LtsTestPluginMetadata>
+    public class Plugin : CodeGenerationFromCSharpPlugin<Settings, Parameters>
     {
         public const string OutStreamName = "PassThrough";
 
-        public LtsTestPluginImplementation()
+        public Plugin()
         {
             this.Signature = new ForgedOnce.Core.Plugins.PluginSignature()
             {
                 Id = new Guid().ToString(),
                 InputLanguage = Languages.CSharp,
-                Name = nameof(LtsTestPluginImplementation)
+                Name = nameof(Plugin)
             };
         }
 
@@ -36,15 +36,14 @@ namespace LtsTestPlugin
             return result;
         }
 
-        protected override void Implementation(CodeFileCSharp input, LtsTestPluginMetadata inputParameters, IMetadataRecorder metadataRecorder)
+        protected override void Implementation(CodeFileCSharp input, Parameters inputParameters, IMetadataRecorder metadataRecorder, ILogger logger)
         {
-            var outFile = this.Outputs[OutStreamName].CreateCodeFile($"{Path.GetFileNameWithoutExtension(input.Name)}.ts") as CodeFileLtsModel;
+            var outFile = this.Outputs[OutStreamName].CreateCodeFile($"{Path.GetFileNameWithoutExtension(input.Name)}.ts") as CodeFileTsModel;
             outFile.Model = new FileRoot();
 
 
-            foreach (var classDeclaration in input.SyntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>())
+            foreach (var name in inputParameters.ClassNames)
             {
-                var name = classDeclaration.Identifier.ValueText;
                 var key = outFile.TypeRepository.RegisterTypeDefinition(name, string.Empty, outFile.GetPath(), Enumerable.Empty<TypeParameter>());
 
                 var definition = new ClassDefinition()
