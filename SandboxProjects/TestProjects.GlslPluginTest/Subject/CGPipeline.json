@@ -13,7 +13,7 @@
         {
           "name": "Stage01",
           "plugin": {
-            "pluginFactory": { "type": "GlslPlugin.GlslTestPluginFactory, GlslPlugin" }
+            "pluginFactory": { "type": "GlslPlugin.PluginFactory, GlslPlugin" }
           },
           "input": {
             "settings": {
@@ -25,7 +25,7 @@
               "PassThrough": "*.glsl"
             }
           },
-          "mappings": {
+          "destinationMapping": {
             "PassThrough": {
               "settings": { "path": "Product/Content/Shaders" }
             }

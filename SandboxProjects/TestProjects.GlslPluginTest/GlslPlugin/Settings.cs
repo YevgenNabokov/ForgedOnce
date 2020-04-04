@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GlslPlugin
 {
-    public class GlslTestPluginSettings
+    public class Settings
     {
     }
 }

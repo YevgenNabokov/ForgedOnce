@@ -14,17 +14,17 @@ using System.Text;
 
 namespace GlslPlugin
 {
-    public class GlslTestPluginImplementation : CodeGenerationFromCSharpPlugin<GlslTestPluginSettings, GlslTestPluginMetadata>
+    public class Plugin : CodeGenerationFromCSharpPlugin<Settings, Parameters>
     {
         public const string OutStreamName = "PassThrough";
 
-        public GlslTestPluginImplementation()
+        public Plugin()
         {
             this.Signature = new ForgedOnce.Core.Plugins.PluginSignature()
             {
                 Id = new Guid().ToString(),
                 InputLanguage = Languages.CSharp,
-                Name = nameof(GlslTestPluginImplementation)
+                Name = nameof(Plugin)
             };
         }
 
@@ -35,7 +35,7 @@ namespace GlslPlugin
             return result;
         }
 
-        protected override void Implementation(CodeFileCSharp input, GlslTestPluginMetadata inputParameters, IMetadataRecorder metadataRecorder)
+        protected override void Implementation(CodeFileCSharp input, Parameters inputParameters, IMetadataRecorder metadataRecorder, ILogger logger)
         {
             var outFile = this.Outputs[OutStreamName].CreateCodeFile($"{Path.GetFileNameWithoutExtension(input.Name)}.vertex.glsl") as CodeFileGlsl;
             outFile.ShaderFile = ShaderFile.CreateEmpty();
