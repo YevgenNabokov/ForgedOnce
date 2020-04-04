@@ -4,6 +4,7 @@ using ForgedOnce.Core.Metadata.Interfaces;
 using ForgedOnce.CSharp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace AddPropertyPlugin
 {
-    public class Plugin : CodeGenerationFromCSharpPlugin<Settings, Metadata>
+    public class Plugin : CodeGenerationFromCSharpPlugin<Settings, Parameters>
     {
         public const string PluginId = "70816D13-0C40-4092-9A28-498FE7A030D0";
 
@@ -35,21 +36,37 @@ namespace AddPropertyPlugin
             return result;
         }
 
-        protected override void Implementation(CodeFileCSharp input, Metadata inputParameters, IMetadataRecorder metadataRecorder)
+        protected override void Implementation(CodeFileCSharp input, Parameters inputParameters, IMetadataRecorder metadataRecorder, ILogger logger)
         {
+            var unit = SyntaxFactory.CompilationUnit();
+            foreach (var nsUsage in input.SyntaxTree.GetRoot().DescendantNodes().OfType<UsingDirectiveSyntax>())
+            {
+                unit = unit.AddUsings(nsUsage);
+            }
+
+            var nsContainer = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName(this.Settings.OutputNamespace));
+
+            foreach (var member in input.SyntaxTree.GetRoot().DescendantNodes().OfType<TypeDeclarationSyntax>())
+            {
+                nsContainer = nsContainer.AddMembers(member);
+            }
+
+            var outFile = this.Outputs[OutStreamName].CreateCodeFile(input.Name) as CodeFileCSharp;
+            unit = unit.AddMembers(nsContainer);
+            outFile.SyntaxTree = unit.SyntaxTree;
+
             PropertyAdder adder = new PropertyAdder(new Dictionary<string, string>()
             {
                 { "AddedProp", "int" },
                 { "OtherAddedProp", "string" },
             });
-            var newRoot = adder.Visit(input.SyntaxTree.GetRoot());
+            var newRoot = adder.Visit(outFile.SyntaxTree.GetRoot());
 
-            var outFile = this.Outputs[OutStreamName].CreateCodeFile(input.Name) as CodeFileCSharp;
             outFile.SyntaxTree = CSharpSyntaxTree.Create(newRoot as CSharpSyntaxNode);
 
             foreach (var added in outFile.SyntaxTree.GetRoot().DescendantNodes().Where((n) => n.GetAnnotations(adder.AnnotationKey).Any()))
             {
-                metadataRecorder.SymbolGenerated<SyntaxNode>(outFile.SemanticInfoProvider, added, new HashSet<string>());
+                metadataRecorder.SymbolGenerated<SyntaxNode>(outFile.NodePathService, added, new Dictionary<string, string>());
             }
         }
     }

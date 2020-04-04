@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace AddDisplayNameAttrbutePlugin
 {
-    public class PluginFactory : ICodeGenerationPluginFactory<Settings, Metadata, CodeFileCSharp>
+    public class PluginFactory : ICodeGenerationPluginFactory<Settings, Parameters, CodeFileCSharp>
     {
-        public CodeGenerationPlugin<Settings, Metadata, CodeFileCSharp> CreatePlugin(JObject configuration, IPluginPreprocessor<Metadata> pluginPreprocessor = null)
+        public ICodeGenerationPlugin CreatePlugin(JObject configuration, IPluginPreprocessor<CodeFileCSharp, Parameters, Settings> pluginPreprocessor = null)
         {
             return new Plugin()
             {

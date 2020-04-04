@@ -8,5 +8,8 @@ namespace AddPropertyPlugin
 {
     public class Settings
     {
+        public const string OutputNamespaceKey = "outputNamespace";
+
+        public string OutputNamespace;
     }
 }

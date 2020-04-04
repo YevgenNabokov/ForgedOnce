@@ -1,5 +1,7 @@
 ﻿using ForgedOnce.Core;
 using ForgedOnce.Core.Interfaces;
+using ForgedOnce.Core.Plugins;
+using ForgedOnce.CSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace AddPropertyPlugin
 {
-    public class Preprocessor : IPluginPreprocessor<Metadata>
+    public class Preprocessor : IPluginPreprocessor<CodeFileCSharp, Parameters, Settings>
     {
-        public Metadata GenerateMetadata(CodeFile input, IMetadataReader metadataReader)
+        public Parameters GenerateMetadata(CodeFileCSharp input, Settings pluginSettings, IMetadataReader metadataReader, ILogger logger, IFileGroup<CodeFileCSharp, GroupItemDetails> fileGroup = null)
         {
-            return new Metadata();
+            return new Parameters();
         }
     }
 }

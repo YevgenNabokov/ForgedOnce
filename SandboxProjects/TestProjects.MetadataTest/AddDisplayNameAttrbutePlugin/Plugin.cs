@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AddDisplayNameAttrbutePlugin
 {
-    public class Plugin : CodeGenerationFromCSharpPlugin<Settings, Metadata>
+    public class Plugin : CodeGenerationFromCSharpPlugin<Settings, Parameters>
     {
         public const string OutStreamName = "PassThrough";
 
@@ -32,7 +32,7 @@ namespace AddDisplayNameAttrbutePlugin
             return result;
         }
 
-        protected override void Implementation(CodeFileCSharp input, Metadata inputParameters, IMetadataRecorder metadataRecorder)
+        protected override void Implementation(CodeFileCSharp input, Parameters inputParameters, IMetadataRecorder metadataRecorder, ILogger logger)
         {
             AttributeAdder serializableAttributeAdder = new AttributeAdder(inputParameters.PropertiesToDecorate);
             var newRoot = serializableAttributeAdder.Visit(input.SyntaxTree.GetRoot());

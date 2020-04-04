@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AddDisplayNameAttrbutePlugin
 {
-    public class Metadata
+    public class Parameters
     {
         public IEnumerable<PropertyDeclarationSyntax> PropertiesToDecorate { get; set; }
     }

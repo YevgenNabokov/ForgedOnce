@@ -12,16 +12,21 @@
         {
           "name": "Stage01",
           "plugin": {
-            "pluginFactory": { "type": "AddPropertyPlugin.PluginFactory, AddPropertyPlugin" }
+            "pluginFactory": {
+              "type": "AddPropertyPlugin.PluginFactory, AddPropertyPlugin",
+              "config": {
+                "outputNamespace": "Product.Models"
+              }
+            }
           },
           "input": {
             "settings": {
               "InputOne": "*.cs"
             }
           },
-          "mappings": {
+          "destinationMapping": {
             "PassThrough": {
-              "settings": { "path": "Product/TransformedModels" }
+              "settings": { "path": "Product/Generated" }
             }
           }
         }
@@ -46,7 +51,7 @@
               "PassThrough": "*.cs"
             }
           },
-          "mappings": {
+          "destinationMapping": {
             "PassThrough": {
               "settings": { "path": "Product/Generated" }
             }

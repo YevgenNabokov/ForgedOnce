@@ -1,6 +1,7 @@
 ﻿using ForgedOnce.Core;
 using ForgedOnce.Core.Interfaces;
 using ForgedOnce.Core.Metadata.Storage;
+using ForgedOnce.Core.Plugins;
 using ForgedOnce.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -11,22 +12,24 @@ using System.Threading.Tasks;
 
 namespace AddDisplayNameAttrbutePlugin
 {
-    public class AddedPropsPreprocessor : IPluginPreprocessor<Metadata>
+    public class AddedPropsPreprocessor : IPluginPreprocessor<CodeFileCSharp, Parameters, Settings>
     {
-        public Metadata GenerateMetadata(CodeFile input, IMetadataReader metadataReader)
+        public Parameters GenerateMetadata(CodeFileCSharp input, Settings pluginSettings, IMetadataReader metadataReader, ILogger logger, IFileGroup<CodeFileCSharp, GroupItemDetails> fileGroup = null)
         {
             var cSharpFile = input as CodeFileCSharp;
 
-            var propertyAdderActivity = new ActivityFrame(null, "70816D13-0C40-4092-9A28-498FE7A030D0");
+            var propertyAdderActivity = new ActivityFrame(null, AddPropertyPlugin.Plugin.PluginId);
 
-            return new Metadata()
+            NodeRecord record;
+
+            return new Parameters()
             {
                 PropertiesToDecorate = cSharpFile
                 .SyntaxTree
                 .GetRoot()
                 .DescendantNodes()
                 .OfType<PropertyDeclarationSyntax>()
-                .Where(d => metadataReader.SymbolIsGeneratedBy(cSharpFile.SemanticInfoProvider.GetSymbolFor(d), propertyAdderActivity))
+                .Where(d => metadataReader.NodeIsGeneratedBy(cSharpFile.NodePathService.GetNodePath(d), propertyAdderActivity, out record))
             };
         }
     }
