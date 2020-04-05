@@ -18,7 +18,7 @@ namespace AddDisplayNameAttrbutePlugin
         {
             var cSharpFile = input as CodeFileCSharp;
 
-            var propertyAdderActivity = new ActivityFrame(null, AddPropertyPlugin.Plugin.PluginId);
+            var propertyAdderActivity = new ActivityFrame(pluginId: AddPropertyPlugin.Plugin.PluginId);
 
             NodeRecord record;
 
