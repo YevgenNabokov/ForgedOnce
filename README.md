@@ -11,4 +11,5 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md)
 **[Yevgen Nabokov](https://github.com/YevgenNabokov)** - initial project author.
 ## License
 This project is licensed under MIT license - see [LICENSE](LICENSE) for details.
-## Acknowledgments
+## Acknowledgements
+[Roslyn](https://github.com/dotnet/roslyn)
