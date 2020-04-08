@@ -3,11 +3,16 @@
     <id>ForgedOnce.CSharp.Helpers</id>
     <version>0.1.0</version>
     <authors>Yevgen Nabokov</authors>
+    <owners>Yevgen Nabokov</owners>
+    <licenseUrl>https://github.com/yevgennabokov/forgedonce/blob/master/license</licenseUrl>
+    <projectUrl>https://github.com/yevgennabokov/forgedonce</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Helpers for C# code analysis and syntax generation.</description>
     <dependencies>
       <dependency id="Microsoft.CodeAnalysis" version="3.4" />
       <dependency id="System.Collections.Immutable" version="1.7.0" />
     </dependencies>
+    <tags>forgedonce code generation tool c# csharp helpers</tags>
   </metadata>
   <files>    
     <file src="$publishdir$\netstandard2.0\**\*" target="lib/netstandard2.0/" />

@@ -3,9 +3,13 @@
     <id>ForgedOnce.Launcher.MSBuild.Default</id>
     <version>0.3.19</version>
     <authors>Yevgen Nabokov</authors>
+    <licenseUrl>https://github.com/yevgennabokov/forgedonce/blob/master/license</licenseUrl>
+    <projectUrl>https://github.com/yevgennabokov/forgedonce</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Configurable pipeline for code generation with adapters for C#, GLSL and TypeScript files.</description>
     <dependencies>
     </dependencies>
+    <tags>forgedonce code generation tool msbuild launcher</tags>
   </metadata>
   <files>
     <!--<file src="_._" target="lib/netcoreapp2.2/" />
