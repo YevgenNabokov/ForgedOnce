@@ -1,13 +1,13 @@
 ﻿<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ForgedOnce.CSharp</id>
-    <version>0.2.1</version>
+    <version>0.3.0</version>
     <authors>Yevgen Nabokov</authors>
     <owners>Yevgen Nabokov</owners>
     <licenseUrl>https://github.com/yevgennabokov/forgedonce/blob/master/license</licenseUrl>
     <projectUrl>https://github.com/yevgennabokov/forgedonce</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>C# library for the code generation pipeline.</description>
+    <description>C# language library for the code generation pipeline.</description>
     <dependencies>
       <dependency id="Microsoft.CodeAnalysis" version="3.5" />
       <dependency id="Newtonsoft.Json" version="12.0.3" />

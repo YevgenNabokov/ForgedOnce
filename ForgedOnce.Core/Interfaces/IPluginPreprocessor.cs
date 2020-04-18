@@ -7,6 +7,6 @@ namespace ForgedOnce.Core.Interfaces
 {
     public interface IPluginPreprocessor<TCodeFile, TInputParameters, TSettings> where TCodeFile : CodeFile
     {
-        TInputParameters GenerateMetadata(TCodeFile input, TSettings pluginSettings, IMetadataReader metadataReader, ILogger logger, IFileGroup<TCodeFile, GroupItemDetails> fileGroup = null);
+        TInputParameters GenerateParameters(TCodeFile input, TSettings pluginSettings, IMetadataReader metadataReader, ILogger logger, IFileGroup<TCodeFile, GroupItemDetails> fileGroup = null);
     }
 }
