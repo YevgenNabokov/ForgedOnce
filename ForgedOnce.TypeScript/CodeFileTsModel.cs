@@ -77,8 +77,10 @@ namespace ForgedOnce.TypeScript
 
         public override void MakeReadOnly()
         {
-            base.MakeReadOnly();
-            this.Model?.MakeReadonly();
+            //// Temporary disabled, requires fixing CodeFileCompilationHandlerTs and for that adding some easy way to clone TS model.
+            //// Solution will be similar to the one for CSharp with internal property overriding ReadOnly mode for model.
+            ////base.MakeReadOnly();
+            ////this.Model?.MakeReadonly();
         }
 
         protected override string GetSourceCodeText()

@@ -18,6 +18,8 @@ namespace ForgedOnce.Glsl.Metadata
 
         protected MetadataRoot[] roots;
 
+        protected bool treeIsAnnotated;
+
         public SnapshotBase(
             CodeFileGlsl codeFileGlsl,
             SyntaxTreeMappedVisitor<SyntaxTreeMappedVisitorContext> mappedVisitor)
@@ -32,6 +34,7 @@ namespace ForgedOnce.Glsl.Metadata
         {
             this.annotationId = Guid.NewGuid().ToString();
             this.originalRootPath = this.GetInitialRootPath(astNode, !this.codeFileGlsl.IsReadOnly);
+            this.treeIsAnnotated = !this.codeFileGlsl.IsReadOnly;
             if (this.codeFileGlsl.IsReadOnly)
             {
                 this.roots = new[] { new MetadataRoot(this.originalRootPath, this.originalRootPath) };

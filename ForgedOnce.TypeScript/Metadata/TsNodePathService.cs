@@ -81,5 +81,15 @@ namespace ForgedOnce.TypeScript.Metadata
 
             return result;
         }
+
+        public NodePath ReplacePathRootWithThisFile(NodePath nodePath)
+        {
+            if (nodePath.Language != this.codeFileTs.Language)
+            {
+                throw new InvalidOperationException("Node path language does not correspond to this code file language.");
+            }
+
+            return new NodePath(nodePath.Language, new[] { new NodePathLevel(this.codeFileTs.Id, null) }.Concat(nodePath.Levels.Skip(1)));
+        }
     }
 }

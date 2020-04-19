@@ -18,6 +18,8 @@ namespace ForgedOnce.CSharp.Metadata
 
         protected MetadataRoot[] roots;
 
+        protected bool treeIsAnnotated;
+
         public SnapshotBase(
             CodeFileCSharp codeFileCSharp,
             SyntaxTreeMappedVisitor<SyntaxTreeMappedVisitorContext> mappedVisitor)
@@ -33,6 +35,7 @@ namespace ForgedOnce.CSharp.Metadata
             SyntaxNode annotatedRoot = null;
             this.annotationId = Guid.NewGuid().ToString();
             this.originalRootPath = this.GetInitialRootPath(astNode, out annotatedRoot,!this.codeFileCSharp.IsReadOnly);
+            this.treeIsAnnotated = !this.codeFileCSharp.IsReadOnly;
             if (this.codeFileCSharp.IsReadOnly)
             {
                 this.roots = new[] { new MetadataRoot(this.originalRootPath, this.originalRootPath) };

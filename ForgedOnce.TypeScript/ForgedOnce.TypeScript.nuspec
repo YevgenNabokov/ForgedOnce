@@ -1,7 +1,7 @@
 ﻿<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ForgedOnce.TypeScript</id>
-    <version>0.3.0</version>
+    <version>0.4.2</version>
     <authors>Yevgen Nabokov</authors>
     <owners>Yevgen Nabokov</owners>
     <licenseUrl>https://github.com/yevgennabokov/forgedonce/blob/master/license</licenseUrl>

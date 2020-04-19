@@ -60,8 +60,8 @@ namespace ForgedOnce.CSharp
                 var location = file.Location as WorkspaceCodeFileLocation;                
                 var document = this.workspaceManager.FindDocument(location.DocumentPath);
 
-                file.SyntaxTree = document.GetSyntaxTreeAsync().Result;
-                file.SemanticModel = compilations[document.Project.Name].GetSemanticModel(file.SyntaxTree);
+                file.SetSyntaxTreeOverrideReadonly(document.GetSyntaxTreeAsync().Result);
+                file.SetSemanticModelOverrideReadonly(compilations[document.Project.Name].GetSemanticModel(file.SyntaxTree));
             }
 
             this.UnshadowCodeFiles(shadowed);

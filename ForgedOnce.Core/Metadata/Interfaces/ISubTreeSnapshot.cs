@@ -9,5 +9,7 @@ namespace ForgedOnce.Core.Metadata.Interfaces
         MetadataRoot[] ResolveRoots();
 
         bool ContainsNode(NodePath path);
+
+        NodePath GetNodeOriginalPath(NodePath currentPath);
     }
 }

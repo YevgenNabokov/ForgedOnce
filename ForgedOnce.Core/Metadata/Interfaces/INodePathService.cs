@@ -13,5 +13,7 @@ namespace ForgedOnce.Core.Metadata.Interfaces
         NodePath GetNodePath(TAstNode astNode);
 
         TAstNode ResolveNode(NodePath nodePath);
+
+        NodePath ReplacePathRootWithThisFile(NodePath nodePath);
     }
 }

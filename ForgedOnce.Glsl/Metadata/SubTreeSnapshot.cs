@@ -110,6 +110,16 @@ namespace ForgedOnce.Glsl.Metadata
 
         public bool ContainsNode(NodePath path)
         {
+            if (!this.treeIsAnnotated)
+            {
+                if (this.originalRootPath != null)
+                {
+                    return path.StartsWith(this.originalRootPath);
+                }
+
+                throw new InvalidOperationException("Snapshot is not initialized.");
+            }
+
             bool result = false;
             var originalPathAnnotationKey = this.GetOriginalPathAnnotationKey();
             if (path.Levels.Count > 0 && path.Levels[0].Name == this.codeFileGlsl.Id)
@@ -128,6 +138,52 @@ namespace ForgedOnce.Glsl.Metadata
                 },
                 null,
                 path,
+                1);
+            }
+
+            return result;
+        }
+
+        public NodePath GetNodeOriginalPath(NodePath currentPath)
+        {
+            if (!this.treeIsAnnotated)
+            {
+                if (this.originalRootPath != null)
+                {
+                    if (currentPath.StartsWith(this.originalRootPath))
+                    {
+                        return currentPath;
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException($"Path is not part of this snapshot scope. Use {nameof(ContainsNode)} method to check it.");
+                    }
+                }
+
+                throw new InvalidOperationException("Snapshot is not initialized.");
+            }
+
+            NodePath result = null;
+            var originalPathAnnotationKey = this.GetOriginalPathAnnotationKey();
+            if (currentPath.Levels.Count > 0 && currentPath.Levels[0].Name == this.codeFileGlsl.Id)
+            {
+                this.mappedVisitor.Start(
+                this.codeFileGlsl.ShaderFile.SyntaxTree,
+                new SyntaxTreeMappedVisitorContext(new[] { new NodePathLevel(this.codeFileGlsl.Id, null) }),
+                (n, c) =>
+                {
+                    if (c.CurrentPath.Count == currentPath.Levels.Count)
+                    {
+                        if (n.HasAnnotation(originalPathAnnotationKey))
+                        {
+                            result = NodePath.FromString(n.GetAnnotation(originalPathAnnotationKey));
+                        }
+                    }
+
+                    return result == null;
+                },
+                null,
+                currentPath,
                 1);
             }
 

@@ -18,6 +18,8 @@ namespace ForgedOnce.TypeScript.Metadata
 
         protected MetadataRoot[] roots;
 
+        protected bool treeIsAnnotated;
+
         public SnapshotBase(
             CodeFileTsModel codeFileTs,
             SyntaxTreeMappedVisitor<SyntaxTreeMappedVisitorContext> mappedVisitor)
@@ -32,6 +34,7 @@ namespace ForgedOnce.TypeScript.Metadata
         {
             this.annotationId = Guid.NewGuid().ToString();
             this.originalRootPath = this.GetInitialRootPath(astNode, !this.codeFileTs.IsReadOnly);
+            this.treeIsAnnotated = !this.codeFileTs.IsReadOnly;
             if (this.codeFileTs.IsReadOnly)
             {
                 this.roots = new[] { new MetadataRoot(this.originalRootPath, this.originalRootPath) };

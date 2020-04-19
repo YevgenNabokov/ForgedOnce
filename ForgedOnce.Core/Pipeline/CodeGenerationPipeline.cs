@@ -83,6 +83,7 @@ namespace ForgedOnce.Core.Pipeline
 
             foreach (var batch in batches)
             {
+                this.MakeCodeFilesReadOnly(batchInput);
                 batchInput = this.ExecuteBatch(batch, batchInput);
             }
         }
@@ -166,6 +167,17 @@ namespace ForgedOnce.Core.Pipeline
         private void CommitMetadata()
         {
             this.MetadataStore.Commit();
+        }
+
+        private void MakeCodeFilesReadOnly(IEnumerable<ICodeStream> codeStreams)
+        {
+            foreach (var stream in codeStreams)
+            {
+                foreach (var file in stream.Files)
+                {
+                    file.MakeReadOnly();
+                }
+            }
         }
     }
 }

@@ -40,6 +40,16 @@ namespace ForgedOnce.CSharp
             private set;
         }
 
+        internal void SetSyntaxTreeOverrideReadonly(SyntaxTree syntaxTree)
+        {
+            this.syntaxTree = syntaxTree;
+        }
+
+        internal void SetSemanticModelOverrideReadonly(SemanticModel semanticModel)
+        {
+            this.semanticModel = semanticModel;
+        }
+
         protected override string GetSourceCodeText()
         {
             if (this.SyntaxTree != null)
