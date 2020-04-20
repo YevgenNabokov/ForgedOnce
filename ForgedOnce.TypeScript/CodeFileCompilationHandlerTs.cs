@@ -8,6 +8,7 @@ using System.Text;
 using ForgedOnce.TsLanguageServices.ModelBuilder.DefinitionTree;
 using ForgedOnce.Core.Interfaces;
 using ForgedOnce.Core.Pipeline;
+using ForgedOnce.TsLanguageServices.ModelBuilder.SyntaxTools;
 
 namespace ForgedOnce.TypeScript
 {
@@ -62,6 +63,7 @@ namespace ForgedOnce.TypeScript
 
         private void UpdateCodeFileTypeLocation(CodeFileTsModel codeFileTsModel)
         {
+            CloningDefinitionTreeVisitor cloner = new CloningDefinitionTreeVisitor();
             if (codeFileTsModel.Model != null)
             {
                 foreach (var node in search.FindNodes<NamedTypeDefinition>(codeFileTsModel.Model))
@@ -70,7 +72,9 @@ namespace ForgedOnce.TypeScript
                     node.TypeKey = result.NewTypeDefinitionId;
                     foreach (var f in this.codeFiles)
                     {
-                        this.referenceUpdater.Visit(f.Model, result.ReferneceIdUpdates);
+                        var modelCopy = cloner.CloneNode(f.Model);
+                        this.referenceUpdater.Visit(modelCopy, result.ReferneceIdUpdates);
+                        f.SetModelOverrideReadonly(modelCopy);
                     }
                 }
             }

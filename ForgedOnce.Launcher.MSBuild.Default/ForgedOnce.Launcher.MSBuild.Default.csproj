@@ -27,7 +27,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.0">
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.1">
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
     <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
