@@ -1,7 +1,7 @@
 ﻿<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ForgedOnce.Launcher.MSBuild.Default.CliTool</id>
-    <version>0.5.4</version>
+    <version>0.5.5</version>
     <authors>Yevgen Nabokov</authors>
     <licenseUrl>https://github.com/yevgennabokov/forgedonce/blob/master/license</licenseUrl>
     <projectUrl>https://github.com/yevgennabokov/forgedonce</projectUrl>

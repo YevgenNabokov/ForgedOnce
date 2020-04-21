@@ -66,7 +66,8 @@ namespace ForgedOnce.TypeScript
             CloningDefinitionTreeVisitor cloner = new CloningDefinitionTreeVisitor();
             if (codeFileTsModel.Model != null)
             {
-                foreach (var node in search.FindNodes<NamedTypeDefinition>(codeFileTsModel.Model))
+                var codeFileTsModelClone = cloner.CloneNode(codeFileTsModel.Model);
+                foreach (var node in search.FindNodes<NamedTypeDefinition>(codeFileTsModelClone))
                 {
                     var result = codeFileTsModel.TypeRepository.UpdateTypeDefinitionFile(node.TypeKey, codeFileTsModel.GetPath());
                     node.TypeKey = result.NewTypeDefinitionId;
@@ -77,6 +78,8 @@ namespace ForgedOnce.TypeScript
                         f.SetModelOverrideReadonly(modelCopy);
                     }
                 }
+
+                codeFileTsModel.SetModelOverrideReadonly(codeFileTsModelClone);
             }
         }
     }

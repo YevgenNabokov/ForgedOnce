@@ -20,6 +20,27 @@
               "InputOne": "*.cs"
             }
           },
+          "destinationMapping": {
+            "PassThrough": {
+              "settings": { "path": "Product/TypeScripts/Generated" }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Batch02",
+      "stages": [
+        {
+          "name": "Stage02",
+          "plugin": {
+            "pluginFactory": { "type": "TsAddPropertyPlugin.PluginFactory, TsAddPropertyPlugin" }
+          },
+          "input": {
+            "settings": {
+              "PassThrough": "*.ts"
+            }
+          },
           "output": {
             "settings": {
               "PassThrough": "*.ts"
