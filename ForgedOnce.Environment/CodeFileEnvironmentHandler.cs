@@ -72,7 +72,7 @@ namespace ForgedOnce.Environment
         {
             if (!this.storageHandler.CanResolveCodeFileName(location))
             {
-                throw new InvalidOperationException($"Unable to resolve code file at location ({location.ToString()})");
+                throw new InvalidOperationException($"Unable to resolve code file at location ({location})");
             }
 
             var codeFile = this.CreateCodeFile(this.storageHandler.ResolveCodeFileName(location));
