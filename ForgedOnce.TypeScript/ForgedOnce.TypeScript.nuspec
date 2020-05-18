@@ -1,10 +1,10 @@
 ﻿<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ForgedOnce.TypeScript</id>
-    <version>0.4.4</version>
+    <version>0.4.5</version>
     <authors>Yevgen Nabokov</authors>
     <owners>Yevgen Nabokov</owners>
-    <licenseUrl>https://github.com/yevgennabokov/forgedonce/blob/master/license</licenseUrl>
+    <license type="expression">MIT</license>
     <projectUrl>https://github.com/yevgennabokov/forgedonce</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>TypeScript language library for the code generation pipeline.</description>
@@ -16,6 +16,7 @@
     <tags>forgedonce code generation tool typescript</tags>
   </metadata>
   <files>
+    <file src="ThirdPartyNotice.txt" target="" />
     <file src="$publishdir$\netstandard2.0\**\*" target="lib/netstandard2.0/" />    
   </files>
 </package>

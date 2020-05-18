@@ -19,9 +19,9 @@ namespace ForgedOnce.Core.Plugins
 
                 var codeFile = (TCodeFile)file;
 
-                var metadata = this.Preprocessor.GenerateParameters(codeFile, this.Settings, metadataReader, logger);
+                var parameters = this.Preprocessor.GenerateParameters(codeFile, this.Settings, metadataReader, logger);
 
-                this.Implementation(codeFile, metadata, metadataRecorder, logger);
+                this.Implementation(codeFile, parameters, metadataRecorder, logger);
             }
         }
 

@@ -15,7 +15,7 @@
     <!--<file src="_._" target="lib/netcoreapp2.2/" />
     <file src="_._" target="lib/netstandard2.0/" />
     <file src="_._" target="lib/net472/" />-->
-
+    <file src="ThirdPartyNotice.txt" target="" />
     <file src="$publishdir$\netcoreapp3.1\**\*" target="lib/netcoreapp3.1/" />
   </files>
 </package>

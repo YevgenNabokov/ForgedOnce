@@ -14,7 +14,8 @@
     </dependencies>
     <tags>forgedonce code generation tool c# csharp helpers</tags>
   </metadata>
-  <files>    
+  <files>
+    <file src="ThirdPartyNotice.txt" target="" />
     <file src="$publishdir$\netstandard2.0\**\*" target="lib/netstandard2.0/" />
   </files>
 </package>
