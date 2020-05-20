@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-    <Configurations>Debug;Release;Debug-cli-tools</Configurations>
+    <Configurations>Debug;Release;Debug-cli-tools;Release-cli-tools</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

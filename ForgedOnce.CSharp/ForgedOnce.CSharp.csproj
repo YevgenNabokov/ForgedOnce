@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Configurations>Debug;Release;Debug-cli-tools</Configurations>    
+    <Configurations>Debug;Release;Debug-cli-tools;Release-cli-tools</Configurations>    
   </PropertyGroup>
 
   <ItemGroup>

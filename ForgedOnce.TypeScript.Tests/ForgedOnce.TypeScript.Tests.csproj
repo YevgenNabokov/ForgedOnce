@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-    <Configurations>Debug;Release;Debug-cli-tools</Configurations>
+    <Configurations>Debug;Release;Debug-cli-tools;Release-cli-tools</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.0" />
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.1">
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.7">
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />

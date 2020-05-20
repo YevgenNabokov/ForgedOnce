@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Configurations>Debug;Release;Debug-cli-tools</Configurations>
+    <Configurations>Debug;Release;Debug-cli-tools;Release-cli-tools</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.GlslLanguageServices.Builder" Version="0.1.3" />
+    <PackageReference Include="ForgedOnce.GlslLanguageServices.Builder" Version="0.1.7" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
   </ItemGroup>

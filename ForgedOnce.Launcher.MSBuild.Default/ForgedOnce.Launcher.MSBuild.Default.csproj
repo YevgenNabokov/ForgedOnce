@@ -4,7 +4,7 @@
     <OutputType Condition="$(Configuration.Contains('cli-tools'))">Exe</OutputType>
     <OutputType Condition="!$(Configuration.Contains('cli-tools'))">Library</OutputType>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
-    <Configurations>Debug;Release;Debug-cli-tools</Configurations>
+    <Configurations>Debug;Release;Debug-cli-tools;Release-cli-tools</Configurations>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -27,7 +27,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.1">
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.7">
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
     <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />

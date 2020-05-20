@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;</TargetFrameworks>
-    <Configurations>Debug;Release;Debug-cli-tools</Configurations>
+    <Configurations>Debug;Release;Debug-cli-tools;Release-cli-tools</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelBuilder" Version="0.1.1" />
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.1">
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelBuilder" Version="0.1.6" />
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.7">
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />

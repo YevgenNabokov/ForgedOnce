@@ -1,9 +1,11 @@
 ﻿<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ForgedOnce.Launcher.MSBuild.Default</id>
-    <version>0.5.5</version>
+    <version>0.5.6</version>
     <authors>Yevgen Nabokov</authors>
-    <licenseUrl>https://github.com/yevgennabokov/forgedonce/blob/master/license</licenseUrl>
+    <owners>Yevgen Nabokov</owners>
+    <copyright>Yevgen Nabokov</copyright>
+    <license type="expression">MIT</license>
     <projectUrl>https://github.com/yevgennabokov/forgedonce</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Configurable pipeline for code generation with adapters for C#, GLSL and TypeScript files.</description>
