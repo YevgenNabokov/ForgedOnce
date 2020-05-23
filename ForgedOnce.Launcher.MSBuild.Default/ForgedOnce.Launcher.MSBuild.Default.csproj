@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>0.5.9</Version>
+    <Version>0.5.11</Version>
     <Authors>Yevgen Nabokov</Authors>
     <Company />
     <Description>Configurable pipeline for code generation with adapters for C#, GLSL and TypeScript files</Description>
@@ -28,19 +28,9 @@
   <PropertyGroup Condition="!$(Configuration.Contains('cli-tools'))">
     <PackageId>ForgedOnce.Launcher.MSBuild.Default</PackageId>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <None Remove="ThirdPartyNotice.txt" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Content Include="ThirdPartyNotice.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.9">
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.11">
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
     <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
@@ -76,6 +66,14 @@
     <ProjectReference Include="..\ForgedOnce.Launcher.MSBuild\ForgedOnce.Launcher.MSBuild.csproj" />
     <ProjectReference Include="..\ForgedOnce.TypeScript.MsBuild\ForgedOnce.TypeScript.MsBuild.csproj" />
     <ProjectReference Include="..\ForgedOnce.TypeScript\ForgedOnce.TypeScript.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ThirdPartyNotice.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

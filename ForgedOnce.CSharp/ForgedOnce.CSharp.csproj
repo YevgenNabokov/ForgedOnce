@@ -7,7 +7,7 @@
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>0.4.6</Version>
+    <Version>0.4.8</Version>
     <PackageId>ForgedOnce.CSharp</PackageId>
     <Authors>Yevgen Nabokov</Authors>
     <Company />
@@ -18,16 +18,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="ThirdPartyNotice.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="ThirdPartyNotice.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis" Version="3.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
@@ -35,6 +25,14 @@
   <ItemGroup>
     <ProjectReference Include="..\ForgedOnce.Core\ForgedOnce.Core.csproj" />
     <ProjectReference Include="..\ForgedOnce.Environment\ForgedOnce.Environment.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ThirdPartyNotice.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

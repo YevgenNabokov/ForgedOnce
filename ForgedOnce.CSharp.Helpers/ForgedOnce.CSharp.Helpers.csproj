@@ -7,7 +7,7 @@
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>0.1.2</Version>
+    <Version>0.1.7</Version>
     <PackageId>ForgedOnce.CSharp.Helpers</PackageId>
     <Authors>Yevgen Nabokov</Authors>
     <Company />
@@ -18,18 +18,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="ThirdPartyNotice.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="ThirdPartyNotice.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis" Version="3.5.0" />
     <PackageReference Include="System.Collections.Immutable" Version="1.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ThirdPartyNotice.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

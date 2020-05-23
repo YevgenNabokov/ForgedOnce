@@ -8,7 +8,7 @@
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>0.4.4</Version>
+    <Version>0.4.6</Version>
     <PackageId>ForgedOnce.Launcher.MSBuild</PackageId>
     <Authors>Yevgen Nabokov</Authors>
     <Company />
@@ -17,16 +17,6 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/yevgennabokov/forgedonce</PackageProjectUrl>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="ThirdPartyNotice.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="ThirdPartyNotice.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Build" Version="16.5.0">
@@ -41,6 +31,14 @@
   <ItemGroup>
     <ProjectReference Include="..\ForgedOnce.Core\ForgedOnce.Core.csproj" />
     <ProjectReference Include="..\ForgedOnce.Environment\ForgedOnce.Environment.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ThirdPartyNotice.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
