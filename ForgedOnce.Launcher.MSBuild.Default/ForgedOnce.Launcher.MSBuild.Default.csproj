@@ -3,13 +3,13 @@
   <PropertyGroup>
     <OutputType Condition="$(Configuration.Contains('cli-tools'))">Exe</OutputType>
     <OutputType Condition="!$(Configuration.Contains('cli-tools'))">Library</OutputType>
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Configurations>Debug;Release;Debug-cli-tools;Release-cli-tools</Configurations>
   </PropertyGroup>
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>0.5.11</Version>
+    <Version>0.5.16</Version>
     <Authors>Yevgen Nabokov</Authors>
     <Company />
     <Description>Configurable pipeline for code generation with adapters for C#, GLSL and TypeScript files</Description>
@@ -30,26 +30,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.11">
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.12">
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
     <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(Configuration.Contains('cli-tools'))">
-    <Content Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\NodeRedist\**\*.*">
+  <ItemGroup>
+    <None Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\NodeRedist\**\*.*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Link>NodeRedist\%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <Pack>true</Pack>
-      <PackagePath>lib\$(TargetFramework)\NodeRedist\</PackagePath>
-    </Content>
+      <Pack Condition="!$(Configuration.Contains('cli-tools'))">true</Pack>
+      <PackagePath Condition="!$(Configuration.Contains('cli-tools'))">lib\$(TargetFramework)\NodeRedist\</PackagePath>
+    </None>
 
-    <Content Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\CodeGeneratorJs\**\*.*">
+    <None Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\CodeGeneratorJs\**\*.*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Link>CodeGeneratorJs\%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <Pack>true</Pack>
-      <PackagePath>lib\$(TargetFramework)\CodeGeneratorJs\</PackagePath>
-    </Content>
+      <Pack Condition="!$(Configuration.Contains('cli-tools'))">true</Pack>
+      <PackagePath Condition="!$(Configuration.Contains('cli-tools'))">lib\$(TargetFramework)\CodeGeneratorJs\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup Condition="$(Configuration.Contains('cli-tools'))">
