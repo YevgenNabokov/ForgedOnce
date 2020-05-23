@@ -2,18 +2,31 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Configurations>Debug;Release;Debug-cli-tools;Release-cli-tools</Configurations>
   </PropertyGroup>
 
   <PropertyGroup>
-    <NoPackageAnalysis>true</NoPackageAnalysis>
-    <NuspecFile>ForgedOnce.Launcher.MSBuild.nuspec</NuspecFile>
-    <IntermediatePackDir>$(MSBuildProjectDirectory)/bin/$(Configuration)/publish/</IntermediatePackDir>
-    <PublishDir>$(IntermediatePackDir)$(TargetFramework)/</PublishDir>
-    <NuspecProperties>publishDir=$([MSBuild]::NormalizeDirectory($(IntermediatePackDir)))</NuspecProperties>
-    <PackageOutputPath>$(SolutionDir)/NugetOutputs</PackageOutputPath>
+    <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
+    <Version>0.4.4</Version>
+    <PackageId>ForgedOnce.Launcher.MSBuild</PackageId>
+    <Authors>Yevgen Nabokov</Authors>
+    <Company />
+    <Description>Configurable pipeline for code generation</Description>
+    <Copyright>Yevgen Nabokov</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/yevgennabokov/forgedonce</PackageProjectUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ThirdPartyNotice.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ThirdPartyNotice.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Build" Version="16.5.0">
@@ -29,12 +42,5 @@
     <ProjectReference Include="..\ForgedOnce.Core\ForgedOnce.Core.csproj" />
     <ProjectReference Include="..\ForgedOnce.Environment\ForgedOnce.Environment.csproj" />
   </ItemGroup>
-
-  <Target Name="PublishAll" BeforeTargets="GenerateNuspec">
-    <ItemGroup>
-      <_TargetFramework Include="$(TargetFrameworks)" />
-    </ItemGroup>
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Publish" Properties="TargetFramework=%(_TargetFramework.Identity)" />
-  </Target>
 
 </Project>

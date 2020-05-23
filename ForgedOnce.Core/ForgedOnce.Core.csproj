@@ -5,4 +5,16 @@
     <Configurations>Debug;Release;Debug-cli-tools;Release-cli-tools</Configurations>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
+    <Version>0.1.0</Version>
+    <PackageId>ForgedOnce.Core</PackageId>
+    <Authors>Yevgen Nabokov</Authors>
+    <Company />
+    <Description>ForgedOncecode generation system core library</Description>
+    <Copyright>Yevgen Nabokov</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/yevgennabokov/forgedonce</PackageProjectUrl>
+  </PropertyGroup>
+
 </Project>

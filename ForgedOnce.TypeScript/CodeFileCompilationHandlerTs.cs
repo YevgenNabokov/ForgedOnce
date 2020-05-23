@@ -9,6 +9,7 @@ using ForgedOnce.TsLanguageServices.ModelBuilder.DefinitionTree;
 using ForgedOnce.Core.Interfaces;
 using ForgedOnce.Core.Pipeline;
 using ForgedOnce.TsLanguageServices.ModelBuilder.SyntaxTools;
+using ForgedOnce.TsLanguageServices.ModelBuilder.TypeData;
 
 namespace ForgedOnce.TypeScript
 {
@@ -66,20 +67,27 @@ namespace ForgedOnce.TypeScript
             CloningDefinitionTreeVisitor cloner = new CloningDefinitionTreeVisitor();
             if (codeFileTsModel.Model != null)
             {
+                var results = new List<TypeDefinitionUpdateResult>();
                 var codeFileTsModelClone = cloner.CloneNode(codeFileTsModel.Model);
                 foreach (var node in search.FindNodes<NamedTypeDefinition>(codeFileTsModelClone))
                 {
                     var result = codeFileTsModel.TypeRepository.UpdateTypeDefinitionFile(node.TypeKey, codeFileTsModel.GetPath());
                     node.TypeKey = result.NewTypeDefinitionId;
-                    foreach (var f in this.codeFiles)
-                    {
-                        var modelCopy = cloner.CloneNode(f.Model);
-                        this.referenceUpdater.Visit(modelCopy, result.ReferneceIdUpdates);
-                        f.SetModelOverrideReadonly(modelCopy);
-                    }
+                    results.Add(result);
                 }
 
                 codeFileTsModel.SetModelOverrideReadonly(codeFileTsModelClone);
+
+                foreach (var f in this.codeFiles)
+                {
+                    var modelCopy = cloner.CloneNode(f.Model);
+                    foreach (var result in results)
+                    {
+                        this.referenceUpdater.Visit(modelCopy, result.ReferneceIdUpdates);
+                    }
+
+                    f.SetModelOverrideReadonly(modelCopy);
+                }
             }
         }
     }

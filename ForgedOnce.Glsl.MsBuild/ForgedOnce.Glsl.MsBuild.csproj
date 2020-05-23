@@ -1,8 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Configurations>Debug;Release;Debug-cli-tools;Release-cli-tools</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
+    <Version>0.1.0</Version>
+    <PackageId>ForgedOnce.Glsl.MsBuild</PackageId>
+    <Authors>Yevgen Nabokov</Authors>
+    <Company />
+    <Description>MSBuild solution adapter for CodeFileGlsl</Description>
+    <Copyright>Yevgen Nabokov</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/yevgennabokov/forgedonce</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

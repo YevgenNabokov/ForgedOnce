@@ -1,6 +1,6 @@
 *******************************************************************************
-ForgedOnce is using third party components and provide those in nuget package.
-Below are copyright notices from repackaged components.
+ForgedOnce is using third party components.
+Below are third party copyright notices.
 *******************************************************************************
 
 -------------------------------------   System.IO.Abstractions  ----------------------------------------------------

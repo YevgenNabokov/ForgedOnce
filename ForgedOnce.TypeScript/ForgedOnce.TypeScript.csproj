@@ -1,48 +1,59 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Configurations>Debug;Release;Debug-cli-tools;Release-cli-tools</Configurations>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
+    <Version>0.4.8</Version>
+    <PackageId>ForgedOnce.TypeScript</PackageId>
+    <Authors>Yevgen Nabokov</Authors>
+    <Company />
+    <Description>TypeScript language library for the code generation pipeline</Description>
+    <Copyright>Yevgen Nabokov</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/yevgennabokov/forgedonce</PackageProjectUrl>
+  </PropertyGroup>
+  
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelBuilder" Version="0.1.6" />
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.7">
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelBuilder" Version="0.1.9" />
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.9">
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
   </ItemGroup>
-
-  <PropertyGroup>
-    <NoPackageAnalysis>true</NoPackageAnalysis>
-    <NuspecFile>ForgedOnce.TypeScript.nuspec</NuspecFile>
-    <IntermediatePackDir>$(MSBuildProjectDirectory)/bin/$(Configuration)/publish/</IntermediatePackDir>
-    <PublishDir>$(IntermediatePackDir)$(TargetFramework)/</PublishDir>
-    <NuspecProperties>publishDir=$([MSBuild]::NormalizeDirectory($(IntermediatePackDir)))</NuspecProperties>
-    <PackageOutputPath>$(SolutionDir)/NugetOutputs</PackageOutputPath>
-  </PropertyGroup>
     
   <ItemGroup>
     <ProjectReference Include="..\ForgedOnce.Core\ForgedOnce.Core.csproj" />
     <ProjectReference Include="..\ForgedOnce.Environment\ForgedOnce.Environment.csproj" />
   </ItemGroup>
 
+  <!--<ItemGroup>
+    <Content Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\$(TargetFramework)\NodeRedist\**\*.*">
+      <Link>NodeRedist\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <PackagePath>lib\$(TargetFramework)\NodeRedist\</PackagePath>
+    </Content>
+    <Content Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\$(TargetFramework)\CodeGeneratorJs\**\*.*">
+      <Link>CodeGeneratorJs\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <PackagePath>lib\$(TargetFramework)\CodeGeneratorJs\</PackagePath>
+    </Content>
+  </ItemGroup>-->
+
   <ItemGroup>
-    <NodeRedist Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\$(TargetFramework)\NodeRedist\**\*.*" />
-    <CodeGeneratorJs Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\$(TargetFramework)\CodeGeneratorJs\**\*.*" />
+    <None Remove="ThirdPartyNotice.txt" />
   </ItemGroup>
 
-  <Target Name="CopyRedist" BeforeTargets="Publish">
-    <Copy SourceFiles="@(NodeRedist)" DestinationFolder="$(PublishDir)\NodeRedist\%(RecursiveDir)" />
-    <Copy SourceFiles="@(CodeGeneratorJs)" DestinationFolder="$(PublishDir)\CodeGeneratorJs\%(RecursiveDir)" />
-  </Target>
-
-  <Target Name="PublishAll" BeforeTargets="GenerateNuspec">
-    <ItemGroup>
-      <_TargetFramework Include="$(TargetFrameworks)" />
-    </ItemGroup>
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Publish" Properties="TargetFramework=%(_TargetFramework.Identity)" />
-  </Target>
+  <ItemGroup>
+    <Content Include="ThirdPartyNotice.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>
