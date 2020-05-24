@@ -2,6 +2,9 @@
 This is static, plugin based, multi-language code generation tool. Significant parts of this project are [ForgedOnce.TSLanguageServices
 ](https://github.com/YevgenNabokov/ForgedOnce.TSLanguageServices) for TypeScript support and [ForgedOnce.GLSLLanguageServices
 ](https://github.com/YevgenNabokov/ForgedOnce.GLSLLanguageServices) for GLSL support.
+## Prerequisites
+* netcoreapp3.1
+* Node.js must be installed and available via global alias (like node.exe for windows) for ForgedOnce.TypeScript, but can be skipped if not planning to run plugins generating TypeScript.
 ## Getting Started
 [This article](http://nabokov.dev/forgedOnce/intro) is a general introduction.
 ### As Consumer
