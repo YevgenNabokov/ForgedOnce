@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.0" />
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.2.13">
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.2.14">
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />

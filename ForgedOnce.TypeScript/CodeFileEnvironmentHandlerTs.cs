@@ -41,6 +41,11 @@ namespace ForgedOnce.TypeScript
         {
             var models = base.GetOutputs().Cast<CodeFileTsModel>().ToList();
 
+            if (models.Count == 0)
+            {
+                return Enumerable.Empty<CodeFileTsText>();
+            }
+
             var task = new CodeGenerationTask()
             {
                 Files = new List<TsLanguageServices.Model.CodeFile>()
