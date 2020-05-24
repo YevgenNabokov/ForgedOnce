@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.CSharp" Version="0.3.0" />
-    <PackageReference Include="ForgedOnce.Glsl" Version="0.3.0" />
+    <PackageReference Include="ForgedOnce.CSharp" Version="0.4.9" />
+    <PackageReference Include="ForgedOnce.Glsl" Version="0.4.9" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="3.5.0" />
   </ItemGroup>
 

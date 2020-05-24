@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.CSharp" Version="0.4.3" />
-    <PackageReference Include="ForgedOnce.TypeScript" Version="0.4.4" />
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelBuilder" Version="0.1.1" />
+    <PackageReference Include="ForgedOnce.CSharp" Version="0.4.9" />
+    <PackageReference Include="ForgedOnce.TypeScript" Version="0.5.12" />
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelBuilder" Version="0.1.9" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="3.5.0" />
   </ItemGroup>
 
