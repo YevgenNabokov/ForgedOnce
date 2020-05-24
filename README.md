@@ -6,11 +6,11 @@ This is static, plugin based, multi-language code generation tool. Significant p
 * netcoreapp3.1
 * Node.js must be installed and available via global alias (like node.exe for windows) for ForgedOnce.TypeScript, but can be skipped if not planning to run plugins generating TypeScript.
 ## Getting Started
-[This article](http://nabokov.dev/forgedOnce/intro) is a general introduction.
+[This article](https://www.nabokov.dev/forgedOnce/intro) is a general introduction.
 ### As Consumer
-See [this tutorial](http://nabokov.dev/forgedOnce/tutorials/usePluginTutorial) and read [this article](http://nabokov.dev/forgedOnce/configurationIntro) about configuring code generation pipeline.
+See [this tutorial](https://www.nabokov.dev/forgedOnce/tutorials/usePluginTutorial) and read [this article](https://www.nabokov.dev/forgedOnce/configurationIntro) about configuring code generation pipeline.
 ### As Plugin Creator
-See [this tutorial](http://nabokov.dev/forgedOnce/tutorials/createPluginTutorial) and read [this article](http://nabokov.dev/forgedOnce/pluginsIntro) about plugin development.
+See [this tutorial](https://www.nabokov.dev/forgedOnce/tutorials/createPluginTutorial) and read [this article](https://www.nabokov.dev/forgedOnce/pluginsIntro) about plugin development.
 ## Contributing
 Please read [CONTRIBUTING.md](CONTRIBUTING.md)
 ## Authors
