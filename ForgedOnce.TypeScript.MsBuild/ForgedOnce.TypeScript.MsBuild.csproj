@@ -7,7 +7,7 @@
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>0.1.0</Version>
+    <Version>0.1.4</Version>
     <PackageId>ForgedOnce.TypeScript.MsBuild</PackageId>
     <Authors>Yevgen Nabokov</Authors>
     <Company />

@@ -8,7 +8,7 @@
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>0.4.6</Version>
+    <Version>0.4.9</Version>
     <PackageId>ForgedOnce.Launcher.MSBuild</PackageId>
     <Authors>Yevgen Nabokov</Authors>
     <Company />

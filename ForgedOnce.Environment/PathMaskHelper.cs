@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
@@ -97,6 +98,12 @@ namespace ForgedOnce.Environment
             }
 
             return result;
+        }
+
+        public static bool DirectoryIsBaseOf(string directory, string path)
+        {
+            directory = $"{directory.TrimEnd(Path.DirectorySeparatorChar)}{Path.DirectorySeparatorChar}";
+            return new Uri(directory).IsBaseOf(new Uri(path));
         }
 
         private static Regex FileMaskToRegex(string mask)

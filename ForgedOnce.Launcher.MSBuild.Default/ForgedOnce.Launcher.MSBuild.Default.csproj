@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>0.5.16</Version>
+    <Version>0.6.19</Version>
     <Authors>Yevgen Nabokov</Authors>
     <Company />
     <Description>Configurable pipeline for code generation with adapters for C#, GLSL and TypeScript files</Description>
@@ -30,20 +30,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.12">
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.2.13">
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
     <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\NodeRedist\**\*.*">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Link>NodeRedist\%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <Pack Condition="!$(Configuration.Contains('cli-tools'))">true</Pack>
-      <PackagePath Condition="!$(Configuration.Contains('cli-tools'))">lib\$(TargetFramework)\NodeRedist\</PackagePath>
-    </None>
-
     <None Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\CodeGeneratorJs\**\*.*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Link>CodeGeneratorJs\%(RecursiveDir)%(Filename)%(Extension)</Link>

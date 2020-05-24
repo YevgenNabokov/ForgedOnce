@@ -1,4 +1,5 @@
-﻿using ForgedOnce.Environment.Workspace;
+﻿using ForgedOnce.Environment;
+using ForgedOnce.Environment.Workspace;
 using Microsoft.Build.Evaluation;
 using System;
 using System.Collections.Generic;
@@ -113,7 +114,7 @@ namespace ForgedOnce.Launcher.MSBuild.Storage
                     fullPath = this.fileSystem.Path.GetFullPath(this.fileSystem.Path.Combine(projectDirectory, unevaluatedInclude));
                 }
                 
-                if (!fullPath.StartsWith(projectDirectory))
+                if (!PathMaskHelper.DirectoryIsBaseOf(projectDirectory, fullPath))
                 {
                     throw new InvalidOperationException($"Project {this.Name} is using default items for {itemType}, item path {fullPath} should be under project path {projectDirectory}.");
                 }

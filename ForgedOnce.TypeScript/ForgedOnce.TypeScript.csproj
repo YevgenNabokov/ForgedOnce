@@ -7,7 +7,7 @@
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>0.4.10</Version>
+    <Version>0.5.12</Version>
     <PackageId>ForgedOnce.TypeScript</PackageId>
     <Authors>Yevgen Nabokov</Authors>
     <Company />
@@ -19,7 +19,7 @@
   
   <ItemGroup>
     <PackageReference Include="ForgedOnce.TsLanguageServices.ModelBuilder" Version="0.1.9" />
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.1.12">
+    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.2.13">
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
@@ -30,7 +30,16 @@
     <ProjectReference Include="..\ForgedOnce.Core\ForgedOnce.Core.csproj" />
     <ProjectReference Include="..\ForgedOnce.Environment\ForgedOnce.Environment.csproj" />
   </ItemGroup>
-    
+
+  <ItemGroup>
+    <None Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\CodeGeneratorJs\**\*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>CodeGeneratorJs\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <Pack>true</Pack>
+      <PackagePath>lib\$(TargetFramework)\CodeGeneratorJs\</PackagePath>
+    </None>
+  </ItemGroup>
+
   <ItemGroup>
     <None Update="ThirdPartyNotice.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
