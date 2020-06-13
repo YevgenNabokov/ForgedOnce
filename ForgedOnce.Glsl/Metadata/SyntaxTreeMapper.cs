@@ -33,7 +33,7 @@ namespace ForgedOnce.Glsl.Metadata
 
         private static IReadOnlyDictionary<Type, IReadOnlyDictionary<string, SyntaxTreeMapBranchInfo>> BuildMap()
         {
-            var cSharpSyntaxNamespace = string.Join(".", nameof(ForgedOnce), nameof(ForgedOnce.GlslLanguageServices), nameof(ForgedOnce.GlslLanguageServices), nameof(ForgedOnce.GlslLanguageServices.LanguageModels), nameof(ForgedOnce.GlslLanguageServices.LanguageModels.Ast));
+            var cSharpSyntaxNamespace = string.Join(".", nameof(ForgedOnce), nameof(ForgedOnce.GlslLanguageServices), nameof(ForgedOnce.GlslLanguageServices.LanguageModels), nameof(ForgedOnce.GlslLanguageServices.LanguageModels.Ast));
             Dictionary<Type, IReadOnlyDictionary<string, SyntaxTreeMapBranchInfo>> result = new Dictionary<Type, IReadOnlyDictionary<string, SyntaxTreeMapBranchInfo>>();
 
             foreach (var type in typeof(AstNode).Assembly.GetTypes())

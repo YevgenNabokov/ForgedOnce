@@ -59,7 +59,7 @@ namespace ForgedOnce.Glsl.Metadata
                 {
                     if (n == astNode)
                     {
-                        nodePath = new NodePath(Languages.CSharp, c.CurrentPath.Reverse());
+                        nodePath = new NodePath(Languages.Glsl, c.CurrentPath.Reverse());
                     }
 
                     return nodePath == null;
