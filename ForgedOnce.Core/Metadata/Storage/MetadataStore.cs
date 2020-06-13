@@ -338,7 +338,7 @@ namespace ForgedOnce.Core.Metadata.Storage
             List<NodeRelation> relations = new List<NodeRelation>();
             foreach (var r in subjectRoots)
             {
-                var sourcePath = fromRoot.CurrentPath.Concat(r.OriginalPath.RelativeTo(subjectOriginalRoot.OriginalPath));
+                var sourcePath = fromRoot.CurrentPath.Concat(r.OriginalPath.RelativeTo(subjectOriginalRoot.OriginalPath).WithLanguage(fromRoot.CurrentPath.Language));
                 var fromNode = this.metadataIndexed.AllocateNode(sourcePath);
                 var subjectNode = this.metadataIndexed.AllocateNode(r.CurrentPath);
                 relations.Add(new NodeRelation(RelationKind.SourcingFrom, subjectNode, fromNode));
