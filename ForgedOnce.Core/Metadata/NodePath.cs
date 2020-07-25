@@ -148,6 +148,11 @@ namespace ForgedOnce.Core.Metadata
             return new NodePath(this.Language, nodePathLevels);
         }
 
+        public NodePath WithLanguage(string language)
+        {
+            return new NodePath(language, this.Levels);
+        }
+
         protected void ValidateOtherPathArgument(NodePath other, string parameterName)
         {
             if (other.Language != this.Language)
