@@ -12,7 +12,7 @@ namespace GlslPlugin
 {
     public class PluginFactory : ICodeGenerationPluginFactory<Settings, Parameters, CodeFileCSharp>
     {
-        public ICodeGenerationPlugin CreatePlugin(JObject configuration, IPluginPreprocessor<CodeFileCSharp, Parameters, Settings> pluginPreprocessor = null)
+        public ICodeGenerationPlugin CreatePlugin(JObject configuration, IPipelineCreationContext context, IPluginPreprocessor<CodeFileCSharp, Parameters, Settings> pluginPreprocessor = null)
         {
             return new Plugin()
             {

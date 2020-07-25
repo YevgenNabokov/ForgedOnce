@@ -7,7 +7,7 @@
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>0.1.3</Version>
+    <Version>0.2.0</Version>
     <PackageId>ForgedOnce.Glsl.MsBuild</PackageId>
     <Authors>Yevgen Nabokov</Authors>
     <Company />

@@ -49,6 +49,8 @@ namespace ForgedOnce.Environment.Builders
 
             try
             {
+                var context = new PipelineCreationContext(this.basePath);
+
                 var reader = new PipelineConfiguration(configuration);
                 var result = new CodeGenerationPipeline(this.logger);
                 result.PipelineEnvironment = this.CreatePipelineEnvironment(result.PipelineExecutionInfo, reader);
@@ -60,7 +62,7 @@ namespace ForgedOnce.Environment.Builders
                     result.InputCodeStreamProvider = inputBuilder.Build(inputConfig);
                 }
 
-                result.Batches = this.BuildBatches(reader.BatchConfigurations);
+                result.Batches = this.BuildBatches(reader.BatchConfigurations, context);
 
                 return result;
             }
@@ -71,10 +73,10 @@ namespace ForgedOnce.Environment.Builders
             }
         }
 
-        private List<Batch> BuildBatches(IEnumerable<BatchConfiguration> batchConfigurations)
+        private List<Batch> BuildBatches(IEnumerable<BatchConfiguration> batchConfigurations, IPipelineCreationContext context)
         {
             List<Batch> result = new List<Batch>();
-            var stageBuilder = new StageBuilder(this.builderProvider, this.typeLoader, this.logger);
+            var stageBuilder = new StageBuilder(this.builderProvider, this.typeLoader, this.logger, context);
 
             int index = 0;
             foreach (var config in batchConfigurations)

@@ -13,7 +13,7 @@ namespace AddPropertyPlugin
 {
     public class PluginFactory : ICodeGenerationPluginFactory<Settings, Parameters, CodeFileCSharp>
     {
-        public ICodeGenerationPlugin CreatePlugin(JObject configuration, IPluginPreprocessor<CodeFileCSharp, Parameters, Settings> pluginPreprocessor = null)
+        public ICodeGenerationPlugin CreatePlugin(JObject configuration, IPipelineCreationContext context, IPluginPreprocessor<CodeFileCSharp, Parameters, Settings> pluginPreprocessor = null)
         {
             Settings settings = new Settings();
             if (configuration != null && configuration.ContainsKey(Settings.OutputNamespaceKey))

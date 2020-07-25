@@ -10,7 +10,7 @@ namespace TsAddPropertyPlugin
 {
     public class PluginFactory : ICodeGenerationPluginFactory<Settings, Parameters, CodeFileTsModel>
     {
-        public ICodeGenerationPlugin CreatePlugin(JObject configuration, IPluginPreprocessor<CodeFileTsModel, Parameters, Settings> pluginPreprocessor = null)
+        public ICodeGenerationPlugin CreatePlugin(JObject configuration, IPipelineCreationContext context, IPluginPreprocessor<CodeFileTsModel, Parameters, Settings> pluginPreprocessor = null)
         {
             return new Plugin()
             {

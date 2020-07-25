@@ -10,6 +10,6 @@ namespace ForgedOnce.Environment.Interfaces
 {
     public interface ICodeGenerationPluginFactory<TSettings, TInputParameters, TCodeFile> where TCodeFile : CodeFile
     {
-        ICodeGenerationPlugin CreatePlugin(JObject configuration, IPluginPreprocessor<TCodeFile, TInputParameters, TSettings> pluginPreprocessor = null);
+        ICodeGenerationPlugin CreatePlugin(JObject configuration, IPipelineCreationContext context, IPluginPreprocessor<TCodeFile, TInputParameters, TSettings> pluginPreprocessor = null);
     }
 }

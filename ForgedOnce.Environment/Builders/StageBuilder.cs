@@ -16,14 +16,16 @@ namespace ForgedOnce.Environment.Builders
         private readonly IBuilderProvider builderProvider;
         private readonly ITypeLoader typeLoader;
         private readonly ILogger logger;
+        private readonly IPipelineCreationContext context;
 
         public string Name => "DefaultStageBuilder";
 
-        public StageBuilder(IBuilderProvider builderProvider, ITypeLoader typeLoader, ILogger logger)
+        public StageBuilder(IBuilderProvider builderProvider, ITypeLoader typeLoader, ILogger logger, IPipelineCreationContext context)
         {
             this.builderProvider = builderProvider;
             this.typeLoader = typeLoader;
             this.logger = logger;
+            this.context = context;
         }
 
         public StageContainer Build(JObject configuration)
@@ -86,7 +88,7 @@ namespace ForgedOnce.Environment.Builders
 
             var method = factoryInterface.GetMethod(nameof(ICodeGenerationPluginFactory<object, object, CodeFile>.CreatePlugin));
 
-            var parameters = new object[] { pluginConfig.PluginFactory.Configuration, preprocessor };
+            var parameters = new object[] { pluginConfig.PluginFactory.Configuration, this.context, preprocessor };
 
             var pluginInstance = method.Invoke(pluginFactory, parameters);
 
