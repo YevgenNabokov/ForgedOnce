@@ -20,7 +20,6 @@ namespace ForgedOnce.Environment.Workspace.CodeAnalysis
         {
             Dictionary<string, Compilation> result = new Dictionary<string, Compilation>();
             Dictionary<string, CompilationReference> compilationReferences = new Dictionary<string, CompilationReference>();
-            Dictionary<string, List<MetadataReference>> projectReferences = new Dictionary<string, List<MetadataReference>>();
 
             var chains = this.workspaceManager.GetProjectsDependencyChains(projectNames);
 
@@ -35,11 +34,9 @@ namespace ForgedOnce.Environment.Workspace.CodeAnalysis
                     {
                         var project = this.workspaceManager.FindProject(name);
 
-                        projectReferences.Add(name, new List<MetadataReference>(project.MetadataReferences));
-
                         if (chainReferences.Count > 0)
                         {
-                            project = project.WithMetadataReferences(chainReferences);
+                            project = project.WithMetadataReferences(project.MetadataReferences.Concat(chainReferences));
                         }
 
                         var compilation = project.GetCompilationAsync().Result;
@@ -49,7 +46,6 @@ namespace ForgedOnce.Environment.Workspace.CodeAnalysis
                         result.Add(name, compilation);
                     }
 
-                    chainReferences.AddRange(projectReferences[name]);
                     chainReferences.Add(compilationReferences[name]);
                 }
             }
