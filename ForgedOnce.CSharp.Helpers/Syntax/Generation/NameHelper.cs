@@ -22,5 +22,15 @@ namespace ForgedOnce.CSharp.Helpers.Syntax.Generation
 
             return name.Substring(0, 1).ToLower() + (name.Length > 1 ? name.Substring(1) : string.Empty);
         }
+
+        public static string FirstCharToUpper(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return name;
+            }
+
+            return name.Substring(0, 1).ToUpper() + (name.Length > 1 ? name.Substring(1) : string.Empty);
+        }
     }
 }
