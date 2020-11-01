@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using ForgedOnce.Core.Metadata;
-using ForgedOnce.TsLanguageServices.ModelBuilder.DefinitionTree;
+using ForgedOnce.TsLanguageServices.FullSyntaxTree.AstModel;
 
 namespace ForgedOnce.TypeScript.Metadata
 {
     public class SyntaxTreeMappedVisitor<TContext> where TContext : SyntaxTreeMappedVisitorContext
     {
         public void Start(
-            Node syntaxNode,
+            StNode syntaxNode,
             TContext context,
-            Func<Node, TContext, bool> onNodeEntry = null,
-            Action<Node, TContext> onNodeExit = null,
+            Func<StNode, TContext, bool> onNodeEntry = null,
+            Action<StNode, TContext> onNodeExit = null,
             NodePath pathToFollow = null,
             int pathToFollowStartLevelIndex = 0
             )
@@ -21,10 +21,10 @@ namespace ForgedOnce.TypeScript.Metadata
         }
 
         private void Visit(
-            Node node,
+            StNode node,
             TContext context,
-            Func<Node, TContext, bool> onNodeEntry = null,
-            Action<Node, TContext> onNodeExit = null,
+            Func<StNode, TContext, bool> onNodeEntry = null,
+            Action<StNode, TContext> onNodeExit = null,
             NodePath pathToFollow = null,
             int pathToFollowStartLevelIndex = 0)
         {
@@ -64,10 +64,10 @@ namespace ForgedOnce.TypeScript.Metadata
 
         private void VisitBranch(
             SyntaxTreeMapBranchInfo branch,
-            Node node,
+            StNode node,
             TContext context,
-            Func<Node, TContext, bool> onNodeEntry,
-            Action<Node, TContext> onNodeExit,
+            Func<StNode, TContext, bool> onNodeEntry,
+            Action<StNode, TContext> onNodeExit,
             NodePath pathToFollow = null,
             int pathToFollowStartLevelIndex = 0)
         {
@@ -76,7 +76,7 @@ namespace ForgedOnce.TypeScript.Metadata
             {
                 if (branch.IsCollection)
                 {
-                    var nodeCollection = propValue as IReadOnlyList<Node>;
+                    var nodeCollection = propValue as IReadOnlyList<StNode>;
                     for (var i = 0; i < nodeCollection.Count; i++)
                     {
                         context.CurrentPath.Push(new NodePathLevel(branch.Property.Name, i));
@@ -87,7 +87,7 @@ namespace ForgedOnce.TypeScript.Metadata
                 else
                 {
                     context.CurrentPath.Push(new NodePathLevel(branch.Property.Name, null));
-                    this.Visit((Node)propValue, context, onNodeEntry, onNodeExit, pathToFollow, pathToFollowStartLevelIndex + 1);
+                    this.Visit((StNode)propValue, context, onNodeEntry, onNodeExit, pathToFollow, pathToFollowStartLevelIndex + 1);
                     context.CurrentPath.Pop();
                 }
             }

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using ForgedOnce.TsLanguageServices.FullSyntaxTree.AstModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using ForgedOnce.TsLanguageServices.ModelBuilder.DefinitionTree;
 
 namespace ForgedOnce.TypeScript.Metadata
 {
@@ -33,10 +33,10 @@ namespace ForgedOnce.TypeScript.Metadata
 
         private static IReadOnlyDictionary<Type, IReadOnlyDictionary<string, SyntaxTreeMapBranchInfo>> BuildMap()
         {
-            var cSharpSyntaxNamespace = string.Join(".", nameof(ForgedOnce), nameof(ForgedOnce.TsLanguageServices), nameof(ForgedOnce.TsLanguageServices.ModelBuilder), nameof(ForgedOnce.TsLanguageServices.ModelBuilder.DefinitionTree));
+            var cSharpSyntaxNamespace = string.Join(".", nameof(ForgedOnce), nameof(ForgedOnce.TsLanguageServices), nameof(ForgedOnce.TsLanguageServices.FullSyntaxTree), nameof(ForgedOnce.TsLanguageServices.FullSyntaxTree.AstModel));
             Dictionary<Type, IReadOnlyDictionary<string, SyntaxTreeMapBranchInfo>> result = new Dictionary<Type, IReadOnlyDictionary<string, SyntaxTreeMapBranchInfo>>();
 
-            foreach (var type in typeof(Node).Assembly.GetTypes())
+            foreach (var type in typeof(StNode).Assembly.GetTypes())
             {
                 if (type.Namespace == cSharpSyntaxNamespace)
                 {
@@ -55,7 +55,7 @@ namespace ForgedOnce.TypeScript.Metadata
                                 itemType = collectionType.GetGenericArguments().First();
                             }
 
-                            if (typeof(Node).IsAssignableFrom(itemType))
+                            if (typeof(StNode).IsAssignableFrom(itemType))
                             {
                                 typeInfo.Add(p.Name, new SyntaxTreeMapBranchInfo(p, itemType, isCollection));
                                 continue;

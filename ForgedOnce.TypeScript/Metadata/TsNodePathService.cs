@@ -1,7 +1,7 @@
 ﻿using ForgedOnce.Core;
 using ForgedOnce.Core.Metadata;
 using ForgedOnce.Core.Metadata.Interfaces;
-using ForgedOnce.TsLanguageServices.ModelBuilder.DefinitionTree;
+using ForgedOnce.TsLanguageServices.FullSyntaxTree.AstModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +9,18 @@ using System.Text;
 
 namespace ForgedOnce.TypeScript.Metadata
 {
-    public class TsNodePathService : INodePathService<Node>
+    public class TsNodePathService : INodePathService<StNode>
     {
-        private readonly CodeFileTsModel codeFileTs;
+        private readonly CodeFileTs codeFileTs;
 
         private SyntaxTreeMappedVisitor<SyntaxTreeMappedVisitorContext> mappedVisitor = new SyntaxTreeMappedVisitor<SyntaxTreeMappedVisitorContext>();
 
-        public TsNodePathService(CodeFileTsModel codeFileTs)
+        public TsNodePathService(CodeFileTs codeFileTs)
         {
             this.codeFileTs = codeFileTs;
         }
 
-        public ISingleNodeSnapshot GetSingleNodeSnapshot(Node astNode)
+        public ISingleNodeSnapshot GetSingleNodeSnapshot(StNode astNode)
         {
             var result = new SingleNodeSnapshot(this.codeFileTs, this.mappedVisitor);
             result.Initialize(astNode);
@@ -28,7 +28,7 @@ namespace ForgedOnce.TypeScript.Metadata
             return result;
         }
 
-        public ISubTreeSnapshot GetSubTreeSnapshot(Node astNode)
+        public ISubTreeSnapshot GetSubTreeSnapshot(StNode astNode)
         {
             var result = new SubTreeSnapshot(this.codeFileTs, this.mappedVisitor);
             result.Initialize(astNode);
@@ -36,7 +36,7 @@ namespace ForgedOnce.TypeScript.Metadata
             return result;
         }
 
-        public NodePath GetNodePath(Node astNode)
+        public NodePath GetNodePath(StNode astNode)
         {
             var found = false;
             NodePath result = null;
@@ -48,7 +48,7 @@ namespace ForgedOnce.TypeScript.Metadata
                     if (n == astNode)
                     {
                         found = true;
-                        result = new NodePath(Languages.LimitedTypeScript, c.CurrentPath.Reverse());
+                        result = new NodePath(Languages.TypeScript, c.CurrentPath.Reverse());
                     }
 
                     return !found;
@@ -56,9 +56,9 @@ namespace ForgedOnce.TypeScript.Metadata
             return result;
         }
 
-        public Node ResolveNode(NodePath nodePath)
+        public StNode ResolveNode(NodePath nodePath)
         {
-            Node result = null;
+            StNode result = null;
 
             if (nodePath.Levels.Count > 0 && nodePath.Levels[0].Name == this.codeFileTs.Id)
             {

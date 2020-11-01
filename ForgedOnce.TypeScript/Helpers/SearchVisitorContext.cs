@@ -1,4 +1,4 @@
-﻿using ForgedOnce.TsLanguageServices.ModelBuilder.DefinitionTree;
+﻿using ForgedOnce.TsLanguageServices.FullSyntaxTree.AstModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,8 +9,8 @@ namespace ForgedOnce.TypeScript.Helpers
     {
         public Type SearchedType;
 
-        public Func<Node, bool> Selector;
+        public Func<StNodeBase, bool> Selector;
 
-        public List<Node> Result = new List<Node>();
+        public List<StNodeBase> Result = new List<StNodeBase>();
     }
 }

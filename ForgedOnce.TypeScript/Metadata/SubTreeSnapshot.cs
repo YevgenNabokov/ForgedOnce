@@ -3,22 +3,22 @@ using ForgedOnce.Core.Metadata.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ForgedOnce.TsLanguageServices.ModelBuilder.DefinitionTree;
 using ForgedOnce.Core;
 using System.Linq;
+using ForgedOnce.TsLanguageServices.FullSyntaxTree.AstModel;
 
 namespace ForgedOnce.TypeScript.Metadata
 {
     public class SubTreeSnapshot : SnapshotBase, ISubTreeSnapshot
     {
         public SubTreeSnapshot(
-            CodeFileTsModel codeFileTs,
+            CodeFileTs codeFileTs,
             SyntaxTreeMappedVisitor<SyntaxTreeMappedVisitorContext> mappedVisitor)
             : base(codeFileTs, mappedVisitor)
         {
         }
 
-        protected override NodePath GetInitialRootPath(Node astNode, bool annotate = true)
+        protected override NodePath GetInitialRootPath(StNode astNode, bool annotate = true)
         {
             this.annotationId = Guid.NewGuid().ToString();
 
@@ -31,7 +31,7 @@ namespace ForgedOnce.TypeScript.Metadata
                 {
                     if (n == astNode)
                     {
-                        nodePath = new NodePath(Languages.LimitedTypeScript, c.CurrentPath.Reverse());
+                        nodePath = new NodePath(Languages.TypeScript, c.CurrentPath.Reverse());
                     }
 
                     return nodePath == null || (annotate && !leftRootNode);
@@ -40,7 +40,7 @@ namespace ForgedOnce.TypeScript.Metadata
                 {
                     if (annotate && nodePath != null && c.CurrentPath.Count >= nodePath.Levels.Count)
                     {
-                        var path = NodePath.PartsToString(Languages.LimitedTypeScript, c.CurrentPath.Reverse());
+                        var path = NodePath.PartsToString(Languages.TypeScript, c.CurrentPath.Reverse());
                         if (nodePath.Levels.Count == c.CurrentPath.Count)
                         {
                             leftRootNode = true;
@@ -66,8 +66,8 @@ namespace ForgedOnce.TypeScript.Metadata
 
             var originalPathAnnotationKey = this.GetOriginalPathAnnotationKey();
 
-            Dictionary<Node, MetadataRoot> result = new Dictionary<Node, MetadataRoot>();
-            Stack<Node> rootsStack = new Stack<Node>();
+            Dictionary<StNode, MetadataRoot> result = new Dictionary<StNode, MetadataRoot>();
+            Stack<StNode> rootsStack = new Stack<StNode>();
 
             this.mappedVisitor.Start(
                 this.codeFileTs.Model,
@@ -80,17 +80,17 @@ namespace ForgedOnce.TypeScript.Metadata
                         if (rootsStack.Count == 0)
                         {
                             rootsStack.Push(n);
-                            result.Add(n, new MetadataRoot(originalPath, new NodePath(Languages.LimitedTypeScript, c.CurrentPath.Reverse())));
+                            result.Add(n, new MetadataRoot(originalPath, new NodePath(Languages.TypeScript, c.CurrentPath.Reverse())));
                         }
                         else
                         {
                             var lastRoot = result[rootsStack.Peek()];
-                            var currentPath = new NodePath(Languages.LimitedTypeScript, c.CurrentPath.Reverse());
+                            var currentPath = new NodePath(Languages.TypeScript, c.CurrentPath.Reverse());
                             if (!originalPath.StartsWith(lastRoot.OriginalPath)
                             || !currentPath.RelativeTo(lastRoot.CurrentPath).Equals(originalPath.RelativeTo(lastRoot.OriginalPath)))
                             {
                                 rootsStack.Push(n);
-                                result.Add(n, new MetadataRoot(originalPath, new NodePath(Languages.LimitedTypeScript, c.CurrentPath.Reverse())));
+                                result.Add(n, new MetadataRoot(originalPath, new NodePath(Languages.TypeScript, c.CurrentPath.Reverse())));
                             }
                         }
                     }

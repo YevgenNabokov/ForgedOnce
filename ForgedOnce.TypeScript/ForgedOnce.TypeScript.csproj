@@ -7,7 +7,7 @@
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>0.6.8</Version>
+    <Version>1.0.0</Version>
     <PackageId>ForgedOnce.TypeScript</PackageId>
     <Authors>Yevgen Nabokov</Authors>
     <Company />
@@ -18,10 +18,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelBuilder" Version="0.1.15" />
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelToCode" Version="0.2.17">
-      <GeneratePathProperty>true</GeneratePathProperty>
-    </PackageReference>
+    <PackageReference Include="ForgedOnce.TsLanguageServices.Host" Version="0.1.0" GeneratePathProperty="true" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
   </ItemGroup>
@@ -32,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(PkgForgedOnce_TsLanguageServices_ModelToCode)\lib\netstandard2.0\CodeGeneratorJs\**\*.*">
+    <None Include="$(PkgForgedOnce_TsLanguageServices_Host)\lib\netstandard2.0\CodeGeneratorJs\**\*.*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Link>CodeGeneratorJs\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <Pack>true</Pack>
@@ -46,6 +43,10 @@
       <Pack>true</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
   </ItemGroup>
 
 </Project>
