@@ -8,9 +8,9 @@ using System.Text;
 
 namespace TsAddPropertyPlugin
 {
-    public class PluginFactory : ICodeGenerationPluginFactory<Settings, Parameters, CodeFileTsModel>
+    public class PluginFactory : ICodeGenerationPluginFactory<Settings, Parameters, CodeFileTs>
     {
-        public ICodeGenerationPlugin CreatePlugin(JObject configuration, IPipelineCreationContext context, IPluginPreprocessor<CodeFileTsModel, Parameters, Settings> pluginPreprocessor = null)
+        public ICodeGenerationPlugin CreatePlugin(JObject configuration, IPipelineCreationContext context, IPluginPreprocessor<CodeFileTs, Parameters, Settings> pluginPreprocessor = null)
         {
             return new Plugin()
             {

@@ -19,7 +19,7 @@ namespace ForgedOnce.TypeScript
         private readonly ITsHost tsHost;
 
         public CodeFileEnvironmentHandlerTs(IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger)
-            : this(fileSystem, new CodeFileStorageHandlerTs(), new CodeFileCompilationHandlerTs(pipelineExecutionInfo, logger), pipelineExecutionInfo)
+            : this(fileSystem, new CodeFileStorageHandlerTs(fileSystem), new CodeFileCompilationHandlerTs(pipelineExecutionInfo, logger), pipelineExecutionInfo)
         {            
         }
 

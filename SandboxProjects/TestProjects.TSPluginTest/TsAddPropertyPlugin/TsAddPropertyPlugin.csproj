@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.TsLanguageServices.ModelBuilder" Version="0.1.9" />
-    <PackageReference Include="ForgedOnce.TypeScript" Version="0.6.0" />
+    <PackageReference Include="ForgedOnce.TypeScript" Version="1.0.1" />
   </ItemGroup>
 
 </Project>

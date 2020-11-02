@@ -7,9 +7,9 @@ using System.Text;
 
 namespace TsAddPropertyPlugin
 {
-    public class Preprocessor : IPluginPreprocessor<CodeFileTsModel, Parameters, Settings>
+    public class Preprocessor : IPluginPreprocessor<CodeFileTs, Parameters, Settings>
     {
-        public Parameters GenerateParameters(CodeFileTsModel input, Settings pluginSettings, IMetadataReader metadataReader, ILogger logger, IFileGroup<CodeFileTsModel, GroupItemDetails> fileGroup = null)
+        public Parameters GenerateParameters(CodeFileTs input, Settings pluginSettings, IMetadataReader metadataReader, ILogger logger, IFileGroup<CodeFileTs, GroupItemDetails> fileGroup = null)
         {
             return new Parameters();
         }
