@@ -45,6 +45,15 @@ namespace TsAddPropertyPlugin
                     .WithModifier(new StPublicKeywordToken())
                     .WithName(new StIdentifier().WithEscapedText("f"))
                     .WithType(new StKeywordTypeNodeNumberKeyword()));
+
+                if (inputParameters.AdditionalProperty)
+                {
+                    c.WithMember(
+                    new StPropertyDeclaration()
+                    .WithModifier(new StPublicKeywordToken())
+                    .WithName(new StIdentifier().WithEscapedText("additionalF"))
+                    .WithType(new StKeywordTypeNodeNumberKeyword()));
+                }
             }
         }
     }

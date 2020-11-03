@@ -22,7 +22,7 @@ namespace TsTestPlugin
         {
             this.Signature = new ForgedOnce.Core.Plugins.PluginSignature()
             {
-                Id = new Guid().ToString(),
+                Id = "TsTestPlugin",
                 InputLanguage = Languages.CSharp,
                 Name = nameof(Plugin)
             };
@@ -48,6 +48,8 @@ namespace TsTestPlugin
                     .WithModifier(new StExportKeywordToken());
 
                 outFile.Model.statements.Add(definition);
+
+                metadataRecorder.SymbolGenerated(outFile.NodePathService, definition, new Dictionary<string, string>() { { "FROM_CSharp", "true" } });
             }
         }
     }
