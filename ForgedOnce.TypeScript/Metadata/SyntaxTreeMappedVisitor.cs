@@ -9,10 +9,10 @@ namespace ForgedOnce.TypeScript.Metadata
     public class SyntaxTreeMappedVisitor<TContext> where TContext : SyntaxTreeMappedVisitorContext
     {
         public void Start(
-            StNode syntaxNode,
+            IStNode syntaxNode,
             TContext context,
-            Func<StNode, TContext, bool> onNodeEntry = null,
-            Action<StNode, TContext> onNodeExit = null,
+            Func<IStNode, TContext, bool> onNodeEntry = null,
+            Action<IStNode, TContext> onNodeExit = null,
             NodePath pathToFollow = null,
             int pathToFollowStartLevelIndex = 0
             )
@@ -21,10 +21,10 @@ namespace ForgedOnce.TypeScript.Metadata
         }
 
         private void Visit(
-            StNode node,
+            IStNode node,
             TContext context,
-            Func<StNode, TContext, bool> onNodeEntry = null,
-            Action<StNode, TContext> onNodeExit = null,
+            Func<IStNode, TContext, bool> onNodeEntry = null,
+            Action<IStNode, TContext> onNodeExit = null,
             NodePath pathToFollow = null,
             int pathToFollowStartLevelIndex = 0)
         {
@@ -64,10 +64,10 @@ namespace ForgedOnce.TypeScript.Metadata
 
         private void VisitBranch(
             SyntaxTreeMapBranchInfo branch,
-            StNode node,
+            IStNode node,
             TContext context,
-            Func<StNode, TContext, bool> onNodeEntry,
-            Action<StNode, TContext> onNodeExit,
+            Func<IStNode, TContext, bool> onNodeEntry,
+            Action<IStNode, TContext> onNodeExit,
             NodePath pathToFollow = null,
             int pathToFollowStartLevelIndex = 0)
         {
@@ -76,7 +76,7 @@ namespace ForgedOnce.TypeScript.Metadata
             {
                 if (branch.IsCollection)
                 {
-                    var nodeCollection = propValue as IReadOnlyList<StNode>;
+                    var nodeCollection = propValue as IReadOnlyList<IStNode>;
                     for (var i = 0; i < nodeCollection.Count; i++)
                     {
                         context.CurrentPath.Push(new NodePathLevel(branch.Property.Name, i));

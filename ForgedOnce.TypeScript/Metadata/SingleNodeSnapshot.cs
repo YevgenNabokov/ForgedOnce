@@ -48,7 +48,7 @@ namespace ForgedOnce.TypeScript.Metadata
             return new MetadataRoot(this.originalRootPath, currentPath);
         }
 
-        protected override NodePath GetInitialRootPath(StNode astNode, bool annotate = true)
+        protected override NodePath GetInitialRootPath(IStNode astNode, bool annotate = true)
         {
             this.annotationId = Guid.NewGuid().ToString();
             NodePath nodePath = null;

@@ -30,7 +30,7 @@ namespace ForgedOnce.TypeScript.Metadata
 
         public string AnnotationId => this.annotationId;
 
-        public void Initialize(StNode astNode)
+        public void Initialize(IStNode astNode)
         {
             this.annotationId = Guid.NewGuid().ToString();
             this.originalRootPath = this.GetInitialRootPath(astNode, !this.codeFileTs.IsReadOnly);
@@ -41,7 +41,7 @@ namespace ForgedOnce.TypeScript.Metadata
             }
         }
 
-        protected abstract NodePath GetInitialRootPath(StNode astNode, bool annotate = true);
+        protected abstract NodePath GetInitialRootPath(IStNode astNode, bool annotate = true);
 
         public string GetSnapshotRootAnnotationKey()
         {

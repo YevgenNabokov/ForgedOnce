@@ -18,7 +18,7 @@ namespace ForgedOnce.TypeScript.Metadata
         {
         }
 
-        protected override NodePath GetInitialRootPath(StNode astNode, bool annotate = true)
+        protected override NodePath GetInitialRootPath(IStNode astNode, bool annotate = true)
         {
             this.annotationId = Guid.NewGuid().ToString();
 
@@ -66,8 +66,8 @@ namespace ForgedOnce.TypeScript.Metadata
 
             var originalPathAnnotationKey = this.GetOriginalPathAnnotationKey();
 
-            Dictionary<StNode, MetadataRoot> result = new Dictionary<StNode, MetadataRoot>();
-            Stack<StNode> rootsStack = new Stack<StNode>();
+            Dictionary<IStNode, MetadataRoot> result = new Dictionary<IStNode, MetadataRoot>();
+            Stack<IStNode> rootsStack = new Stack<IStNode>();
 
             this.mappedVisitor.Start(
                 this.codeFileTs.Model,

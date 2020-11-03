@@ -55,7 +55,7 @@ namespace ForgedOnce.TypeScript.Metadata
                                 itemType = collectionType.GetGenericArguments().First();
                             }
 
-                            if (typeof(StNode).IsAssignableFrom(itemType))
+                            if (typeof(IStNode).IsAssignableFrom(itemType))
                             {
                                 typeInfo.Add(p.Name, new SyntaxTreeMapBranchInfo(p, itemType, isCollection));
                                 continue;

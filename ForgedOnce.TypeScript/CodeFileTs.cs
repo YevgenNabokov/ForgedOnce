@@ -47,7 +47,7 @@ namespace ForgedOnce.TypeScript
             this.model = model;
         }
 
-        public INodePathService<StNode> NodePathService
+        public INodePathService<IStNode> NodePathService
         {
             get;
             private set;

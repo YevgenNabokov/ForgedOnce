@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ForgedOnce.TypeScript.Metadata
 {
-    public class TsNodePathService : INodePathService<StNode>
+    public class TsNodePathService : INodePathService<IStNode>
     {
         private readonly CodeFileTs codeFileTs;
 
@@ -20,7 +20,7 @@ namespace ForgedOnce.TypeScript.Metadata
             this.codeFileTs = codeFileTs;
         }
 
-        public ISingleNodeSnapshot GetSingleNodeSnapshot(StNode astNode)
+        public ISingleNodeSnapshot GetSingleNodeSnapshot(IStNode astNode)
         {
             var result = new SingleNodeSnapshot(this.codeFileTs, this.mappedVisitor);
             result.Initialize(astNode);
@@ -28,7 +28,7 @@ namespace ForgedOnce.TypeScript.Metadata
             return result;
         }
 
-        public ISubTreeSnapshot GetSubTreeSnapshot(StNode astNode)
+        public ISubTreeSnapshot GetSubTreeSnapshot(IStNode astNode)
         {
             var result = new SubTreeSnapshot(this.codeFileTs, this.mappedVisitor);
             result.Initialize(astNode);
@@ -36,7 +36,7 @@ namespace ForgedOnce.TypeScript.Metadata
             return result;
         }
 
-        public NodePath GetNodePath(StNode astNode)
+        public NodePath GetNodePath(IStNode astNode)
         {
             var found = false;
             NodePath result = null;
@@ -56,9 +56,9 @@ namespace ForgedOnce.TypeScript.Metadata
             return result;
         }
 
-        public StNode ResolveNode(NodePath nodePath)
+        public IStNode ResolveNode(NodePath nodePath)
         {
-            StNode result = null;
+            IStNode result = null;
 
             if (nodePath.Levels.Count > 0 && nodePath.Levels[0].Name == this.codeFileTs.Id)
             {
