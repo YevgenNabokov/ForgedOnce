@@ -1,5 +1,6 @@
 ﻿using ForgedOnce.Core.Metadata.Interfaces;
-using ForgedOnce.TsLanguageServices.ModelBuilder.SyntaxTools;
+using ForgedOnce.TsLanguageServices.FullSyntaxTree.AstModel;
+using ForgedOnce.TsLanguageServices.FullSyntaxTree.TransportModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,12 +9,15 @@ namespace ForgedOnce.TypeScript
 {
     public static class TsSyntaxUtils
     {
-        public static void CloneContent(CodeFileTsModel source, CodeFileTsModel target, IMetadataRecorder metadataRecorder)
+        public static void CloneContent(CodeFileTs source, CodeFileTs target, IMetadataRecorder metadataRecorder)
         {
             if (source.Model != null)
             {
-                CloningDefinitionTreeVisitor cloner = new CloningDefinitionTreeVisitor();
-                target.Model = cloner.CloneNode(source.Model);
+                var transport = (Node)source.Model.GetTransportModelNode();
+
+                ModelConverter converter = new ModelConverter();
+
+                target.Model = (StRoot)converter.ConvertFromNode(transport);
             }
         }
     }

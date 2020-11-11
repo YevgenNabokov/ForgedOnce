@@ -3,28 +3,31 @@ using ForgedOnce.Core.Metadata.Interfaces;
 using ForgedOnce.Environment.Workspace;
 using ForgedOnce.TypeScript.Helpers;
 using ForgedOnce.TypeScript.Metadata;
-using ForgedOnce.TsLanguageServices.ModelBuilder.DefinitionTree;
-using ForgedOnce.TsLanguageServices.ModelBuilder.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ForgedOnce.TsLanguageServices.FullSyntaxTree.AstModel;
+using ForgedOnce.TsLanguageServices.Host.Interfaces;
+using System.Linq;
+using ForgedOnce.TsLanguageServices.FullSyntaxTree.TransportModel;
 
 namespace ForgedOnce.TypeScript
 {
-    public class CodeFileTsModel : CodeFile
+    public class CodeFileTs : CodeFile
     {
         private bool isDefinition;
-        private FileRoot model;
+        private StRoot model;
+        private readonly ITsHost tsHost;
 
-        public override string Language => Languages.LimitedTypeScript;
+        public override string Language => Languages.TypeScript;
 
-        public CodeFileTsModel(string id, string name, ILtsTypeRepository ltsTypeRepository)
+        public CodeFileTs(string id, string name, ITsHost tsHost)
             : base(id, name)
         {
-            this.TypeRepository = ltsTypeRepository;
             this.NodePathService = new TsNodePathService(this);
-            this.Model = new FileRoot();
+            this.Model = new StRoot();
+            this.tsHost = tsHost;
         }
 
         public bool IsDefinition
@@ -33,24 +36,18 @@ namespace ForgedOnce.TypeScript
             set { this.EnsureFileIsEditable(); isDefinition = value; }
         }
 
-        public FileRoot Model
+        public StRoot Model
         {
             get => model;
             set { this.EnsureFileIsEditable(); model = value; }
         }
 
-        internal void SetModelOverrideReadonly(FileRoot model)
+        internal void SetModelOverrideReadonly(StRoot model)
         {
             this.model = model;
         }
 
-        public INodePathService<Node> NodePathService
-        {
-            get;
-            private set;
-        }
-
-        public ILtsTypeRepository TypeRepository
+        public INodePathService<IStNode> NodePathService
         {
             get;
             private set;
@@ -90,7 +87,9 @@ namespace ForgedOnce.TypeScript
         {
             if (this.Model != null)
             {
-                return JsonConvert.SerializeObject(this.Model);
+                var statemenets = this.Model.statements.Select(s => (IStatement)s.GetTransportModelNode()).ToArray();
+
+                return this.tsHost.Print(statemenets, ScriptKind.Unknown);
             }
 
             return null;
@@ -98,7 +97,18 @@ namespace ForgedOnce.TypeScript
 
         protected override void SourceCodeTextUpdated(string newSourceCode)
         {
-            this.Model = JsonConvert.DeserializeObject<FileRoot>(newSourceCode);
+            var statements = this.tsHost.Parse(newSourceCode, ScriptKind.Unknown);
+            ModelConverter converter = new ModelConverter();
+            var astStatements = statements.Select(s => (IStStatement)converter.ConvertFromNode(s)).ToArray();
+
+            var root = new StRoot();
+
+            foreach (var statement in astStatements)
+            {
+                root.statements.Add(statement);
+            }
+
+            this.Model = root;
         }
     }
 }

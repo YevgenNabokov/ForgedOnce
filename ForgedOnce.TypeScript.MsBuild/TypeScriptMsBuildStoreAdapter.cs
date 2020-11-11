@@ -18,7 +18,7 @@ namespace ForgedOnce.TypeScript.MsBuild
 
         public override bool CodeFileSupported(CodeFile codeFile)
         {
-            return codeFile is CodeFileTsText;
+            return codeFile is CodeFileTs;
         }
     }
 }

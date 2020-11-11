@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.CSharp" Version="0.5.0" />
-    <PackageReference Include="ForgedOnce.CSharp.Helpers" Version="0.1.0" />
+    <PackageReference Include="ForgedOnce.CSharp" Version="0.5.2" />
+    <PackageReference Include="ForgedOnce.CSharp.Helpers" Version="0.1.8" />
   </ItemGroup>
   
 </Project>

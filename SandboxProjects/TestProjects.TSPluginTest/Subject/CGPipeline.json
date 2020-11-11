@@ -4,7 +4,8 @@
     { "type": "ForgedOnce.TypeScript.TsCodeFileHandlerFactory, ForgedOnce.TypeScript" }
   ],
   "inputs": {
-    "InputOne": "CSharp:Project:Subject/SourceModels/*.cs"
+    "InputOne": "CSharp:Project:Subject/SourceModels/*.cs",
+    "InputTwo": "TypeScript:FileSystem:..\\Product\\TypeScripts\\Something.ts"
   },
   "batches": [
     {
@@ -26,7 +27,8 @@
             }
           }
         }
-      ]
+      ],
+      "persistInputCodeStreams": [ "InputTwo" ]
     },
     {
       "name": "Batch02",
@@ -38,7 +40,8 @@
           },
           "input": {
             "settings": {
-              "PassThrough": "*.ts"
+              "PassThrough": "*.ts",
+              "InputTwo": "*.ts"
             }
           },
           "output": {

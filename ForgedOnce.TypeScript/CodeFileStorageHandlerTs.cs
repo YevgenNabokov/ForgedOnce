@@ -2,6 +2,7 @@
 using ForgedOnce.Environment.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Text;
 
 namespace ForgedOnce.TypeScript
@@ -9,6 +10,13 @@ namespace ForgedOnce.TypeScript
     public class CodeFileStorageHandlerTs : ICodeFileStorageHandler
     {
         private List<CodeFile> codeFiles = new List<CodeFile>();
+
+        private readonly IFileSystem fileSystem;
+
+        public CodeFileStorageHandlerTs(IFileSystem fileSystem)
+        {
+            this.fileSystem = fileSystem;
+        }
 
         public void Add(CodeFile codeFile)
         {
@@ -28,17 +36,25 @@ namespace ForgedOnce.TypeScript
 
         public void ResolveCodeFile(CodeFile codeFile, bool resolveSourceCodeText = true, bool resolveLocation = true)
         {
-            throw new NotSupportedException();
-        }
-
-        public string ResolveCodeFileName(CodeFileLocation location)
-        {
-            throw new NotSupportedException();
+            if (this.fileSystem.File.Exists(codeFile.Location.FilePath))
+            {
+                codeFile.SourceCodeText = this.fileSystem.File.ReadAllText(codeFile.Location.FilePath);
+            }
         }
 
         public bool CanResolveCodeFileName(CodeFileLocation location)
         {
-            throw new NotSupportedException();
+            return this.fileSystem.File.Exists(location.FilePath);
+        }
+
+        public string ResolveCodeFileName(CodeFileLocation location)
+        {
+            if (this.fileSystem.File.Exists(location.FilePath))
+            {
+                return this.fileSystem.Path.GetFileName(location.FilePath);
+            }
+
+            return null;
         }
     }
 }

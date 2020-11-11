@@ -1,5 +1,4 @@
-﻿using ForgedOnce.TsLanguageServices.ModelBuilder;
-using ForgedOnce.TsLanguageServices.ModelBuilder.DefinitionTree;
+﻿using ForgedOnce.TsLanguageServices.FullSyntaxTree.AstModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +6,9 @@ using System.Text;
 
 namespace ForgedOnce.TypeScript.Helpers
 {
-    public class SearchVisitor : BuilderDefinitionTreeVisitor<SearchVisitorContext>
+    public class SearchVisitor
     {
-        public IEnumerable<TNode> FindNodes<TNode>(Node node, Func<Node, bool> selector = null) where TNode: Node
+        public IEnumerable<TNode> FindNodes<TNode>(StNodeBase node, Func<StNodeBase, bool> selector = null) where TNode: StNode
         {
             SearchVisitorContext context = new SearchVisitorContext()
             {
@@ -22,7 +21,7 @@ namespace ForgedOnce.TypeScript.Helpers
             return context.Result.Cast<TNode>();
         }        
 
-        public override void Visit(Node node, SearchVisitorContext context)
+        public void Visit(StNodeBase node, SearchVisitorContext context)
         {
             if (node != null && context.SearchedType != null 
                 && (context.SearchedType == null || context.SearchedType.IsAssignableFrom(node.GetType()))
@@ -31,7 +30,10 @@ namespace ForgedOnce.TypeScript.Helpers
                 context.Result.Add(node);
             }
 
-            base.Visit(node, context);
+            foreach (var childNode in node.ChildNodes)
+            {
+                this.Visit(childNode, context);
+            }
         }
     }
 }

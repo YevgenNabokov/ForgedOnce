@@ -5,11 +5,8 @@ using ForgedOnce.TypeScript.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ForgedOnce.TsLanguageServices.ModelBuilder.DefinitionTree;
 using ForgedOnce.Core.Interfaces;
 using ForgedOnce.Core.Pipeline;
-using ForgedOnce.TsLanguageServices.ModelBuilder.SyntaxTools;
-using ForgedOnce.TsLanguageServices.ModelBuilder.TypeData;
 
 namespace ForgedOnce.TypeScript
 {
@@ -19,9 +16,7 @@ namespace ForgedOnce.TypeScript
         private readonly ILogger logger;
         private SearchVisitor search = new SearchVisitor();
 
-        private UpdateTypeReferencesVisitor referenceUpdater = new UpdateTypeReferencesVisitor();
-
-        private List<CodeFileTsModel> codeFiles = new List<CodeFileTsModel>();
+        private List<CodeFileTs> codeFiles = new List<CodeFileTs>();
 
         public CodeFileCompilationHandlerTs(IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger)
         {
@@ -33,15 +28,11 @@ namespace ForgedOnce.TypeScript
 
         public void RefreshAndRecompile()
         {
-            foreach (var codeFile in this.codeFiles)
-            {
-                this.UpdateCodeFileTypeLocation(codeFile);
-            }
         }
 
         public void Register(CodeFile codeFile)
         {
-            var ltsCodeFile = codeFile as CodeFileTsModel;
+            var ltsCodeFile = codeFile as CodeFileTs;
             if (!this.codeFiles.Contains(ltsCodeFile))
             {
                 this.codeFiles.Add(ltsCodeFile);
@@ -50,44 +41,15 @@ namespace ForgedOnce.TypeScript
 
         public bool SupportsCodeLanguage(string language)
         {
-            return Languages.LimitedTypeScript == language;
+            return Languages.TypeScript == language;
         }
 
         public void Unregister(CodeFile codeFile)
         {
-            var ltsCodeFile = codeFile as CodeFileTsModel;
+            var ltsCodeFile = codeFile as CodeFileTs;
             if (this.codeFiles.Contains(ltsCodeFile))
             {
                 this.codeFiles.Remove(ltsCodeFile);
-            }
-        }
-
-        private void UpdateCodeFileTypeLocation(CodeFileTsModel codeFileTsModel)
-        {
-            CloningDefinitionTreeVisitor cloner = new CloningDefinitionTreeVisitor();
-            if (codeFileTsModel.Model != null)
-            {
-                var results = new List<TypeDefinitionUpdateResult>();
-                var codeFileTsModelClone = cloner.CloneNode(codeFileTsModel.Model);
-                foreach (var node in search.FindNodes<NamedTypeDefinition>(codeFileTsModelClone))
-                {
-                    var result = codeFileTsModel.TypeRepository.UpdateTypeDefinitionFile(node.TypeKey, codeFileTsModel.GetPath());
-                    node.TypeKey = result.NewTypeDefinitionId;
-                    results.Add(result);
-                }
-
-                codeFileTsModel.SetModelOverrideReadonly(codeFileTsModelClone);
-
-                foreach (var f in this.codeFiles)
-                {
-                    var modelCopy = cloner.CloneNode(f.Model);
-                    foreach (var result in results)
-                    {
-                        this.referenceUpdater.Visit(modelCopy, result.ReferneceIdUpdates);
-                    }
-
-                    f.SetModelOverrideReadonly(modelCopy);
-                }
             }
         }
     }

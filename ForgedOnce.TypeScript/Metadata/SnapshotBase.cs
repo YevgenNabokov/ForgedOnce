@@ -2,13 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ForgedOnce.TsLanguageServices.ModelBuilder.DefinitionTree;
+using ForgedOnce.TsLanguageServices.FullSyntaxTree.AstModel;
 
 namespace ForgedOnce.TypeScript.Metadata
 {
     public abstract class SnapshotBase
     {
-        protected readonly CodeFileTsModel codeFileTs;
+        protected readonly CodeFileTs codeFileTs;
 
         protected readonly SyntaxTreeMappedVisitor<SyntaxTreeMappedVisitorContext> mappedVisitor;
 
@@ -21,7 +21,7 @@ namespace ForgedOnce.TypeScript.Metadata
         protected bool treeIsAnnotated;
 
         public SnapshotBase(
-            CodeFileTsModel codeFileTs,
+            CodeFileTs codeFileTs,
             SyntaxTreeMappedVisitor<SyntaxTreeMappedVisitorContext> mappedVisitor)
         {
             this.codeFileTs = codeFileTs;
@@ -30,7 +30,7 @@ namespace ForgedOnce.TypeScript.Metadata
 
         public string AnnotationId => this.annotationId;
 
-        public void Initialize(Node astNode)
+        public void Initialize(IStNode astNode)
         {
             this.annotationId = Guid.NewGuid().ToString();
             this.originalRootPath = this.GetInitialRootPath(astNode, !this.codeFileTs.IsReadOnly);
@@ -41,7 +41,7 @@ namespace ForgedOnce.TypeScript.Metadata
             }
         }
 
-        protected abstract NodePath GetInitialRootPath(Node astNode, bool annotate = true);
+        protected abstract NodePath GetInitialRootPath(IStNode astNode, bool annotate = true);
 
         public string GetSnapshotRootAnnotationKey()
         {

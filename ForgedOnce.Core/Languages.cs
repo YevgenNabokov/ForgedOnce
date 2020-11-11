@@ -10,6 +10,6 @@ namespace ForgedOnce.Core
 
         public const string Glsl = "Glsl";
 
-        public const string LimitedTypeScript = "LimitedTypeScript";
+        public const string TypeScript = "TypeScript";
     }
 }

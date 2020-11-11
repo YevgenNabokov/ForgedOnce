@@ -1,18 +1,18 @@
 ﻿using ForgedOnce.Core;
 using ForgedOnce.Core.Metadata;
 using ForgedOnce.Core.Metadata.Interfaces;
+using ForgedOnce.TsLanguageServices.FullSyntaxTree.AstModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ForgedOnce.TsLanguageServices.ModelBuilder.DefinitionTree;
 
 namespace ForgedOnce.TypeScript.Metadata
 {
     public class SingleNodeSnapshot : SnapshotBase, ISingleNodeSnapshot
     {
         public SingleNodeSnapshot(
-            CodeFileTsModel codeFileTs,
+            CodeFileTs codeFileTs,
             SyntaxTreeMappedVisitor<SyntaxTreeMappedVisitorContext> mappedVisitor)
             : base(codeFileTs, mappedVisitor)
         {
@@ -34,7 +34,7 @@ namespace ForgedOnce.TypeScript.Metadata
                 {
                     if (n.HasAnnotation(key))
                     {
-                        currentPath = new NodePath(Languages.LimitedTypeScript, c.CurrentPath.Reverse());
+                        currentPath = new NodePath(Languages.TypeScript, c.CurrentPath.Reverse());
                     }
 
                     return currentPath == null;
@@ -48,7 +48,7 @@ namespace ForgedOnce.TypeScript.Metadata
             return new MetadataRoot(this.originalRootPath, currentPath);
         }
 
-        protected override NodePath GetInitialRootPath(Node astNode, bool annotate = true)
+        protected override NodePath GetInitialRootPath(IStNode astNode, bool annotate = true)
         {
             this.annotationId = Guid.NewGuid().ToString();
             NodePath nodePath = null;
@@ -59,7 +59,7 @@ namespace ForgedOnce.TypeScript.Metadata
                 {
                     if (n == astNode)
                     {
-                        nodePath = new NodePath(Languages.LimitedTypeScript, c.CurrentPath.Reverse());
+                        nodePath = new NodePath(Languages.TypeScript, c.CurrentPath.Reverse());
                     }
 
                     return nodePath == null;
@@ -69,7 +69,7 @@ namespace ForgedOnce.TypeScript.Metadata
                     if (annotate && n == astNode)
                     {
                         n.SetAnnotation(this.GetSnapshotRootAnnotationKey(), this.annotationId);
-                        n.SetAnnotation(this.GetOriginalPathAnnotationKey(), NodePath.PartsToString(Languages.LimitedTypeScript, c.CurrentPath.Reverse()));
+                        n.SetAnnotation(this.GetOriginalPathAnnotationKey(), NodePath.PartsToString(Languages.TypeScript, c.CurrentPath.Reverse()));
                     }
                 });
             

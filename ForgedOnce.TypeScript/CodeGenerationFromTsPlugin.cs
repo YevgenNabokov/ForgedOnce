@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ForgedOnce.TypeScript
 {
-    public abstract class CodeGenerationFromTsPlugin<TSettings, TInputParameters> : CodeGenerationPlugin<TSettings, TInputParameters, CodeFileTsModel>
+    public abstract class CodeGenerationFromTsPlugin<TSettings, TInputParameters> : CodeGenerationPlugin<TSettings, TInputParameters, CodeFileTs>
     {
     }
 }

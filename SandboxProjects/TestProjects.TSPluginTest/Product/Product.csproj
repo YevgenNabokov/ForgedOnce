@@ -199,6 +199,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="TypeScripts\Generated\SomeClass.ts" />
     <TypeScriptCompile Include="TypeScripts\Generated\SomeOtherClass.ts" />
+    <TypeScriptCompile Include="TypeScripts\Generated\Something.ts" />
     <TypeScriptCompile Include="TypeScripts\Something.ts" />
   </ItemGroup>
   <ItemGroup>
