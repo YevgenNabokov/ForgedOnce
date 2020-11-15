@@ -29,7 +29,10 @@ namespace ForgedOnce.Core.Metadata.Storage
                     {
                         if ((activityFrame.PluginId == null || activityFrame.PluginId == record.PluginId)
                             && (activityFrame.StageName == null || activityFrame.StageName == record.StageName)
-                            && (activityFrame.BatchIndex == null || activityFrame.BatchIndex == record.BatchIndex))
+                            && (activityFrame.BatchIndex == null || activityFrame.BatchIndex == record.BatchIndex)
+                            && (activityFrame.TagSelector?.TagKeys == null 
+                                || (activityFrame.TagSelector.Condition == SearchCondition.And && activityFrame.TagSelector.TagKeys.All(k => record.Tags != null && record.Tags.ContainsKey(k)))
+                                || (activityFrame.TagSelector.Condition == SearchCondition.Or && activityFrame.TagSelector.TagKeys.Any(k => record.Tags != null && record.Tags.ContainsKey(k)))))
                         {
                             resultRecord = record;
                             return true;

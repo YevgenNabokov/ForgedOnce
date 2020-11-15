@@ -18,6 +18,8 @@ namespace ForgedOnce.TypeScript
                 ModelConverter converter = new ModelConverter();
 
                 target.Model = (StRoot)converter.ConvertFromNode(transport);
+
+                metadataRecorder.SymbolSourcingFrom(source.NodePathService, source.Model, target.NodePathService, target.Model, new Dictionary<string, string>());
             }
         }
     }

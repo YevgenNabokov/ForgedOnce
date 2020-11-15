@@ -40,6 +40,64 @@ namespace ForgedOnce.Tests.Metadata.Integration
         }
 
         [Test]
+        [TestCase("TEST1", "TEST2", "TEST1", "NONE", SearchCondition.And, false)]
+        [TestCase("TEST1", "TEST2", "TEST1", "NONE", SearchCondition.Or, true)]
+        [TestCase("TEST1", "TEST2", "TEST1", "TEST2", SearchCondition.And, true)]
+        [TestCase("TEST1", "TEST2", "TEST1", null, SearchCondition.And, true)]
+        public void GeneratedBy_TagSearch_ExactMatch(string tag1, string tag2, string searchedTag1, string searchedTag2, SearchCondition condition, bool expectedMatch)
+        {
+            var subject = new MetadataStore();
+
+            var path = NodePath.FromString("Lang1:Level1/Level2/Level3/Level4");
+
+            var pathSnapshot = new Mock<ISubTreeSnapshot>();
+            pathSnapshot.Setup(s => s.ResolveRoots()).Returns(new[] { new MetadataRoot(path, path) });
+
+            var tags = new Dictionary<string, string>();
+
+            if (tag1 != null)
+            {
+                tags.Add(tag1, string.Empty);
+            }
+
+            if (tag2 != null)
+            {
+                tags.Add(tag2, string.Empty);
+            }
+
+            subject.Write(new Generated(pathSnapshot.Object, 0, "stage1", "plugin1", null, tags));
+
+            subject.Commit();
+
+            var searchedTags = new List<string>();
+            if (searchedTag1 != null)
+            {
+                searchedTags.Add(searchedTag1);
+            }
+
+            if (searchedTag2 != null)
+            {
+                searchedTags.Add(searchedTag2);
+            }
+
+            NodeRecord record;
+            var result = subject.NodeIsGeneratedBy(path, new ActivityFrame(tagSelector: new TagSelector(searchedTags, condition)), out record);
+
+            result.Should().Be(expectedMatch);
+            if (expectedMatch)
+            {
+                record.Should().NotBeNull();
+                record.PluginId.Should().Be("plugin1");
+                record.Tags.Should().NotBeNull();
+                record.Tags.Count.Should().Be(tags.Count);
+                foreach (var key in tags.Keys)
+                {
+                    record.Tags.Should().ContainKey(key);
+                }
+            }
+        }
+
+        [Test]
         public void GeneratedBy_Indirect()
         {
             var subject = new MetadataStore();

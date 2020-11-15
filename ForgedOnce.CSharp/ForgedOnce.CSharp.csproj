@@ -7,7 +7,7 @@
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>0.5.2</Version>
+    <Version>0.5.3</Version>
     <PackageId>ForgedOnce.CSharp</PackageId>
     <Authors>Yevgen Nabokov</Authors>
     <Company />
