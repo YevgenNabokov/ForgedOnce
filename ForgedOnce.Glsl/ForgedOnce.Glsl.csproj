@@ -7,7 +7,7 @@
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>0.5.3</Version>
+    <Version>0.5.4</Version>
     <PackageId>ForgedOnce.Glsl</PackageId>
     <Authors>Yevgen Nabokov</Authors>
     <Company />

@@ -19,7 +19,7 @@ namespace ForgedOnce.TypeScript
         private readonly ITsHost tsHost;
 
         public CodeFileEnvironmentHandlerTs(IFileSystem fileSystem, IPipelineExecutionInfo pipelineExecutionInfo, ILogger logger)
-            : this(fileSystem, new CodeFileStorageHandlerTs(fileSystem), new CodeFileCompilationHandlerTs(pipelineExecutionInfo, logger), pipelineExecutionInfo)
+            : this(fileSystem, new CodeFileStorageHandlerTs(fileSystem), new CodeFileCompilationHandlerTs(pipelineExecutionInfo, logger), pipelineExecutionInfo, logger)
         {            
         }
 
@@ -27,11 +27,12 @@ namespace ForgedOnce.TypeScript
             IFileSystem fileSystem,
             ICodeFileStorageHandler codeFileStorageHandler,
             ICodeFileCompilationHandler codeFileCompilationHandler,
-            IPipelineExecutionInfo pipelineExecutionInfo)
+            IPipelineExecutionInfo pipelineExecutionInfo,
+            ILogger logger)
             : base(codeFileStorageHandler, codeFileCompilationHandler)
         {
             this.fileSystem = fileSystem;
-            this.tsHost = new TsHost(30050, 30100, 5000);
+            this.tsHost = new TsHost(30050, 30100, 5000, new TsHostLoggerAdapter(logger));
         }
 
         protected override Core.CodeFile CreateCodeFile(string id, string name)

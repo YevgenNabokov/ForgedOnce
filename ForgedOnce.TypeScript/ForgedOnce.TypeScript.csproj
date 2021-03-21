@@ -7,7 +7,7 @@
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
     <PackageId>ForgedOnce.TypeScript</PackageId>
     <Authors>Yevgen Nabokov</Authors>
     <Company />
@@ -18,7 +18,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.TsLanguageServices.Host" Version="0.1.0" GeneratePathProperty="true" />
+    <PackageReference Include="ForgedOnce.TsLanguageServices.Host" Version="0.1.1" GeneratePathProperty="true" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
   </ItemGroup>

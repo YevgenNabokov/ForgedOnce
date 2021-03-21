@@ -6,6 +6,7 @@ namespace ForgedOnce.Core.Logging
 {
     public enum MessageSeverity
     {
+        Debug,
         Information,
         Warning,
         Error

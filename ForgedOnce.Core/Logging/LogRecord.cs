@@ -25,6 +25,7 @@ namespace ForgedOnce.Core.Logging
         {
             switch (severity)
             {
+                case MessageSeverity.Debug: return "DebugInfo";
                 case MessageSeverity.Information: return string.Empty;
                 case MessageSeverity.Warning: return "WARN!";
                 case MessageSeverity.Error: return "!!! ERROR !!!";
