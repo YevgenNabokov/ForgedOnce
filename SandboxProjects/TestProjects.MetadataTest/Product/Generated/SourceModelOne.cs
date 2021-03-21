@@ -18,17 +18,9 @@ namespace Product.Models
         }
 
         [DisplayName("AddedProp_Decorated")]
-        public int AddedProp
-        {
-            get;
-            set;
-        }
+        public int AddedProp { get; set; }
 
         [DisplayName("OtherAddedProp_Decorated")]
-        public string OtherAddedProp
-        {
-            get;
-            set;
-        }
+        public string OtherAddedProp { get; set; }
     }
 }

@@ -8,7 +8,7 @@
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>0.7.2</Version>
+    <Version>0.8.0</Version>
     <PackageId>ForgedOnce.Launcher.MSBuild</PackageId>
     <Authors>Yevgen Nabokov</Authors>
     <Company />
@@ -19,12 +19,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build" Version="16.5.0">
+    <PackageReference Include="Microsoft.Build" Version="16.9.0">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Build.Locator" Version="1.2.6" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="3.5.0" />
-    <PackageReference Include="NuGet.ProjectModel" Version="5.5.0" />
+    <PackageReference Include="Microsoft.Build.Locator" Version="1.4.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="3.9.0" />
+    <PackageReference Include="NuGet.ProjectModel" Version="5.9.0" />
     <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
   </ItemGroup>
 
