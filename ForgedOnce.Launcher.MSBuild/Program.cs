@@ -13,11 +13,11 @@ namespace ForgedOnce.Launcher.MSBuild
         {
             RootCommand rootCommand = new RootCommand(description: "Runs code generation.")
             {
-                new Option<string>(
-                    aliases: new [] { "--solution", "-s" },
+                new Argument<string>(
+                    "solution",
                     description: "The path to the target solution."),
-                new Option<string>(
-                    aliases: new [] { "--config", "-c" },
+                new Argument<string>(
+                    "config",
                     description: "The path to the code generation pipeline config."),
                 new Option<bool>(
                     aliases: new [] { "--log", "-l" },

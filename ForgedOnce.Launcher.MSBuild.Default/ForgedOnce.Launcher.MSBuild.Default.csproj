@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>1.4.1</Version>
+    <Version>1.4.2</Version>
     <Authors>Yevgen Nabokov</Authors>
     <Company />
     <Description>Configurable pipeline for code generation with adapters for C#, GLSL and TypeScript files</Description>
