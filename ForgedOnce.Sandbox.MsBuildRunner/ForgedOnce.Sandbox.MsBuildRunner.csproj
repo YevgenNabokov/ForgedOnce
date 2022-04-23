@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.TsLanguageServices.Host" Version="0.1.1" GeneratePathProperty="true" />
+    <PackageReference Include="ForgedOnce.TsLanguageServices.Host" Version="0.1.3" GeneratePathProperty="true" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="3.9.0" />
     <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
   </ItemGroup>

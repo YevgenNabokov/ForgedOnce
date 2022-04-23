@@ -81,8 +81,9 @@ namespace ForgedOnce.Launcher.MSBuild.Storage
             else
             {
                 var solutionDirectory = this.fileSystem.Path.GetDirectoryName(this.Solution.FullPath);
+                var topRootPath = this.GetFileTopRootPath(solutionDirectory);
                 if (!string.IsNullOrEmpty(codeFile.Location.FilePath)
-                    && PathMaskHelper.DirectoryIsBaseOf(solutionDirectory, codeFile.Location.FilePath))
+                    && PathMaskHelper.DirectoryIsBaseOf(topRootPath, codeFile.Location.FilePath))
                 {
                     if (this.msBuildStoreAdapters.Any(a => a.CodeFileSupported(codeFile)))
                     {
@@ -91,7 +92,7 @@ namespace ForgedOnce.Launcher.MSBuild.Storage
                 }
                 else
                 {
-                    throw new InvalidOperationException($"Unable to save '{codeFile.Name}' mapped to '{codeFile.Location.FilePath}', path should be non-empty and be under directory containing solution '{solutionDirectory}'.");
+                    throw new InvalidOperationException($"Unable to save '{codeFile.Name}' mapped to '{codeFile.Location.FilePath}', path should be non-empty and be under directory '{topRootPath}'.");
                 }
             }
         }
@@ -123,8 +124,9 @@ namespace ForgedOnce.Launcher.MSBuild.Storage
             else
             {
                 var solutionDirectory = this.fileSystem.Path.GetDirectoryName(this.Solution.FullPath);
+                var topRootPath = this.GetFileTopRootPath(solutionDirectory);
                 if (!string.IsNullOrEmpty(codeFile.Location.FilePath)
-                    && PathMaskHelper.DirectoryIsBaseOf(solutionDirectory, codeFile.Location.FilePath))
+                    && PathMaskHelper.DirectoryIsBaseOf(topRootPath, codeFile.Location.FilePath))
                 {
                     if (this.fileSystem.File.Exists(codeFile.Location.FilePath))
                     {
@@ -133,7 +135,7 @@ namespace ForgedOnce.Launcher.MSBuild.Storage
                 }
                 else
                 {
-                    throw new InvalidOperationException($"Unable to remove '{codeFile.Name}' mapped to '{codeFile.Location.FilePath}', path should be non-empty and be under directory containing solution '{solutionDirectory}'.");
+                    throw new InvalidOperationException($"Unable to remove '{codeFile.Name}' mapped to '{codeFile.Location.FilePath}', path should be non-empty and be under directory '{topRootPath}'.");
                 }
             }
         }
@@ -185,6 +187,18 @@ namespace ForgedOnce.Launcher.MSBuild.Storage
             foreach(var proj in this.Solution.Projects)
             {
                 proj.Value.Save();
+            }
+        }
+
+        private string GetFileTopRootPath(string solutionDirectory)
+        {
+            if (this.fileSystem.Path.GetFullPath(solutionDirectory).Split(this.fileSystem.Path.DirectorySeparatorChar).Length > 1)
+            {
+                return this.fileSystem.Path.GetFullPath(this.fileSystem.Path.Combine(solutionDirectory, ".."));
+            }
+            else
+            {
+                return solutionDirectory;
             }
         }
 
