@@ -5,7 +5,7 @@
   ],
   "inputs": {
     "InputOne": "CSharp:Project:Subject/SourceModels/*.cs",
-    "InputTwo": "TypeScript:FileSystem:..\\Product\\TypeScripts\\Something.ts"
+    "InputTwo": "TypeScript:FileSystem:..\\Product2\\TypeScripts\\Something.ts"
   },
   "batches": [
     {
@@ -23,7 +23,7 @@
           },
           "destinationMapping": {
             "PassThrough": {
-              "settings": { "path": "Product/TypeScripts/Generated" }
+              "settings": { "path": "Product2/TypeScripts/Generated" }
             }
           }
         }
@@ -51,7 +51,7 @@
           },
           "destinationMapping": {
             "PassThrough": {
-              "settings": { "path": "Product/TypeScripts/Generated" }
+              "settings": { "path": "Product2/TypeScripts/Generated" }
             }
           }
         }

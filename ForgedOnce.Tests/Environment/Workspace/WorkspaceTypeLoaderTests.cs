@@ -1,4 +1,5 @@
-﻿using ForgedOnce.Environment.Workspace.CodeAnalysis;
+﻿using FluentAssertions;
+using ForgedOnce.Environment.Workspace.CodeAnalysis;
 using ForgedOnce.Environment.Workspace.CodeAnalysis.TypeLoaders;
 using ForgedOnce.Tests.TestObjectFactories;
 using NUnit.Framework;
@@ -21,8 +22,8 @@ namespace ForgedOnce.Tests.Environment.Workspace
 
             var result = subject.LoadType($"{pluginNamespace}.{pluginClass}, {pluginAssembly}");
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(pluginClass, result.Name);
+            result.Should().NotBeNull();
+            result.Name.Should().Be(pluginClass);
         }
     }
 }

@@ -3,13 +3,13 @@
   <PropertyGroup>
     <OutputType Condition="$(Configuration.Contains('cli-tools'))">Exe</OutputType>
     <OutputType Condition="!$(Configuration.Contains('cli-tools'))">Library</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Configurations>Debug;Release;Debug-cli-tools;Release-cli-tools</Configurations>
   </PropertyGroup>
 
   <PropertyGroup>
     <PackageOutputPath>$(SolutionDir)NugetOutputs</PackageOutputPath>
-    <Version>1.4.4</Version>
+    <Version>1.4.7</Version>
     <Authors>Yevgen Nabokov</Authors>
     <Company />
     <Description>Configurable pipeline for code generation with adapters for C#, GLSL and TypeScript files</Description>
@@ -30,9 +30,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.TsLanguageServices.Host" Version="0.1.3" GeneratePathProperty="true" />
+    <PackageReference Include="ForgedOnce.TsLanguageServices.Host" Version="0.1.5" GeneratePathProperty="true" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20574.7" />
-    <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
+    <PackageReference Include="System.IO.Abstractions" Version="21.3.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,7 +61,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ThirdPartyNotice.txt">
+    <None Update="ForgedOnce.Launcher.MSBuild.Default_ThirdPartyNotice.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Pack>true</Pack>
       <PackagePath></PackagePath>

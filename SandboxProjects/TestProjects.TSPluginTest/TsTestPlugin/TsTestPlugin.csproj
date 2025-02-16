@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ForgedOnce.CSharp" Version="0.7.0" />
-    <PackageReference Include="ForgedOnce.TypeScript" Version="1.3.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis" Version="3.9.0" />
+    <PackageReference Include="ForgedOnce.CSharp" Version="0.7.1" />
+    <PackageReference Include="ForgedOnce.TypeScript" Version="1.3.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis" Version="4.12.0" />
   </ItemGroup>
 
 </Project>

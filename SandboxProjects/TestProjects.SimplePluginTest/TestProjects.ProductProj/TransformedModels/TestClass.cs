@@ -8,9 +8,7 @@ namespace TestProjects.SubjectProj.SourceModels
     public class TestClass
     {
         public int B { get; set; }
-
         public int TestP { get; set; }
-
         public int TestP2 { get; set; }
     }
 }

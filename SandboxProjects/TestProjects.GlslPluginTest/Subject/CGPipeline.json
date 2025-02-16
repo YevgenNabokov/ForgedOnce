@@ -27,7 +27,7 @@
           },
           "destinationMapping": {
             "PassThrough": {
-              "settings": { "path": "Product/Content/Shaders" }
+              "settings": { "path": "Product2/wwwroot/Content/Shaders" }
             }
           }
         }
